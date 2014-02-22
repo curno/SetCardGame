@@ -48,6 +48,21 @@
     <ClInclude Include="Include\Model\Stopwatch.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Render\VisualObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Render\VisualCard.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Render\VisualDeck.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Render\VisualScene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Render\VisualGameScene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sourse\SET.cpp">
