@@ -46,18 +46,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\SET.rc2">
+    <ResourceCompile Include="Resource\SET.rc">
       <Filter>资源文件</Filter>
-    </None>
+    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\SET.ico">
+    <Image Include="Resource\SET.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource\SET.rc">
+    <None Include="Resource\SET.rc2">
       <Filter>资源文件</Filter>
-    </ResourceCompile>
+    </None>
   </ItemGroup>
 </Project>

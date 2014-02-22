@@ -216,10 +216,10 @@
     <ResourceCompile Include="Resource\SET.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\SET.rc2" />
+    <None Include="Resource\SET.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\SET.ico" />
+    <Image Include="Resource\SET.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
