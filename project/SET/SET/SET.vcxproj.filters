@@ -33,6 +33,15 @@
     <ClInclude Include="Resource\Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Model\Card.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Keyword.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Model\Deck.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sourse\SET.cpp">
@@ -42,6 +51,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Sourse\stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Sourse\Model\Deck.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

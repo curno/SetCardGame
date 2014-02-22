@@ -5,6 +5,7 @@
 #include "Include/stdafx.h"
 #include "Include/SET.h"
 #include "Include/UI/SETDlg.h"
+#include "Include/Model/Card.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -36,6 +37,7 @@ SETApp theApp;
 
 BOOL SETApp::InitInstance()
 {
+
 	CWinApp::InitInstance();
 
 
