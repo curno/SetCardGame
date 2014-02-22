@@ -2,9 +2,9 @@
 // SET.cpp : Defines the class behaviors for the application.
 //
 
-#include "stdafx.h"
-#include "SET.h"
-#include "SETDlg.h"
+#include "Include/stdafx.h"
+#include "Include/SET.h"
+#include "Include/UI/SETDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

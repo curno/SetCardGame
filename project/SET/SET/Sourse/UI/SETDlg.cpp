@@ -2,9 +2,9 @@
 // SETDlg.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "SET.h"
-#include "SETDlg.h"
+#include "Include/stdafx.h"
+#include "Include/SET.h"
+#include "Include/UI/SETDlg.h"
 #include "afxdialogex.h"
 
 #ifdef _DEBUG
