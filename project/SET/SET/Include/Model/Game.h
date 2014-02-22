@@ -10,7 +10,7 @@ class Game
 
     typedef int ScoreType;
     static const ScoreType ScorePerSet = 3; // Each set give 3 points.
-    static const int CardCountPerDeal = 3; // Deal more 3 cards everytime.
+    static const int CardCountPerDeal = 3; // Deal more 3 cards every time.
 private:
     ref<Deck> Deck_; // cards
     ::std::set<CardRef> CardsInHand_; // card refs in hand, which can be dealed.
