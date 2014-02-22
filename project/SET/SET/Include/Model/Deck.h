@@ -2,7 +2,8 @@
 
 #include "Card.h"
 
-// this class represent a deck of 81 cards.
+typedef int CardRef;
+// this class represent a logic deck of 81 cards.
 class Deck
 {
 private:
@@ -11,9 +12,15 @@ private:
         static_cast<int>(Card::SymbolType::Count) *
         static_cast<int>(Card::ShadingType::Count) *
         static_cast<int>(Card::NumberType::Count);
-    Card Cards_[Total]; // all cards.
+    Card *Cards_[Total]; // all cards.
+
+    void InitCards();
 public:
-    Deck();
-    const Card &GetCard(int index) const { return Cards_[index]; }
+
+    Deck() { InitCards(); }
+    ~Deck();
+    const Card &GetCard(CardRef index) const { return *Cards_[index]; }
     int GetCardsCount() const { return Total; }
+    void Shuffle() { ::std::random_shuffle(Cards_, Cards_ + Total); }
 };
+

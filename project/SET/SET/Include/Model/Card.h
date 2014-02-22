@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../stdafx.h"
 #include "../Keyword.h"
 // This is the Card class, represent a logic card in the table with its properties.
 class Deck;
@@ -56,15 +57,54 @@ public:
     NumberType readonly(Number);
     NumberType GetNumber() const { return Number_; }
 
+public:
+    // operators
+    bool operator== (const Card &that)
+    {
+        return Color == that.Color &&
+            Symbol == that.Symbol &&
+            Shading == that.Shading &&
+            Number == that.Number;
+    }
+
+    bool operator!= (const Card &that)
+    {
+        return !operator== (that);
+    }
 private:
     friend class Deck;
     // constructor private, card is made by deck.
     Card() { }
-
-    void SetProperty(ColorType color, SymbolType symbol, ShadingType shading, NumberType number)
+    Card(const Card& other); // no copy constructor
+    Card &operator= (const Card &other); // no assign operator
+    void SetProperty(ColorType color, SymbolType symbol, ShadingType shading, NumberType number) 
     {
         Color_ = color;
         Symbol_ = symbol;
-
+        Shading_ = shading;
+        Number_ = number;
     }
+
+public:
+    // static functional methods.
+    // decide if cards card1, card2, card3 make a Set.
+    static bool IsSet(const Card &card1, const Card &card2, const Card &card3)
+    {
+        if ((card1.Color != card2.Color || card1.Color != card3.Color) && // if three cards don't all have same color. And
+            (card1.Color == card2.Color || card1.Color == card3.Color || card2.Color == card3.Color)) // if there are two cards which have same color
+            return false;
+        if ((card1.Symbol != card2.Symbol || card1.Symbol != card3.Symbol) && // same as color
+            (card1.Symbol == card2.Symbol || card1.Symbol == card3.Symbol || card2.Symbol == card3.Symbol)) 
+            return false;
+        if ((card1.Shading != card2.Shading || card1.Shading != card3.Shading) && // same as color
+            (card1.Shading == card2.Shading || card1.Shading == card3.Shading || card2.Shading == card3.Shading)) 
+            return false;
+        if ((card1.Number != card2.Number || card1.Number != card3.Number) && // same as color
+            (card1.Number == card2.Number || card1.Number == card3.Number || card2.Number == card3.Number)) 
+            return false;
+        return true;
+    }
+
+
+
 };

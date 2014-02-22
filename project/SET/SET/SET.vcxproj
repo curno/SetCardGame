@@ -199,6 +199,8 @@
     <ClInclude Include="Include\Keyword.h" />
     <ClInclude Include="Include\Model\Card.h" />
     <ClInclude Include="Include\Model\Deck.h" />
+    <ClInclude Include="Include\Model\Game.h" />
+    <ClInclude Include="Include\Model\Stopwatch.h" />
     <ClInclude Include="Resource\Resource.h" />
     <ClInclude Include="Include\SET.h" />
     <ClInclude Include="Include\UI\SETDlg.h" />
@@ -207,6 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sourse\Model\Deck.cpp" />
+    <ClCompile Include="Sourse\Model\Game.cpp" />
     <ClCompile Include="Sourse\SET.cpp" />
     <ClCompile Include="Sourse\UI\SETDlg.cpp" />
     <ClCompile Include="Sourse\stdafx.cpp">

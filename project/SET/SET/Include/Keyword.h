@@ -12,3 +12,6 @@
 #ifndef writeonly
 #define writeonly(var) __declspec(property(put=Set##var)) var
 #endif
+
+// Smart pointer
+#define ref ::std::shared_ptr
