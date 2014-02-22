@@ -9,12 +9,17 @@ class VisualScene : public VisualObject
 {
     ::std::vector<ref<VisualObject>> Children_;
 public:
-    virtual void Render() override
+    virtual void RenderContent() override
     {
         // render each child
         for each (ref<VisualObject> child in Children_)
             child->Render();
     }
 
-    void AddChild()
+    void AddChild(ref<VisualObject> child)
+    {
+        if (::std::find(Children_.begin(), Children_.end(), child) != Children_.end())
+            return;
+        Children_.push_back(child);
+    }
 };

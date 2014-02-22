@@ -50,7 +50,7 @@ bool Game::MoreToDeal()
 bool Game::CheckAndScore(CardRef card1, CardRef card2, CardRef card3)
 {
     // if there card make a set.
-    if (Card::IsSet(Deck_->GetCard(card1), Deck_->GetCard(card2), Deck_->GetCard(card3)))
+    if (Card::IsSet(card1, card2, card3))
     {
         // remove them from desk
         CardsInDesk_.erase(CardsInDesk_.find(card1));

@@ -11,7 +11,7 @@ void Deck::InitCards()
             for (int shading_idx = 0; shading_idx < static_cast<int>(Card::ShadingType::Count); ++shading_idx)
                 for (int number_idx = 0; number_idx < static_cast<int>(Card::NumberType::Count); ++number_idx)
                 {
-                    Cards_[card_idx] = new Card;
+                    Cards_[card_idx] = ref<Card>(new Card);
                     Cards_[card_idx]->SetProperty(Card::ColorType(color_idx),
                         Card::SymbolType(symbol_idx),
                         Card::ShadingType(shading_idx),
@@ -22,6 +22,4 @@ void Deck::InitCards()
 
 Deck::~Deck()
 {
-    for (int i = 0; i < Total; ++i)
-        delete Cards_[i];
 }

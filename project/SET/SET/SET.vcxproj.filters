@@ -48,19 +48,19 @@
     <ClInclude Include="Include\Model\Stopwatch.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Render\VisualObject.h">
+    <ClInclude Include="Include\Rendering\VisualCard.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Render\VisualCard.h">
+    <ClInclude Include="Include\Rendering\VisualDeck.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Render\VisualDeck.h">
+    <ClInclude Include="Include\Rendering\VisualGameScene.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Render\VisualScene.h">
+    <ClInclude Include="Include\Rendering\VisualObject.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Render\VisualGameScene.h">
+    <ClInclude Include="Include\Rendering\VisualScene.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -78,6 +78,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Sourse\Model\Game.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Sourse\Rendering\VisualGameScene.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

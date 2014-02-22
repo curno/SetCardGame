@@ -5,5 +5,5 @@
 class VisualDeck : public VisualObject
 {
 public:
-    virtual void Render() override;
+    virtual void RenderContent() override;
 };

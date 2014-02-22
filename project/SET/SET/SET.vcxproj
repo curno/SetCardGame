@@ -201,11 +201,11 @@
     <ClInclude Include="Include\Model\Deck.h" />
     <ClInclude Include="Include\Model\Game.h" />
     <ClInclude Include="Include\Model\Stopwatch.h" />
-    <ClInclude Include="Include\Render\VisualCard.h" />
-    <ClInclude Include="Include\Render\VisualDeck.h" />
-    <ClInclude Include="Include\Render\VisualGameScene.h" />
-    <ClInclude Include="Include\Render\VisualObject.h" />
-    <ClInclude Include="Include\Render\VisualScene.h" />
+    <ClInclude Include="Include\Rendering\VisualCard.h" />
+    <ClInclude Include="Include\Rendering\VisualDeck.h" />
+    <ClInclude Include="Include\Rendering\VisualGameScene.h" />
+    <ClInclude Include="Include\Rendering\VisualObject.h" />
+    <ClInclude Include="Include\Rendering\VisualScene.h" />
     <ClInclude Include="Resource\Resource.h" />
     <ClInclude Include="Include\SET.h" />
     <ClInclude Include="Include\UI\SETDlg.h" />
@@ -215,6 +215,7 @@
   <ItemGroup>
     <ClCompile Include="Sourse\Model\Deck.cpp" />
     <ClCompile Include="Sourse\Model\Game.cpp" />
+    <ClCompile Include="Sourse\Rendering\VisualGameScene.cpp" />
     <ClCompile Include="Sourse\SET.cpp" />
     <ClCompile Include="Sourse\UI\SETDlg.cpp" />
     <ClCompile Include="Sourse\stdafx.cpp">

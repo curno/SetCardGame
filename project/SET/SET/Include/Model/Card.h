@@ -4,6 +4,8 @@
 #include "../Keyword.h"
 // This is the Card class, represent a logic card in the table with its properties.
 class Deck;
+class Card;
+typedef ref<Card> CardRef;
 class Card
 {
     // property types.
@@ -88,19 +90,19 @@ private:
 public:
     // static functional methods.
     // decide if cards card1, card2, card3 make a Set.
-    static bool IsSet(const Card &card1, const Card &card2, const Card &card3)
+    static bool IsSet(const CardRef card1, const CardRef card2, const CardRef card3)
     {
-        if ((card1.Color != card2.Color || card1.Color != card3.Color) && // if three cards don't all have same color. And
-            (card1.Color == card2.Color || card1.Color == card3.Color || card2.Color == card3.Color)) // if there are two cards which have same color
+        if ((card1->Color != card2->Color || card1->Color != card3->Color) && // if three cards don't all have same color. And
+            (card1->Color == card2->Color || card1->Color == card3->Color || card2->Color == card3->Color)) // if there are two cards which have same color
             return false;
-        if ((card1.Symbol != card2.Symbol || card1.Symbol != card3.Symbol) && // same as color
-            (card1.Symbol == card2.Symbol || card1.Symbol == card3.Symbol || card2.Symbol == card3.Symbol)) 
+        if ((card1->Symbol != card2->Symbol || card1->Symbol != card3->Symbol) && // same as color
+            (card1->Symbol == card2->Symbol || card1->Symbol == card3->Symbol || card2->Symbol == card3->Symbol)) 
             return false;
-        if ((card1.Shading != card2.Shading || card1.Shading != card3.Shading) && // same as color
-            (card1.Shading == card2.Shading || card1.Shading == card3.Shading || card2.Shading == card3.Shading)) 
+        if ((card1->Shading != card2->Shading || card1->Shading != card3->Shading) && // same as color
+            (card1->Shading == card2->Shading || card1->Shading == card3->Shading || card2->Shading == card3->Shading)) 
             return false;
-        if ((card1.Number != card2.Number || card1.Number != card3.Number) && // same as color
-            (card1.Number == card2.Number || card1.Number == card3.Number || card2.Number == card3.Number)) 
+        if ((card1->Number != card2->Number || card1->Number != card3->Number) && // same as color
+            (card1->Number == card2->Number || card1->Number == card3->Number || card2->Number == card3->Number)) 
             return false;
         return true;
     }
