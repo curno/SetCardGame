@@ -13,7 +13,13 @@ public:
     {
         // render each child
         for each (ref<VisualObject> child in Children_)
+        {
+            glMatrixMode(GL_MODELVIEW);
+            glPushMatrix();
+            glTranslated(child->Position.x, child->Position.y, 0.0);
             child->Render();
+            glPopMatrix();
+        }
     }
 
     void AddChild(ref<VisualObject> child)

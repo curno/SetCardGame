@@ -1,9 +1,11 @@
 #include "Include/stdafx.h"
 
 #include "Include/Model/Game.h"
+#include "Include/Rendering/VisualGameScene.h"
 
-Game::Game() 
+Game::Game() : Scene_(nullptr)
 {
+    Deck_ = ref<Deck>(new Deck);
     Clear();
 }
 
@@ -76,23 +78,40 @@ void Game::Clear()
 {
     State_ = State::Initilized;
     Score_ = 0;
-    Deck_ = nullptr;
     CardsInDesk_.clear();
     CardsInHand_.clear();
     Watch_.Clear();
+    Deck_->Shuffle();
+    Deck_->SetAllCardsTo(CardsInHand_);
 }
 
 void Game::Deal(int card_count)
 {
+    ::std::unordered_set<CardRef> new_cards;
     auto it = CardsInHand_.begin();
     for (int i = 0; i < card_count; ++i)
     {
         // add to desk
         CardsInDesk_.insert(*it);
 
+        new_cards.insert(*it);
+
         // remove from hand
         CardsInHand_.erase(it++);
     }
+
+    if (Scene_ != nullptr)
+        Scene_->DealCards(new_cards);
+}
+
+void Game::SetScene(VisualGameScenePtr scene)
+{
+    Scene_ = scene;
+}
+
+Game::VisualGameScenePtr Game::GetScene() const
+{
+    return Scene_;
 }
 
 

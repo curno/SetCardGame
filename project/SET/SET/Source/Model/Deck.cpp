@@ -23,3 +23,8 @@ void Deck::InitCards()
 Deck::~Deck()
 {
 }
+
+void Deck::SetAllCardsTo(::std::unordered_set<CardRef> &card_set)
+{
+    ::std::copy(Cards_, Cards_ + Total, ::std::inserter(card_set, card_set.end()));
+}

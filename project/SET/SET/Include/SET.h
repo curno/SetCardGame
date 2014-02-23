@@ -1,32 +1,35 @@
 
-// SET.h : main header file for the PROJECT_NAME application
+// MFCApplication6.h : MFCApplication6 应用程序的主头文件
 //
-
 #pragma once
 
 #ifndef __AFXWIN_H__
-	#error "include 'stdafx.h' before including this file for PCH"
+	#error "在包含此文件之前包含“stdafx.h”以生成 PCH 文件"
 #endif
 
-#include "Resource/resource.h"		// main symbols
+#include "Res/resource.h"       // 主符号
 
 
-// SETApp:
-// See SET.cpp for the implementation of this class
+// SetApp:
+// 有关此类的实现，请参阅 MFCApplication6.cpp
 //
 
-class SETApp : public CWinApp
+class SetApp : public CWinApp
 {
 public:
-	SETApp();
+	SetApp();
 
-// Overrides
+
+// 重写
 public:
 	virtual BOOL InitInstance();
+	virtual int ExitInstance();
 
-// Implementation
+// 实现
 
+public:
+	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
 };
 
-extern SETApp theApp;
+extern SetApp theApp;

@@ -21,5 +21,7 @@ public:
     const CardRef GetCard(int index) const { return Cards_[index]; }
     int GetCardsCount() const { return Total; }
     void Shuffle() { ::std::random_shuffle(Cards_, Cards_ + Total); }
+
+    void SetAllCardsTo(::std::unordered_set<CardRef> &card_set);
 };
 

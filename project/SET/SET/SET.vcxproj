@@ -74,25 +74,25 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\$(Configuration) $(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Immediate\$(Configuration) $(Platform)\</IntDir>
-    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\Output\$(Configuration) $(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Immediate\$(Configuration) $(Platform)\</IntDir>
-    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\$(Configuration) $(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Immediate\$(Configuration) $(Platform)\</IntDir>
-    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\$(Configuration) $(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Immediate\$(Configuration) $(Platform)\</IntDir>
-    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -201,24 +201,29 @@
     <ClInclude Include="Include\Model\Deck.h" />
     <ClInclude Include="Include\Model\Game.h" />
     <ClInclude Include="Include\Model\Stopwatch.h" />
+    <ClInclude Include="Include\Rendering\Transformation.h" />
     <ClInclude Include="Include\Rendering\VisualCard.h" />
     <ClInclude Include="Include\Rendering\VisualDeck.h" />
     <ClInclude Include="Include\Rendering\VisualGameScene.h" />
     <ClInclude Include="Include\Rendering\VisualObject.h" />
     <ClInclude Include="Include\Rendering\VisualScene.h" />
-    <ClInclude Include="Resource\Resource.h" />
     <ClInclude Include="Include\SET.h" />
-    <ClInclude Include="Include\UI\SETDlg.h" />
+    <ClInclude Include="Include\UI\MainFrame.h" />
+    <ClInclude Include="Include\UI\MainView.h" />
+    <ClInclude Include="Res\Resource.h" />
     <ClInclude Include="Include\stdafx.h" />
     <ClInclude Include="Include\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sourse\Model\Deck.cpp" />
-    <ClCompile Include="Sourse\Model\Game.cpp" />
-    <ClCompile Include="Sourse\Rendering\VisualGameScene.cpp" />
-    <ClCompile Include="Sourse\SET.cpp" />
-    <ClCompile Include="Sourse\UI\SETDlg.cpp" />
-    <ClCompile Include="Sourse\stdafx.cpp">
+    <ClCompile Include="Source\Model\Deck.cpp" />
+    <ClCompile Include="Source\Model\Game.cpp" />
+    <ClCompile Include="Source\Rendering\VisualCard.cpp" />
+    <ClCompile Include="Source\Rendering\VisualGameScene.cpp" />
+    <ClCompile Include="Source\Rendering\VisualObject.cpp" />
+    <ClCompile Include="Source\SET.cpp" />
+    <ClCompile Include="Source\stdafx.cpp" />
+    <ClCompile Include="Source\UI\MainFrame.cpp" />
+    <ClCompile Include="Source\UI\MainView.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -226,15 +231,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource\SET.rc" />
+    <ResourceCompile Include="Res\SET.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resource\SET.rc2" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resource\SET.ico" />
+    <Image Include="Resource\Resource\SET.ico" />
+    <Image Include="Res\SET.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

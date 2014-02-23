@@ -33,11 +33,19 @@
 #include <afxcontrolbars.h>     // MFC support for ribbons and control bars
 
 #include <algorithm>
+#include <iterator>
 #include <vector>
 #include <set>
+#include <unordered_set>
 #include <memory>
 
+#include <gl/GL.h>
+#include <gl/GLU.h>
+#pragma comment(lib, "OpenGL32.lib")
+#pragma comment(lib, "GLu32.lib")
+
 #include "Keyword.h"
+
 
 
 

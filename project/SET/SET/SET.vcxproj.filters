@@ -18,19 +18,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\SET.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\UI\SETDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Include\stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Include\targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource\Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Include\Model\Card.h">
@@ -63,40 +54,62 @@
     <ClInclude Include="Include\Rendering\VisualScene.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Include\UI\MainFrame.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Res\Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UI\MainView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SET.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Rendering\Transformation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sourse\SET.cpp">
+    <ClCompile Include="Source\UI\MainFrame.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Sourse\UI\SETDlg.cpp">
+    <ClCompile Include="Source\UI\MainView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Sourse\stdafx.cpp">
+    <ClCompile Include="Source\SET.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Sourse\Model\Deck.cpp">
+    <ClCompile Include="Source\stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Sourse\Model\Game.cpp">
+    <ClCompile Include="Source\Rendering\VisualCard.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Sourse\Rendering\VisualGameScene.cpp">
+    <ClCompile Include="Source\Rendering\VisualObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Rendering\VisualGameScene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Model\Deck.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Model\Game.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource\SET.rc">
+    <Image Include="Resource\Resource\SET.ico">
       <Filter>资源文件</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resource\SET.ico">
+    </Image>
+    <Image Include="Res\SET.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resource\SET.rc2">
+    <ResourceCompile Include="Res\SET.rc">
       <Filter>资源文件</Filter>
-    </None>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

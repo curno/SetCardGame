@@ -14,7 +14,8 @@ public:
         Size = CSize(DefaultWidth, DefaultHeight);
     }
 
+protected:
     virtual void RenderContent() override;
-    
+    virtual void PrepareRendering() override;
     void SetCard(const CardRef card) { Card_ = card; }
 };

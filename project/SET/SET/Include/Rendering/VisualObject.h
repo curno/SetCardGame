@@ -1,12 +1,14 @@
 #pragma once
 
 #include "../stdafx.h"
+#include "Transformation.h"
 
 // this is the abstract base class of all visual object in the program, like card, deck, button...
 class VisualObject abstract
 {
     CPoint Position_; // The location of the object in its parent object. 
     CSize Size_; // The size of the object in its parent object.
+    Transformation Transformation_;
 protected:
     virtual void RenderContent() = 0; // visual object can render its content.
     virtual void OnMouseButtonDown() { } // visual object handle mouse button down.
@@ -22,7 +24,20 @@ public:
     CSize GetSize() const { return Size_; }
     void SetSize(const CSize &p) 
     { 
-        Size_ = p; 
-        OnResize(GetSize()); 
+        if (p != Size_)
+        {
+            Size_ = p;
+            OnResize(GetSize());
+        }
+    }
+
+    void Translate(double x, double y)
+    {
+        Transformation_.Translate(x, y, 0.0);
+    }
+
+    void Scale(double f)
+    {
+        Transformation_.Scale(f, f, f);
     }
 };
