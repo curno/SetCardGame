@@ -20,11 +20,11 @@ BEGIN_MESSAGE_MAP(MainFrame, CFrameWnd)
 	ON_WM_SETFOCUS()
 END_MESSAGE_MAP()
 
-// MainFrame 构造/析构
+// MainFrame
 
 MainFrame::MainFrame()
 {
-	// TODO:  在此添加成员初始化代码
+    // TODO: 
 }
 
 MainFrame::~MainFrame()
@@ -61,7 +61,7 @@ BOOL MainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
-// MainFrame 诊断
+// MainFrame 
 
 #ifdef _DEBUG
 void MainFrame::AssertValid() const

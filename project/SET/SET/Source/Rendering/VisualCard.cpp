@@ -75,17 +75,12 @@ void VisualCard::PrepareRendering()
         GenTexture();
 
     // set material.
-    GLfloat material_ambient[] = { 0.19225f, 0.19225f, 0.19225f, 1.0f };
-    GLfloat material_diffuse[] = { 0.50754f, 0.50754f, 0.50754f, 1.0f };
-    GLfloat material_specular[] = { 0.508273f, 0.508273f, 0.508273f, 1.0f };
-    GLfloat material_emission[] = { 0.0f, 0.0f, 0.0f, 0.0f };
-    GLfloat material_shininess[] = { .25f };
-
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material_ambient);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material_diffuse);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, material_specular);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_emission);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, material_shininess);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Material_.Ambient);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_.Diffuse);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, Material_.Specular);
+    GLfloat shininess = Material_.Shininess[0] * 255;
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, Material_.Emission);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
 
     
     glEnable(GL_TEXTURE_2D);
@@ -105,12 +100,16 @@ void VisualCard::OnMouseMove()
 
 void VisualCard::OnMouseEnter()
 {
-    Rotate(0.0, 1.0, 0.0, -0.3);
+    //Rotate(0.0, 1.0, 0.0, -0.3);
+    GLfloat emission[] = { 0.8f, 0.2f, 0.2f, 1.0f };
+    Material_.SetData(Material::Parameter::Emission, emission);
 }
 
 void VisualCard::OnMouseLeave()
 {
-    Rotate(0.0, 1.0, 0.0, 0.3);
+    //Rotate(0.0, 1.0, 0.0, 0.3);
+    GLfloat emission[] = { 0.0, 0.0, 0.0, 0.0 };
+    Material_.SetData(Material::Parameter::Emission, emission);
 }
 
 

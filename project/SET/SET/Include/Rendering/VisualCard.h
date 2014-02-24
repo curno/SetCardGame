@@ -15,7 +15,7 @@ class VisualCard : public VisualObject
     GLuint TexName_;
     Material Material_;
 public:
-    VisualCard(const CardRef card) : Card_(card), TexName_(0), Material_(Material::GetMaterial("bronze"))
+    VisualCard(const CardRef card) : Card_(card), TexName_(0), Material_(Material::GetMaterial("silver"))
     { 
         Size = CSize(DefaultWidth, DefaultHeight);
 
