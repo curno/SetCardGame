@@ -16,14 +16,14 @@ void VisualObject::Render()
 
 VisualObject::GLNameType VisualObject::CreateName()
 {
-    static GLNameType Name = 0x88;
+    static GLNameType Name = 0x21; // beginning name
     Name++;
     return Name;
 }
 
-VisualObject * VisualObject::GetObjectByGLName(GLNameType name)
+VisualObject *VisualObject::GetObjectByGLName(GLNameType name)
 {
-    if (Name_ == name)
+    if (Name_ == name) // if self has the name, return this.
         return this;
     else
         return nullptr;

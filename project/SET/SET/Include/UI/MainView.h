@@ -14,6 +14,9 @@ class MainView : public CWnd
 private:
     ref<Game> Game_;
     ref<VisualGameScene> GameScene_;
+
+    ::std::set<VisualObject *> CurrentHoveredObjects_;
+    
 // ππ‘Ï
 public:
 	MainView();
@@ -36,13 +39,12 @@ public:
 protected:
 	afx_msg void OnPaint();
 
-    void InitOpenGL();
-
-
     afx_msg void OnDestroy();
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+
+
     DECLARE_MESSAGE_MAP()
 public:
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -50,6 +52,8 @@ public:
 private:
     HGLRC GLRC_; // opengl rendering handle.
     void RenderWithOpenGL();
+    void InitOpenGL();
+    ::std::set<VisualObject *> PickObject(CPoint &point, int w, int h);
 public:
 };
 

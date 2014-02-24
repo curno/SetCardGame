@@ -8,13 +8,14 @@ class VisualGameScene : public VisualScene
 {
     static const int RowCount = 3;
     static const int ColumnCount = 7;
+    static const double MaginRatio;
+    static const double CellRatio;
 private:
     ref<Game> Game_;
     ref<VisualCard> Cards_[RowCount][ColumnCount]; // 3 * 7 = 21 visual card slots in the game scene, which can be empty.
 public:
     VisualGameScene(ref<Game> game);
     
-    void Update();
     void DealCards(const ::std::unordered_set<CardRef> &cards);
 protected:
     virtual void OnResize(const CSize &size) override;
@@ -23,14 +24,19 @@ private:
     void InitializeGameScene();
     // this function set the geometry of the visual cards in the game scene according to current scene size.
     void ArrangeCards(const CSize &size);
+    // get count of column which has as least one card.
     int GetColumnCount() const; 
 
     // this function get next slot whose index is returned by row and column.
     // the row_hint and column_hint will be the index from which to search, following in the column-first order.
     // return true if a empty slot is found, otherwise false.
     bool GetEmptySlot(int row_hint, int column_hint, int &row, int &column);
+
+    // get the position and size for card card at slot (row, column)
     void GetSlotGeometryForCard(const ref<VisualCard> card, int row, int column, CPoint &position, CSize &size);
-    void UpdateLayoutParamter();
+
+    // update LayoutParameter_ according to the view size;
+    void UpdateLayoutParameter();
 
     // this is the layout parameters the scene use to arrange cards.
     struct 
@@ -50,9 +56,7 @@ private:
         double CellHeight;
     } LayoutParameter_;
 
-    static const double MaginRatio;
-    static const double CellRatio;
-
+    
 private:
     // game logic
     void DealCard()

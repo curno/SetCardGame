@@ -1,7 +1,3 @@
-
-// MainView.cpp : MainView 类的实现
-//
-
 #include "Include/stdafx.h"
 #include "Include/Set.h"
 #include "Include/UI/MainView.h"
@@ -41,10 +37,6 @@ BEGIN_MESSAGE_MAP(MainView, CWnd)
     ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
-
-
-// MainView 消息处理程序
-
 BOOL MainView::PreCreateWindow(CREATESTRUCT& cs) 
 {
 	if (!CWnd::PreCreateWindow(cs))
@@ -65,7 +57,7 @@ void MainView::OnPaint()
     InitOpenGL();
     RenderWithOpenGL();
 
-    SwapBuffers(dc.m_hDC);
+    SwapBuffers(dc.m_hDC); // swap buffer and begin another rendering process.
 }
 
 
@@ -75,20 +67,25 @@ int MainView::OnCreate(LPCREATESTRUCT lpCreateStruct)
         return -1;
 
     CClientDC dc(this);
+
+    // pixel format
     PIXELFORMATDESCRIPTOR pfd;
     memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
     pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
     pfd.nVersion = 1;
     pfd.dwFlags = PFD_DRAW_TO_WINDOW |
         PFD_SUPPORT_OPENGL |
-        PFD_DOUBLEBUFFER;
-    pfd.iPixelType = PFD_TYPE_RGBA;
+        PFD_DOUBLEBUFFER; // use double buffer.
+    pfd.iPixelType = PFD_TYPE_RGBA; // rgba format
     pfd.cColorBits = 24;
     pfd.cDepthBits = 32;
-    int pixel_format = ChoosePixelFormat(dc.m_hDC, &pfd);
-    SetPixelFormat(dc.m_hDC, pixel_format, &pfd);
-    GLRC_ = wglCreateContext(dc.m_hDC);
-    wglMakeCurrent(dc.m_hDC, GLRC_);
+
+    int pixel_format = ChoosePixelFormat(dc.m_hDC, &pfd); // create pixel format
+    SetPixelFormat(dc.m_hDC, pixel_format, &pfd); 
+
+    GLRC_ = wglCreateContext(dc.m_hDC); // create gl rendering content.
+
+    wglMakeCurrent(dc.m_hDC, GLRC_); // make current
     return 0;
 }
 
@@ -96,7 +93,7 @@ void MainView::OnDestroy()
 {
     CWnd::OnDestroy();
 
-    wglMakeCurrent(nullptr, nullptr);
+    wglMakeCurrent(nullptr, nullptr); // make current null
     wglDeleteContext(GLRC_); // release opengl rendering content.
     GLRC_ = nullptr;
 }
@@ -106,7 +103,7 @@ void MainView::OnSize(UINT nType, int cx, int cy)
 {
     CWnd::OnSize(nType, cx, cy);
 
-    glViewport(0, 0, cx, cy);
+    glViewport(0, 0, cx, cy); // set view port to the whole view.
 
     if (GameScene_ != nullptr)
         GameScene_->Size = CSize(cx, cy);
@@ -120,66 +117,44 @@ BOOL MainView::OnEraseBkgnd(CDC* pDC)
 
 void MainView::OnMouseMove(UINT nFlags, CPoint point)
 {
+    static const int MouseRadius = 3;
     CWnd::OnMouseMove(nFlags, point);
 
-    static const unsigned int NameBufferSize = 512;
-    static VisualObject::GLNameType NameBuffer[NameBufferSize];
+    // pick objects.
+    ::std::set<VisualObject *> objects = PickObject(point, MouseRadius, MouseRadius);
 
-    glSelectBuffer(NameBufferSize, NameBuffer);
-    glRenderMode(GL_SELECT);
-    
-    glInitNames();
-    glPushName(0);
+    // send message to entered objects.
+    ::std::set<VisualObject *> entered_objects;
+    ::std::set_difference(objects.begin(), objects.end(),
+        CurrentHoveredObjects_.begin(), CurrentHoveredObjects_.end(),
+        inserter(entered_objects, entered_objects.end()));
+    for each (VisualObject *object in entered_objects)
+        object->OnMouseEnter();
 
-    GLint viewport[4];
-    glGetIntegerv(GL_VIEWPORT, viewport);
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    gluPickMatrix(point.x, viewport[3] - point.y, 5, 5, viewport);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    RenderWithOpenGL();
-    glFlush();
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    int hits = glRenderMode(GL_RENDER);
-    VisualObject::GLNameType *ptr = NameBuffer;
-    for (int i = 0; i < hits; ++i)
-    {
-        int name_count = *ptr;
-        ptr += 3;
-        for (int j = 0; j < name_count; ++j)
-        {
-            auto *object = GameScene_->GetObjectByGLName(*ptr);
-            if (object != nullptr)
-                object->OnMouseMove();
-            ++ptr;
-        }
-    }
+    // send message to leaved objects
+    ::std::set<VisualObject *> leaved_objects;
+    ::std::set_difference(CurrentHoveredObjects_.begin(), CurrentHoveredObjects_.end(),
+        objects.begin(), objects.end(),
+        inserter(leaved_objects, leaved_objects.end()));
+    for each (VisualObject *object in leaved_objects)
+        object->OnMouseLeave();
 
-    InvalidateRect(NULL);
+    // send message to hover objects.
+    for each (VisualObject *object in objects)
+        object->OnMouseMove(); // move mouse.
+
+    CurrentHoveredObjects_ = objects; // update current hovered objects.
 }
 
 void MainView::RenderWithOpenGL()
 {
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-
-    GLfloat light_position[] = { 0.0f, 0.0f, 1.0f, 0.0f };
-    GLfloat light_ambient[] = { 0.2f, 0.2f, 0.2f, 0.2f };
-    GLfloat light_diffuse[] = { 0.8f, 0.8f, 0.8f, 0.2f };
-    GLfloat light_specular[] = { 0.5f, 0.5f, 0.5f, 1.0f };
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-
     if (GameScene_ != nullptr)
     {
         glMatrixMode(GL_PROJECTION);
         glOrtho(0, GameScene_->Size.cx, 0, GameScene_->Size.cy, -2000, 2000);
         glMatrixMode(GL_MODELVIEW);
 
+        // render
         GameScene_->Render();
     }
 }
@@ -193,6 +168,68 @@ void MainView::InitOpenGL()
     glLoadIdentity();
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+
+    // enable light
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
+    // light parameter
+    GLfloat light_position[] = { 0.0f, 0.0f, 1.0f, 0.0f };
+    GLfloat light_ambient[] = { 0.2f, 0.2f, 0.2f, 0.2f };
+    GLfloat light_diffuse[] = { 0.8f, 0.8f, 0.8f, 0.2f };
+    GLfloat light_specular[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+
+}
+
+::std::set<VisualObject *> MainView::PickObject(CPoint &point, int w, int h)
+{
+    static const unsigned int NameBufferSize = 512;
+    static VisualObject::GLNameType NameBuffer[NameBufferSize];
+
+    glSelectBuffer(NameBufferSize, NameBuffer);
+    glRenderMode(GL_SELECT);
+
+    // init view 
+    glInitNames();
+    glPushName(0);
+    
+    // get view port
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    
+    // set pick projection
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix(); // save
+    glLoadIdentity();
+    gluPickMatrix(point.x, viewport[3] - point.y, w, h, viewport);
+
+    RenderWithOpenGL(); // render
+    glFlush();
+
+    glMatrixMode(GL_PROJECTION); // restore
+    glPopMatrix();
+
+    // get selected objects.
+    int hits = glRenderMode(GL_RENDER);
+    VisualObject::GLNameType *ptr = NameBuffer;
+    ::std::set<VisualObject *> retval;
+    for (int i = 0; i < hits; ++i)
+    {
+        int name_count = *ptr;
+        ptr += 3;
+        for (int j = 0; j < name_count; ++j)
+        {
+            auto *object = GameScene_->GetObjectByGLName(*ptr);
+            if (object != nullptr)
+                retval.insert(object);
+            ++ptr;
+        }
+    }
+    return retval;
 }
 
 

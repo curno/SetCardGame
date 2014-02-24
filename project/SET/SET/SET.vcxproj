@@ -215,6 +215,7 @@
     <ClInclude Include="Include\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Rendering\VisualScene.cpp" />
     <ClCompile Include="Source\Model\Deck.cpp" />
     <ClCompile Include="Source\Model\Game.cpp" />
     <ClCompile Include="Source\Rendering\VisualCard.cpp" />

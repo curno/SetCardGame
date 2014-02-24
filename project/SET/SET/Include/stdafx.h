@@ -32,6 +32,7 @@
 
 #include <afxcontrolbars.h>     // MFC support for ribbons and control bars
 
+// stl header
 #include <algorithm>
 #include <iterator>
 #include <vector>
@@ -39,6 +40,7 @@
 #include <unordered_set>
 #include <memory>
 
+// opengl header
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #pragma comment(lib, "OpenGL32.lib")

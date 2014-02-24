@@ -69,11 +69,13 @@ void VisualCard::RenderContent()
 
 void VisualCard::PrepareRendering()
 {
-    if (texName == 0)
+    if (TexName_ == 0) // if no texture object, create.
         GenTexture();
-    GLfloat material_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-    GLfloat material_diffuse[] = { 0.8f, 0.8f, 0.0f, 1.0f };
-    GLfloat material_specular[] = { 0.6f, 0.6f, 0.5f, 1.0f };
+
+    // set material.
+    GLfloat material_ambient[] = { 0.19225f, 0.19225f, 0.19225f, 1.0f };
+    GLfloat material_diffuse[] = { 0.50754f, 0.50754f, 0.50754f, 1.0f };
+    GLfloat material_specular[] = { 0.508273f, 0.508273f, 0.508273f, 1.0f };
     GLfloat material_emission[] = { 0.0f, 0.0f, 0.0f, 0.0f };
     GLfloat material_shininess[] = { .25f };
 
@@ -85,7 +87,7 @@ void VisualCard::PrepareRendering()
 
     
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texName);
+    glBindTexture(GL_TEXTURE_2D, TexName_);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     
 }
@@ -98,6 +100,11 @@ void VisualCard::OnMouseMove()
         moved = true;
         Rotate(0.0, 1.0, 0.0, -0.3);
     }
+}
+
+void VisualCard::OnMouseEnter()
+{
+
 }
 
 

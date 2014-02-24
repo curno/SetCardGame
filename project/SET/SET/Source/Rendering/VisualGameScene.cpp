@@ -29,7 +29,7 @@ int VisualGameScene::GetColumnCount() const
 
 void VisualGameScene::ArrangeCards(const CSize &)
 {
-    UpdateLayoutParamter();
+    UpdateLayoutParameter();
 
     for (int row = 0; row < RowCount; ++row)
         for (int column = 0; column < ColumnCount; ++column)
@@ -49,10 +49,6 @@ void VisualGameScene::ArrangeCards(const CSize &)
             }
 }
 
-void VisualGameScene::Update()
-{
-
-}
 
 bool VisualGameScene::GetEmptySlot(int row_hint, int column_hint, int &row_result, int &column_result)
 {
@@ -72,7 +68,7 @@ bool VisualGameScene::GetEmptySlot(int row_hint, int column_hint, int &row_resul
     return false;
 }
 
-void VisualGameScene::UpdateLayoutParamter()
+void VisualGameScene::UpdateLayoutParameter()
 {
     CSize size = Size;
     LayoutParameter_.ColumnCount = GetColumnCount();

@@ -98,6 +98,9 @@
     <ClCompile Include="Source\Model\Game.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Rendering\VisualScene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Resource\SET.ico">

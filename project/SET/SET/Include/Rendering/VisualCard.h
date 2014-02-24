@@ -11,12 +11,12 @@ class VisualCard : public VisualObject
     CardRef Card_;
 
     BITMAP BITMAP_;
-    GLuint texName;
+    GLuint TexName_;
     GLubyte image_2d[2][2][3];
 
     bool moved;
 public:
-    VisualCard(const CardRef card) : Card_(card), texName(0), moved(false)
+    VisualCard(const CardRef card) : Card_(card), TexName_(0), moved(false)
     { 
         Size = CSize(DefaultWidth, DefaultHeight);
 
@@ -30,8 +30,8 @@ public:
 
     void GenTexture()
     {
-        glGenTextures(1, &texName);
-        glBindTexture(GL_TEXTURE_2D, texName);
+        glGenTextures(1, &TexName_);
+        glBindTexture(GL_TEXTURE_2D, TexName_);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
         glTexImage2D(GL_TEXTURE_2D, 0, 3, BITMAP_.bmWidth, BITMAP_.bmHeight, 0, GL_BGRA_EXT, GL_UNSIGNED_BYTE, BITMAP_.bmBits);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -43,6 +43,8 @@ public:
     ~VisualCard() { delete[] BITMAP_.bmBits; }
 
     virtual void OnMouseMove() override;
+    virtual void OnMouseEnter() override;
+    virtual void OnMouseLeave() override;
 protected:
     virtual void RenderContent() override;
     virtual void PrepareRendering() override;
