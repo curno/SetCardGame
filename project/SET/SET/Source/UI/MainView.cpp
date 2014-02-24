@@ -65,7 +65,7 @@ void MainView::OnPaint()
     InitOpenGL();
     RenderWithOpenGL();
 
-    //SwapBuffers(dc.m_hDC);
+    SwapBuffers(dc.m_hDC);
 }
 
 
@@ -80,7 +80,8 @@ int MainView::OnCreate(LPCREATESTRUCT lpCreateStruct)
     pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
     pfd.nVersion = 1;
     pfd.dwFlags = PFD_DRAW_TO_WINDOW |
-        PFD_SUPPORT_OPENGL;
+        PFD_SUPPORT_OPENGL |
+        PFD_DOUBLEBUFFER;
     pfd.iPixelType = PFD_TYPE_RGBA;
     pfd.cColorBits = 24;
     pfd.cDepthBits = 32;
@@ -141,7 +142,6 @@ void MainView::OnMouseMove(UINT nFlags, CPoint point)
     glFlush();
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
-    auto s = glGetString(GL_VENDOR);
     int hits = glRenderMode(GL_RENDER);
     VisualObject::GLNameType *ptr = NameBuffer;
     for (int i = 0; i < hits; ++i)
@@ -157,7 +157,7 @@ void MainView::OnMouseMove(UINT nFlags, CPoint point)
         }
     }
 
-    //InvalidateRect(NULL);
+    InvalidateRect(NULL);
 }
 
 void MainView::RenderWithOpenGL()
