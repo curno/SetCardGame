@@ -197,6 +197,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Animation\Animation.h" />
+    <ClInclude Include="Include\Animation\GroupAnimation.h" />
+    <ClInclude Include="Include\Animation\SequentialAnimation.h" />
     <ClInclude Include="Include\Keyword.h" />
     <ClInclude Include="Include\Model\Card.h" />
     <ClInclude Include="Include\Model\Deck.h" />

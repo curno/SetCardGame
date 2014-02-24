@@ -32,7 +32,12 @@ public:
     {
         return (long long)(Elapsed_ / ((double)Stopwatch::Frequency));
     }
-    long long readonly(ElapsedMilliseconds);
+    void SetElapsedMilliseconds(long long milliseconds)
+    {
+        Elapsed_ = milliseconds * Stopwatch::Frequency;
+        StartTimeStamp_ = Stopwatch::GetTimestamp();
+    }
+    long long readwrite(ElapsedMilliseconds);
 
     bool GetIsRunning() const
     {
