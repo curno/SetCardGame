@@ -5,6 +5,7 @@
 
 void VisualCard::RenderContent()
 {
+    glEnable(GL_TEXTURE_2D);
     double length = Size.cx / 2.0;
     glBegin(GL_TRIANGLE_STRIP);
 
@@ -20,6 +21,7 @@ void VisualCard::RenderContent()
     glVertex3d(Size.cx, Size.cy, length);
     glEnd();
 
+    glDisable(GL_TEXTURE_2D);
     glBegin(GL_QUADS);
     // top
     glNormal3d(0.0, 1.0, 0.0);
@@ -95,16 +97,20 @@ void VisualCard::PrepareRendering()
 void VisualCard::OnMouseMove()
 {
     __super::OnMouseMove();
-    if (!moved)
+    if (true)
     {
-        moved = true;
-        Rotate(0.0, 1.0, 0.0, -0.3);
+       // Rotate(0.0, 1.0, 0.0, -0.3);
     }
 }
 
 void VisualCard::OnMouseEnter()
 {
+    Rotate(0.0, 1.0, 0.0, -0.3);
+}
 
+void VisualCard::OnMouseLeave()
+{
+    Rotate(0.0, 1.0, 0.0, 0.3);
 }
 
 

@@ -3,6 +3,7 @@
 #include "VisualObject.h"
 #include "../Model/Card.h"
 #include "Res/resource.h"
+#include "Material.h"
 
 class VisualCard : public VisualObject
 {
@@ -12,11 +13,9 @@ class VisualCard : public VisualObject
 
     BITMAP BITMAP_;
     GLuint TexName_;
-    GLubyte image_2d[2][2][3];
-
-    bool moved;
+    Material Material_;
 public:
-    VisualCard(const CardRef card) : Card_(card), TexName_(0), moved(false)
+    VisualCard(const CardRef card) : Card_(card), TexName_(0), Material_(Material::GetMaterial("bronze"))
     { 
         Size = CSize(DefaultWidth, DefaultHeight);
 
