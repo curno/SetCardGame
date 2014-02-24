@@ -15,7 +15,6 @@ protected:
     GLNameType Name_; // The name of the opengl display object.
 protected:
     virtual void RenderContent() = 0; // visual object can render its content.
-    virtual void OnMouseButtonDown() { } // visual object handle mouse button down.
     virtual void PrepareRendering() { } // prepare to render.
     virtual void OnResize(const CSize &size) { }
 
@@ -61,5 +60,6 @@ public:
     virtual void OnMouseEnter() { }
     virtual void OnMouseLeave() { }
     virtual void OnMouseMove() { }
+    virtual void OnMouseButtonDown() { } // visual object handle mouse button down.
 
 };

@@ -5,56 +5,89 @@
 // This is a stopwatch class to get the elapsed time during the game.
 class Stopwatch
 {
-    CTime StartTime_;
-    CTimeSpan ElapsedTime_;
-    enum class State
-    {
-        Stopped, Activated
-    } State_;
 public:
-    Stopwatch()
+
+    Stopwatch() : IsRunning_(false), Elapsed_(0) { }
+
+    static const long long Frequency;
+    static const bool IsHighResolution;
+private:
+
+    static bool GetIsHighResolution()
     {
-        ElapsedTime_ = 0;
-        State_ = State::Stopped;
+        LARGE_INTEGER tmp;
+        return ::QueryPerformanceFrequency(&tmp) == TRUE;
     }
-    void Start()
+    static long long GetFrequecy()
     {
-        if (State_ == State::Stopped)
-        {
-            StartTime_ = CTime::GetCurrentTime();
-            State_ = State::Activated;
-        }
+        LARGE_INTEGER tmp;
+        if (::QueryPerformanceFrequency(&tmp))
+            return (long long)tmp.QuadPart / 1000;
+        else
+            return (long long)1;
     }
-    void Stop()
+
+public:
+    long long GetElapsedMilliseconds() const
     {
-        if (State_ == State::Activated)
-        {
-            ElapsedTime_ += CTime::GetCurrentTime() - StartTime_;
-            State_ = State::Stopped;
-        }
+        return (long long)(Elapsed_ / ((double)Stopwatch::Frequency));
     }
-    void Clear()
+    long long readonly(ElapsedMilliseconds);
+
+    bool GetIsRunning() const
+    {
+        return IsRunning_;
+    }
+    bool readonly(IsRunning);
+
+    void Reset()
     {
         Stop();
-        ElapsedTime_ = 0;
+        Elapsed_ = 0;
+    }
+
+    void Start()
+    {
+        if (!IsRunning_)
+        {
+            IsRunning_ = true;
+            StartTimeStamp_ = Stopwatch::GetTimestamp();
+        }
     }
 
     void Restart()
     {
-        Clear();
+        Reset();
         Start();
     }
 
-    CTimeSpan readonly(TimeElapsed);
-    CTimeSpan GetTimeElapsed() 
+    void Stop()
     {
-        if (State_ == State::Activated)
+        if (IsRunning_)
         {
-            Stop();
-            CTimeSpan retval = ElapsedTime_;
-            Start();
-            return retval;
+            IsRunning_ = false;
+            long long tmp_timestamp = StartTimeStamp_;
+            StartTimeStamp_ = Stopwatch::GetTimestamp();
+            Elapsed_ += StartTimeStamp_ - tmp_timestamp;
         }
-        return ElapsedTime_;
     }
+    static long long GetTimestamp()
+    {
+        if (Stopwatch::IsHighResolution)
+        {
+            LARGE_INTEGER tmp;
+            ::QueryPerformanceCounter(&tmp);
+            return (long long)(tmp.QuadPart);
+        }
+        else
+        {
+            return GetTickCount();
+        }
+    }
+
+
+private:
+    bool IsRunning_;
+    long long StartTimeStamp_;
+    long long Elapsed_;
 };

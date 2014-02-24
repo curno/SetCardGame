@@ -71,7 +71,7 @@ bool Game::CheckAndScore(CardRef card1, CardRef card2, CardRef card3)
 
 CTimeSpan Game::GetTimeElapsed() const
 {
-    return Watch_.TimeElapsed;
+    return Watch_.ElapsedMilliseconds / 1000;
 }
 
 void Game::Clear()
@@ -80,7 +80,7 @@ void Game::Clear()
     Score_ = 0;
     CardsInDesk_.clear();
     CardsInHand_.clear();
-    Watch_.Clear();
+    Watch_.Reset();
     Deck_->Shuffle();
     Deck_->SetAllCardsTo(CardsInHand_);
 }

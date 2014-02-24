@@ -196,6 +196,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Animation\Animation.h" />
     <ClInclude Include="Include\Keyword.h" />
     <ClInclude Include="Include\Model\Card.h" />
     <ClInclude Include="Include\Model\Deck.h" />
@@ -214,6 +215,7 @@
     <ClInclude Include="Res\Resource.h" />
     <ClInclude Include="Include\stdafx.h" />
     <ClInclude Include="Include\targetver.h" />
+    <ClCompile Include="Source\Model\Stopwatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Rendering\VisualScene.cpp" />

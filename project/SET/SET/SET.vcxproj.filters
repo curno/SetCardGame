@@ -72,6 +72,9 @@
     <ClInclude Include="Include\Rendering\Material.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Animation\Animation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\UI\MainFrame.cpp">
@@ -102,6 +105,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Source\Rendering\VisualScene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Model\Stopwatch.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
