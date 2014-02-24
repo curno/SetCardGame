@@ -1,50 +1,61 @@
 #include "Include/stdafx.h"
 
+#include "Res/resource.h"
 #include "Include/Rendering/VisualCard.h"
 
 void VisualCard::RenderContent()
 {
-    double length = Size.cx / 10.0;
-    glBegin(GL_QUADS);
-    glNormal3d(0.0, 0.0, 1.0);
+    double length = Size.cx / 2.0;
+    glBegin(GL_TRIANGLE_STRIP);
 
     // front
+    glNormal3d(0.0, 0.0, 1.0);
+    glTexCoord2d(0.0, 0.0);
     glVertex3d(0, 0, length);
+    glTexCoord2d(0.0, 1.0);
     glVertex3d(Size.cx, 0, length);
-    glVertex3d(Size.cx, Size.cy, length);
+    glTexCoord2d(1.0, 0.0);
     glVertex3d(0, Size.cy, length);
+    glTexCoord2d(1.0, 1.0);
+    glVertex3d(Size.cx, Size.cy, length);
+    glEnd();
 
+    glBegin(GL_QUADS);
     // top
+    glNormal3d(0.0, 1.0, 0.0);
     glVertex3d(Size.cx, Size.cy, length);
     glVertex3d(Size.cx, Size.cy, 0.0);
     glVertex3d(0.0, Size.cy, 0.0);
     glVertex3d(0.0, Size.cy, length);
 
     // bottom
+    glNormal3d(0.0, -1.0, 0.0);
     glVertex3d(Size.cx, 0.0, length);
     glVertex3d(0.0, 0.0, length);
     glVertex3d(0.0, 0.0, 0.0);
     glVertex3d(Size.cx, 0.0, 0.0);
 
     // left
+    glNormal3d(-1.0, 0.0, 0.0);
     glVertex3d(0.0, 0.0, length);
     glVertex3d(0.0, Size.cy, length);
     glVertex3d(0.0, Size.cy, 0.0);
     glVertex3d(0.0, 0.0, 0.0);
 
     // right
+    glNormal3d(1.0, 0.0, 0.0);
     glVertex3d(Size.cx, 0.0, length);
     glVertex3d(Size.cx, 0.0, 0.0);
     glVertex3d(Size.cx, Size.cy, 0.0);
     glVertex3d(Size.cx, Size.cy, length);
 
     // back
+    glNormal3d(0.0, 0.0, -1.0);
     glVertex3d(0.0, 0.0, 0.0);
     glVertex3d(0.0, Size.cy, 0.0);
     glVertex3d(Size.cx, Size.cy, 0.0);
     glVertex3d(Size.cx, 0.0, 0.0);
     glEnd();
-    
     
     /*GLdouble modelview[16];
     GLdouble projection[16];
@@ -58,22 +69,8 @@ void VisualCard::RenderContent()
 
 void VisualCard::PrepareRendering()
 {
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_AUTO_NORMAL);
-    glEnable(GL_NORMALIZE);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
-    GLfloat light_position[] = { 1.0f, 1.0f, 1.0f, 0.0f };
-    GLfloat light_ambient[] = { 0.2f, 0.2f, 0.2f, 0.2f };
-    GLfloat light_diffuse[] = { 0.8f, 0.8f, 0.8f, 0.2f };
-    GLfloat light_specular[] = { 0.5f, 0.5f, 0.5f, 1.0f};
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-
+    if (texName == 0)
+        GenTexture();
     GLfloat material_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
     GLfloat material_diffuse[] = { 0.8f, 0.8f, 0.0f, 1.0f };
     GLfloat material_specular[] = { 0.6f, 0.6f, 0.5f, 1.0f };
@@ -85,6 +82,22 @@ void VisualCard::PrepareRendering()
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, material_specular);
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_emission);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, material_shininess);
+
+    
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texName);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    
+}
+
+void VisualCard::OnMouseMove()
+{
+    __super::OnMouseMove();
+    if (!moved)
+    {
+        moved = true;
+        Rotate(0.0, 1.0, 0.0, -0.3);
+    }
 }
 
 

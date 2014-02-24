@@ -106,6 +106,15 @@
     <Image Include="Res\SET.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="Res\res\bitmap1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\..\..\Pictures\WALL Papers\1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\res\Set.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Res\SET.rc">

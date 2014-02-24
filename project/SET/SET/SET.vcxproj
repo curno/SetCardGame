@@ -234,7 +234,10 @@
     <ResourceCompile Include="Res\SET.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\..\..\..\Pictures\WALL Papers\1.bmp" />
     <Image Include="Resource\Resource\SET.ico" />
+    <Image Include="Res\res\bitmap1.bmp" />
+    <Image Include="Res\res\Set.ico" />
     <Image Include="Res\SET.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

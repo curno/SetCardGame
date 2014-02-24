@@ -84,4 +84,38 @@ public:
             0.0, 0.0, 0.0, 1.0
             ) * (*this);
     }
+
+    void Rotate(GLdouble x, GLdouble y, GLdouble z, GLdouble theta)
+    {
+        GLdouble d = sqrt(x * x + y * y + z * z);
+        x /= d;
+        y /= d;
+        z /= d;
+        
+        GLdouble sint = sin(theta);
+        GLdouble cost = cos(theta);
+        GLdouble nsint = 1.0 - sint;
+        GLdouble ncost = 1.0 - cost;
+        *this = Transformation( // specify the matrix row by row
+            cost + ncost * x * x, ncost * x * y - sint * z, ncost * x * z + sint * y, 0.0,
+            ncost * y * x + sint * z, cost + ncost * y * y, ncost * y * z - sint * x, 0.0,
+            ncost * z * x - sint * y, ncost * z * y + sint * x, cost + ncost * z * z, 0.0,
+            0.0, 0.0, 0.0, 1.0) * (*this);
+    }
+
+    void RotateByCenter(GLdouble center_x, GLdouble center_y, GLdouble center_z,
+        GLdouble axis_x, GLdouble axis_y, GLdouble axis_z, GLdouble theta)
+    {
+        Translate(-center_x, -center_y, -center_z);
+        Rotate(axis_x, axis_y, axis_z, theta);
+        Translate(center_x, center_y, center_z);
+    }
+
+    void ScaleByCenter(GLdouble center_x, GLdouble center_y, GLdouble center_z,
+        GLdouble x, GLdouble y, GLdouble z)
+    {
+        Translate(-center_x, -center_y, -center_z);
+        Scale(x, y, z);
+        Translate(center_x, center_y, center_z);
+    }
 };

@@ -35,14 +35,21 @@ public:
 	// 生成的消息映射函数
 protected:
 	afx_msg void OnPaint();
+
+    void InitOpenGL();
+
+
     afx_msg void OnDestroy();
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	DECLARE_MESSAGE_MAP()
+    afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+    DECLARE_MESSAGE_MAP()
 public:
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 
 private:
     HGLRC GLRC_; // opengl rendering handle.
+    void RenderWithOpenGL();
+public:
 };
 

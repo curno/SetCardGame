@@ -18,7 +18,7 @@ public:
     void DealCards(const ::std::unordered_set<CardRef> &cards);
 protected:
     virtual void OnResize(const CSize &size) override;
-
+    virtual void PrepareRendering() override;
 private:
     void InitializeGameScene();
     // this function set the geometry of the visual cards in the game scene according to current scene size.

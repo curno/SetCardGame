@@ -6,6 +6,7 @@
 void VisualGameScene::InitializeGameScene()
 {
     // init no cards.
+    Transformation_.Rotate(0.0, 0.0, 1.0, 0.01);
 }
 
 void VisualGameScene::OnResize(const CSize &size)
@@ -140,6 +141,26 @@ VisualGameScene::VisualGameScene(ref<Game> game) : Game_(game)
     Game_->Scene = this;
     Size = CSize(300, 200);
     Position = CPoint(0, 0);
+    InitializeGameScene();
+}
+
+void VisualGameScene::PrepareRendering()
+{
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_POINT_SMOOTH);
+    glEnable(GL_LINE_SMOOTH);
+    //glEnable(GL_POLYGON_SMOOTH);
+    glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+    //glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 }
 
 const double VisualGameScene::MaginRatio = 0.8;
