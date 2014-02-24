@@ -4,7 +4,7 @@
 #include "Transformation.h"
 
 // this is the abstract base class of all visual object in the program, like card, deck, button...
-class VisualObject abstract
+class VisualObject abstract : public ::std::enable_shared_from_this<VisualObject>
 {
 public:
     typedef GLuint GLNameType;

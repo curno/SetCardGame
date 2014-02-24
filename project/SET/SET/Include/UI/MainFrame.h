@@ -11,7 +11,7 @@ class MainFrame : public CFrameWnd
 public:
 	MainFrame();
 protected: 
-	DECLARE_DYNAMIC(MainFrame)
+	DECLARE_DYNCREATE(MainFrame)
 
 // 特性
 public:
@@ -32,7 +32,7 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	MainView    m_wndView;
+	MainView    *m_wndView;
 
 // 生成的消息映射函数
 protected:

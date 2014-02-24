@@ -19,7 +19,7 @@
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
 
-
+#include "winuser.h"
 
 
 
@@ -38,6 +38,7 @@
 #include <vector>
 #include <set>
 #include <unordered_set>
+#include <unordered_map>
 #include <memory>
 
 // opengl header

@@ -197,6 +197,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Animation\Animation.h" />
+    <ClInclude Include="Include\Animation\VisualObjectAnimations.h" />
+    <ClInclude Include="Include\Animation\GenericAnimation.h" />
     <ClInclude Include="Include\Animation\GroupAnimation.h" />
     <ClInclude Include="Include\Animation\SequentialAnimation.h" />
     <ClInclude Include="Include\Keyword.h" />
@@ -205,6 +207,7 @@
     <ClInclude Include="Include\Model\Game.h" />
     <ClInclude Include="Include\Model\Stopwatch.h" />
     <ClInclude Include="Include\Rendering\Material.h" />
+    <ClInclude Include="Include\Rendering\TextureManager.h" />
     <ClInclude Include="Include\Rendering\Transformation.h" />
     <ClInclude Include="Include\Rendering\VisualCard.h" />
     <ClInclude Include="Include\Rendering\VisualDeck.h" />
@@ -243,10 +246,16 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\..\..\Pictures\WALL Papers\1.bmp" />
+    <Image Include="..\..\..\..\..\..\..\Pictures\WALL Papers\2.bmp" />
+    <Image Include="..\..\..\..\..\..\..\pictures\wall papers\bitmap2.bmp" />
+    <Image Include="card background.bmp" />
     <Image Include="Resource\Resource\SET.ico" />
+    <Image Include="Res\card background.bmp" />
     <Image Include="Res\res\bitmap1.bmp" />
     <Image Include="Res\res\Set.ico" />
     <Image Include="Res\SET.ico" />
+    <Image Include="Res\test.bmp" />
+    <Image Include="test.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

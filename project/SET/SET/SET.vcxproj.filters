@@ -81,6 +81,15 @@
     <ClInclude Include="Include\Animation\SequentialAnimation.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Animation\GenericAnimation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Animation\VisualObjectAnimations.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Rendering\TextureManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\UI\MainFrame.cpp">
@@ -131,6 +140,24 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="Res\res\Set.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\..\..\pictures\wall papers\bitmap2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\..\..\Pictures\WALL Papers\2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="card background.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="test.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\card background.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\test.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

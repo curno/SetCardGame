@@ -23,11 +23,12 @@ public:
     // called when WM_TIMER occurs.
     void OnTimer()
     {
-        assert(!Stoped_);
+        if (IsStopped)
+            return;
 
         //elapsed time
         Watch_.Stop();
-        int passed = Watch_.ElapsedMilliseconds;
+        auto passed = Watch_.ElapsedMilliseconds;
         Watch_.Start();
 
         // get duration
@@ -46,7 +47,7 @@ public:
         if (new_ratio != ratio)
         {
             new_ratio = max(0.0, min(1.0, new_ratio));
-            Watch_.SetElapsedMilliseconds(new_ratio * duration);
+            Watch_.SetElapsedMilliseconds(static_cast<long long>(new_ratio * duration));
         }
 
         // if over
@@ -58,5 +59,5 @@ public:
     // ratio is the progress of the animation
     // user can adjust the ratio by return the new animation ratio.
     // for most of the time, just return old ratio.
-    virtual double OnAnimationStep(const double ratio) { }
+    virtual double OnAnimationStep(const double ratio) { return ratio; }
 };

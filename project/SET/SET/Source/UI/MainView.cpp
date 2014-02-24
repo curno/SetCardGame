@@ -9,7 +9,6 @@
 
 
 // MainView
-
 MainView::MainView()
 {
     Game_ = ref<Game>(new Game);
@@ -27,39 +26,23 @@ MainView::~MainView()
 {
 }
 
+IMPLEMENT_DYNCREATE(MainView, CView)
 
-BEGIN_MESSAGE_MAP(MainView, CWnd)
-	ON_WM_PAINT()
+BEGIN_MESSAGE_MAP(MainView, CView)
     ON_WM_CREATE()
     ON_WM_DESTROY()
     ON_WM_SIZE()
     ON_WM_ERASEBKGND()
     ON_WM_MOUSEMOVE()
+    ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 BOOL MainView::PreCreateWindow(CREATESTRUCT& cs) 
 {
-	if (!CWnd::PreCreateWindow(cs))
+	if (!CView::PreCreateWindow(cs))
 		return FALSE;
-
-	cs.dwExStyle |= WS_EX_CLIENTEDGE;
-	cs.style &= ~WS_BORDER;
-	cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW|CS_VREDRAW|CS_DBLCLKS, 
-		::LoadCursor(nullptr, IDC_ARROW), reinterpret_cast<HBRUSH>(COLOR_WINDOW+1), nullptr);
-
 	return TRUE;
 }
-
-void MainView::OnPaint() 
-{
-    CClientDC dc(this);
-
-    InitOpenGL();
-    RenderWithOpenGL();
-
-    SwapBuffers(dc.m_hDC); // swap buffer and begin another rendering process.
-}
-
 
 int MainView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
@@ -86,6 +69,10 @@ int MainView::OnCreate(LPCREATESTRUCT lpCreateStruct)
     GLRC_ = wglCreateContext(dc.m_hDC); // create gl rendering content.
 
     wglMakeCurrent(dc.m_hDC, GLRC_); // make current
+
+    SetTimer(1, 20, NULL);
+    
+    Invalidate(NULL);
     return 0;
 }
 
@@ -98,7 +85,6 @@ void MainView::OnDestroy()
     GLRC_ = nullptr;
 }
 
-
 void MainView::OnSize(UINT nType, int cx, int cy)
 {
     CWnd::OnSize(nType, cx, cy);
@@ -107,6 +93,7 @@ void MainView::OnSize(UINT nType, int cx, int cy)
 
     if (GameScene_ != nullptr)
         GameScene_->Size = CSize(cx, cy);
+    Invalidate(NULL);
 }
 
 
@@ -144,6 +131,26 @@ void MainView::OnMouseMove(UINT nFlags, CPoint point)
         object->OnMouseMove(); // move mouse.
 
     CurrentHoveredObjects_ = objects; // update current hovered objects.
+
+    if (CurrentHoveredObjects_.size() > 0)
+    {
+
+            for each (VisualObject *object in CurrentHoveredObjects_)
+            {
+                if (dynamic_cast<VisualCard *>(object))
+                {
+                    if (animations.find(object) == animations.end())
+                    {
+                        auto animation = MakeGenericAnimation(3000, RotateVisualObject(dynamic_cast<VisualObject *>(object)->shared_from_this(), 0, 1, 0, 6.28));
+                        animations.insert(make_pair(object, animation));
+                        animation->Start();
+                            
+                    }
+                }
+            }
+    }
+
+    Invalidate(NULL);
 }
 
 void MainView::RenderWithOpenGL()
@@ -231,5 +238,25 @@ void MainView::InitOpenGL()
     }
     return retval;
 }
+
+
+void MainView::OnTimer(UINT_PTR nIDEvent)
+{
+    CWnd::OnTimer(nIDEvent);
+    for each (auto animation in animations)
+        animation.second->OnTimer();
+    Invalidate(NULL);
+}
+
+void MainView::OnDraw(CDC* pDC)
+{
+    CClientDC dc(this);
+
+    InitOpenGL();
+    RenderWithOpenGL();
+
+    SwapBuffers(dc.m_hDC); // swap buffer and begin another rendering process.
+}
+
 
 

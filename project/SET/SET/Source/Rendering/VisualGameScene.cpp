@@ -6,7 +6,6 @@
 void VisualGameScene::InitializeGameScene()
 {
     // init no cards.
-    Transformation_.Rotate(0.0, 0.0, 1.0, 0.01);
 }
 
 void VisualGameScene::OnResize(const CSize &size)

@@ -13,7 +13,7 @@
 
 // MainFrame
 
-IMPLEMENT_DYNAMIC(MainFrame, CFrameWnd)
+IMPLEMENT_DYNCREATE(MainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(MainFrame, CFrameWnd)
 	ON_WM_CREATE()
@@ -24,6 +24,7 @@ END_MESSAGE_MAP()
 
 MainFrame::MainFrame()
 {
+    m_wndView = new MainView;
     // TODO: 
 }
 
@@ -36,8 +37,7 @@ int MainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	// 创建一个视图以占用框架的工作区
-	if (!m_wndView.Create(NULL, NULL, AFX_WS_DEFAULT_VIEW,
+	if (!m_wndView->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW,
 		CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
 	{
 		TRACE0("未能创建视图窗口\n");
@@ -56,8 +56,8 @@ BOOL MainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	cs.style = WS_OVERLAPPED | WS_CAPTION | FWS_ADDTOTITLE
 		 | WS_THICKFRAME | WS_MINIMIZEBOX | WS_SYSMENU;
 
-	cs.dwExStyle &= ~WS_EX_CLIENTEDGE;
-	cs.lpszClass = AfxRegisterWndClass(0);
+	//cs.dwExStyle &= ~WS_EX_CLIENTEDGE;
+	//cs.lpszClass = AfxRegisterWndClass(0);
 	return TRUE;
 }
 
@@ -81,13 +81,13 @@ void MainFrame::Dump(CDumpContext& dc) const
 void MainFrame::OnSetFocus(CWnd* /*pOldWnd*/)
 {
 	// 将焦点前移到视图窗口
-	m_wndView.SetFocus();
+	m_wndView->SetFocus();
 }
 
 BOOL MainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
 	// 让视图第一次尝试该命令
-	if (m_wndView.OnCmdMsg(nID, nCode, pExtra, pHandlerInfo))
+	if (m_wndView->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo))
 		return TRUE;
 
 	// 否则，执行默认处理
