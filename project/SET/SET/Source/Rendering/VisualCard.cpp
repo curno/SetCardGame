@@ -2,7 +2,9 @@
 
 #include "Res/resource.h"
 #include "Include/Rendering/VisualCard.h"
+#include "Include/Rendering/VisualGameScene.h"
 #include "Include/Rendering/TextureManager.h"
+#include "Include/Animation/VisualObjectAnimations.h"
 #include "Res/resource.h"
 
 void VisualCard::RenderContent()
@@ -113,6 +115,8 @@ void VisualCard::OnMouseEnter()
     //Rotate(0.0, 1.0, 0.0, -0.3);
     GLfloat emission[] = { 0.9f, 0.9f, 0.9f, 1.0f };
     Material_.SetData(Material::Parameter::Emission, emission);
+
+    
 }
 
 void VisualCard::OnMouseLeave()
@@ -120,11 +124,40 @@ void VisualCard::OnMouseLeave()
     //Rotate(0.0, 1.0, 0.0, 0.3);
     GLfloat emission[] = { 0.0, 0.0, 0.0, 0.0 };
     Material_.SetData(Material::Parameter::Emission, emission);
+    
 }
 
-VisualCard::VisualCard(const CardRef card) : Card_(card)
+VisualCard::VisualCard(const CardRef card) : Card_(card), Choosed_(false)
 {
     Material_ = (Material::GetMaterial("silver"));
+}
+
+void VisualCard::OnMouseButtonDown()
+{
+    __super::OnMouseButtonDown();
+    Choosed_ = !Choosed_;
+    if (Choosed_)
+    {
+        if (Animation_ != nullptr)
+            Animation_->Stop();
+        double theta = VisualGameScene::SlopeTheta;
+
+        Transformation target;
+        target.Translate(0.0, Size.Height / 2.0, Size.Width / 2.0);
+        target.Scale(1.1, 1.1, 1.1);
+        target.Rotate(1.0, 0.0, 0.0, theta);
+        target.Translate(0.0, -Size.Height / 2.0, 0.0);
+        Animation_ = MakeGenericAnimation(300, TransformVisualObject(this, target));
+        Animation_->Start();
+    }
+    else
+    {
+        if (Animation_ != nullptr)
+            Animation_->Stop();
+        Transformation target;
+        Animation_ = MakeGenericAnimation(300, TransformVisualObject(this, Transformation()));
+        Animation_->Start();
+    }
 }
 
 double VisualCard::HeightPerWidthRatio = 1.618; // 1 : 0.618

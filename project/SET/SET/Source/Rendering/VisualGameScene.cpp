@@ -1,6 +1,8 @@
 #include "Include/stdafx.h"
 
 #include "Include/Rendering/VisualGameScene.h"
+#include "Res/resource.h"
+#include "Include/Rendering/TextureManager.h"
 
 
 void VisualGameScene::InitializeGameScene()
@@ -14,9 +16,9 @@ void VisualGameScene::OnResize(const CSize &size)
     __super::OnResize(size);
     ArrangeCards(size);
 
-    /*GetTransformation().Reset();
+    GetTransformation().Reset();
     GetTransformation().RotateByCenter(Size.Width / 2.0, Size.Height / 2.0, 0.0,
-        1.0, 0.0, 0.0, 0.3);*/
+        1.0, 0.0, 0.0, -SlopeTheta);
     return;
 }
 
@@ -170,13 +172,19 @@ void VisualGameScene::PrepareRendering()
 
 void VisualGameScene::RenderContent()
 {
-    static const int Outer = 1;
+    static const int Outer = 0;
     // first render ground
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(IDB_BOARD));
     glBegin(GL_QUADS);
     glNormal3d(0.0, 0.0, 1.0);
+    glTexCoord2d(-Outer, -Outer);
     glVertex3d(-Size.Width * Outer, -Size.Height * Outer, 0);
+    glTexCoord2d(1 + Outer, -Outer);
     glVertex3d((1 + Outer) * Size.Width, -Size.Height * Outer, 0);
+    glTexCoord2d(1 + Outer, 1 + Outer);
     glVertex3d((1 + Outer) * Size.Width, (1 + Outer) * Size.Height, 0);
+    glTexCoord2d(-Outer, 1 + Outer);
     glVertex3d(-Size.Width * Outer, (1 + Outer) * Size.Height, 0);
     glEnd();
 
@@ -185,3 +193,4 @@ void VisualGameScene::RenderContent()
 
 const double VisualGameScene::MaginRatio = 0.8;
 const double VisualGameScene::CellRatio = 0.8;
+const double VisualGameScene::SlopeTheta = 0.45;

@@ -12,7 +12,8 @@ protected:
     Stopwatch Watch_; // the stopwatch to control the animation.
     bool Stoped_;
 public:
-    Animation() : Stoped_(false), Behavior_(AnimationBehavior::LinearBehavior()) { }
+    Animation();
+    ~Animation();
     virtual void Start() { Watch_.Start(); } 
     virtual void Stop()  { Stoped_ = true; Watch_.Stop();  }
     

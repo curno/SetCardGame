@@ -99,6 +99,9 @@
     <ClInclude Include="Include\Rendering\Geometry.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Animation\AnimationManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\UI\MainFrame.cpp">
@@ -137,6 +140,9 @@
     <ClCompile Include="Source\Animation\AnimationBehaviors.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Animation\Animation.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Resource\SET.ico">
@@ -170,6 +176,12 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="Res\test.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Board.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\Board.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

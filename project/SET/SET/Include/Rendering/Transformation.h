@@ -59,6 +59,55 @@ public:
             );
     }
 
+    Transformation &operator+= (const Transformation &right)
+    {
+        for (int i = 0; i < sizeof(Data_) / sizeof(Data_[0]); ++i)
+            Data_[i] += right.Data_[i];
+        return *this;
+    }
+
+    Transformation operator+ (const Transformation &right)
+    {
+        Transformation t = *this;
+        t += right;
+        return t;
+    }
+
+    Transformation &operator*= (double p)
+    {
+        for (int i = 0; i < sizeof(Data_) / sizeof(Data_[0]); ++i)
+            Data_[i] *= p;
+        return *this;
+    }
+
+    Transformation operator* (double p)
+    {
+        Transformation t = *this;
+        t *= p;
+        return t;
+    }
+
+    Transformation operator- ()
+    {
+        Transformation t;
+        for (int i = 0; i < sizeof(Data_) / sizeof(Data_[0]); ++i)
+            t.Data[i] = -Data_[i];
+        return *this;
+    }
+
+    Transformation &operator-= (const Transformation &right)
+    {
+        for (int i = 0; i < sizeof(Data_) / sizeof(Data_[0]); ++i)
+            Data_[i] -= right.Data_[i];
+        return *this;
+    }
+
+    Transformation operator- (const Transformation &right)
+    {
+        Transformation t = *this;
+        t -= right;
+        return t;
+    }
     Transformation &operator*= (const Transformation &right)
     {
         *this = operator *(right);

@@ -4,7 +4,7 @@
 
 ref<AnimationBehavior> AnimationBehavior::LinearBehavior()
 {
-    static ref<AnimationBehavior> LinearBehavior_ = MakeGenericAnimation(
+    static ref<AnimationBehavior> LinearBehavior_ = MakeGenericBehavior(
         [](double progress) -> double
         {
             return progress; // for linear behavior, return itself.
@@ -15,7 +15,7 @@ ref<AnimationBehavior> AnimationBehavior::LinearBehavior()
 
 ref<AnimationBehavior> AnimationBehavior::SinBehavior()
 {
-    static ref<AnimationBehavior> SinBehavior_ = MakeGenericAnimation(
+    static ref<AnimationBehavior> SinBehavior_ = MakeGenericBehavior(
         [](double progress) -> double
     {
         return sin(progress * PI / 2); // for sin behavior, return sin(progress * PI / 2).
@@ -26,7 +26,7 @@ ref<AnimationBehavior> AnimationBehavior::SinBehavior()
 
 ref<AnimationBehavior> AnimationBehavior::WiredBehavior()
 {
-    static ref<AnimationBehavior> WiredBehavior_ = MakeGenericAnimation(
+    static ref<AnimationBehavior> WiredBehavior_ = MakeGenericBehavior(
         [](double progress) -> double
     {
         return sin(progress * 8.3); 

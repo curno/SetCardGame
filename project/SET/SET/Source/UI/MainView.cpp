@@ -3,6 +3,7 @@
 #include "Include/UI/MainView.h"
 #include "Include/Rendering/VisualObject.h"
 #include "Include/Rendering/Geometry.h"
+#include "Include/Animation/AnimationManager.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -14,12 +15,12 @@ MainView::MainView()
     Game_ = ref<Game>(new Game);
     GameScene_ = ref<VisualGameScene>(new VisualGameScene(Game_));
     Game_->DealMore();
-    /*Game_->DealMore();
     Game_->DealMore();
     Game_->DealMore();
     Game_->DealMore();
     Game_->DealMore();
-    Game_->DealMore();*/
+    Game_->DealMore();
+    Game_->DealMore();
 }
 
 MainView::~MainView()
@@ -35,6 +36,7 @@ BEGIN_MESSAGE_MAP(MainView, CView)
     ON_WM_ERASEBKGND()
     ON_WM_MOUSEMOVE()
     ON_WM_TIMER()
+    ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 BOOL MainView::PreCreateWindow(CREATESTRUCT& cs) 
@@ -132,28 +134,17 @@ void MainView::OnMouseMove(UINT nFlags, CPoint point)
 
     CurrentHoveredObjects_ = objects; // update current hovered objects.
 
-    if (CurrentHoveredObjects_.size() > 0)
-    {
-
-            for each (VisualObject *object in CurrentHoveredObjects_)
-            {
-                if (dynamic_cast<VisualCard *>(object))
-                {
-                    if (animations.find(object) == animations.end())
-                    {
-                        auto animation1 = MakeGenericAnimation(3000, RotateVisualObject(dynamic_cast<VisualObject *>(object)->shared_from_this(), 0, 1, 0, PI * 2));
-                        animation1->Behavior = AnimationBehavior::WiredBehavior();
-                        //auto animation = ::std::make_shared<LoopAnimation>(animation1);
-                        animations.insert(make_pair(object, animation1));
-                        animation1->Start();
-                            
-                    }
-                }
-            }
-    }
-
     Invalidate(NULL);
 }
+
+void MainView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+    CView::OnLButtonDown(nFlags, point);
+
+    for each (VisualObject *object in CurrentHoveredObjects_)
+        object->OnMouseButtonDown(); // send message.
+}
+
 
 void MainView::RenderWithOpenGL()
 {
@@ -184,8 +175,8 @@ void MainView::InitOpenGL()
 
     // light parameter
     GLfloat light_position[] = { 0.0f, 0.0f, 1.0f, 0.0f };
-    GLfloat light_ambient[] = { 0.2f, 0.2f, 0.2f, 0.2f };
-    GLfloat light_diffuse[] = { 0.8f, 0.8f, 0.8f, 0.2f };
+    GLfloat light_ambient[] = { 0.6f, 0.6f, 0.6f, 0.6f };
+    GLfloat light_diffuse[] = { 0.8f, 0.8f, 0.8f, 0.6f };
     GLfloat light_specular[] = { 0.5f, 0.5f, 0.5f, 1.0f };
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
@@ -245,9 +236,8 @@ void MainView::InitOpenGL()
 void MainView::OnTimer(UINT_PTR nIDEvent)
 {
     CWnd::OnTimer(nIDEvent);
-    for each (auto animation in animations)
-        animation.second->OnTimer();
-    Invalidate(NULL);
+    AnimationManager::Instance().PerformAllAnimation(); // perform animation
+    Invalidate(NULL); // always refresh. 
 }
 
 void MainView::OnDraw(CDC* pDC)

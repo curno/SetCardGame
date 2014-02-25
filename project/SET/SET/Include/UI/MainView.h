@@ -82,5 +82,6 @@ public:
     //    _In_  LPARAM lParam
     //    );
     //static MainView *view;
+    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 };
 

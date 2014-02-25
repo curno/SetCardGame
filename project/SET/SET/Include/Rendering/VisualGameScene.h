@@ -64,4 +64,7 @@ private:
     {
         Game_->DealMore();
     }
+
+public:
+    static const double SlopeTheta;
 };

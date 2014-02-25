@@ -16,38 +16,38 @@ struct Dimension
         return s;
     }
 
-    Dimension &operator+= (const Dimension &that)
+    Dimension &operator+= (const Dimension &right)
     {
-        Width += that.Width;
-        Height += that.Height;
-        Depth += that.Depth;
+        Width += right.Width;
+        Height += right.Height;
+        Depth += right.Depth;
         return *this;
     }
-    Dimension operator+ (const Dimension &that) const
+    Dimension operator+ (const Dimension &right) const
     {
         Dimension t = *this;
-        t += that;
+        t += right;
         return t;
     }
-    Dimension &operator-= (const Dimension &that)
+    Dimension &operator-= (const Dimension &right)
     {
-        return operator+= (-that);
+        return operator+= (-right);
     }
-    Dimension operator- (const Dimension &that) const
+    Dimension operator- (const Dimension &right) const
     {
         Dimension t = *this;
-        t -= that;
+        t -= right;
         return t;
     }
 
-    bool operator== (const Dimension &that) const
+    bool operator== (const Dimension &right) const
     {
-        return Width == that.Width && Height == that.Height && Depth == that.Depth;
+        return Width == right.Width && Height == right.Height && Depth == right.Depth;
     }
 
-    bool operator!= (const Dimension &that) const
+    bool operator!= (const Dimension &right) const
     {
-        return !operator== (that);
+        return !operator== (right);
     }
 };
 struct Point
@@ -65,52 +65,52 @@ struct Point
         Point p = { -X, -Y, -Z };
         return p;
     }
-    Point &operator+= (const Point &that)
+    Point &operator+= (const Point &right)
     {
-        X += that.X;
-        Y += that.Y;
-        Z += that.Z;
+        X += right.X;
+        Y += right.Y;
+        Z += right.Z;
         return *this;
     }
-    Point operator+ (const Point &that) const 
+    Point operator+ (const Point &right) const 
     {
         Point t = *this;
-        t += that;
+        t += right;
         return t;
     }
-    Point &operator-= (const Point &that) 
+    Point &operator-= (const Point &right) 
     { 
-        return operator+= (-that); 
+        return operator+= (-right); 
     }
-    Point operator- (const Point &that) const
+    Point operator- (const Point &right) const
     {
         Point t = *this;
-        t -= that;
+        t -= right;
         return t;
     }
 
-    Point &operator+= (const Dimension &that)
+    Point &operator+= (const Dimension &right)
     {
-        X += that.Width;
-        Y += that.Height;
-        Z += that.Depth;
+        X += right.Width;
+        Y += right.Height;
+        Z += right.Depth;
         return *this;
     }
-    Point operator+ (const Dimension &that) const
+    Point operator+ (const Dimension &right) const
     {
         Point t = *this;
-        t += that;
+        t += right;
         return t;
     }
 
-    bool operator== (const Point &that) const
+    bool operator== (const Point &right) const
     {
-        return X == that.X && Y == that.Y && Z == that.Z;
+        return X == right.X && Y == right.Y && Z == right.Z;
     }
 
-    bool operator!= (const Point &that) const
+    bool operator!= (const Point &right) const
     {
-        return !operator== (that);
+        return !operator== (right);
     }
 };
 

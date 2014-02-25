@@ -34,7 +34,7 @@ public:
 
 // the convenient creation method for GenericAnimationBehavior<...>
 template <typename Callable>
-ref<GenericAnimationBehavior<Callable>> MakeGenericAnimation(Callable callable) 
+ref<GenericAnimationBehavior<Callable>> MakeGenericBehavior(Callable callable) 
 { 
     return ::std::make_shared<GenericAnimationBehavior<Callable>>(callable);
 }

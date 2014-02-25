@@ -198,6 +198,7 @@
   <ItemGroup>
     <ClInclude Include="Include\Animation\Animation.h" />
     <ClInclude Include="Include\Animation\AnimationBehaviors.h" />
+    <ClInclude Include="Include\Animation\AnimationManager.h" />
     <ClInclude Include="Include\Animation\LoopAnimation.h" />
     <ClInclude Include="Include\Animation\VisualObjectAnimations.h" />
     <ClInclude Include="Include\Animation\GenericAnimation.h" />
@@ -223,6 +224,7 @@
     <ClInclude Include="Res\Resource.h" />
     <ClInclude Include="Include\stdafx.h" />
     <ClInclude Include="Include\targetver.h" />
+    <ClCompile Include="Source\Animation\Animation.cpp" />
     <ClCompile Include="Source\Animation\AnimationBehaviors.cpp" />
     <ClCompile Include="Source\Model\Stopwatch.cpp" />
   </ItemGroup>
@@ -252,8 +254,10 @@
     <Image Include="..\..\..\..\..\..\..\Pictures\WALL Papers\1.bmp" />
     <Image Include="..\..\..\..\..\..\..\Pictures\WALL Papers\2.bmp" />
     <Image Include="..\..\..\..\..\..\..\pictures\wall papers\bitmap2.bmp" />
+    <Image Include="Board.bmp" />
     <Image Include="card background.bmp" />
     <Image Include="Resource\Resource\SET.ico" />
+    <Image Include="Res\Board.bmp" />
     <Image Include="Res\card background.bmp" />
     <Image Include="Res\res\bitmap1.bmp" />
     <Image Include="Res\res\Set.ico" />

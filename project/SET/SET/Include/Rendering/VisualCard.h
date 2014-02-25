@@ -2,13 +2,13 @@
 
 #include "VisualObject.h"
 #include "../Model/Card.h"
-#include "Res/resource.h"
-#include "Material.h"
+#include "../Animation/Animation.h"
 
 class VisualCard : public VisualObject
 {
+    bool Choosed_;
     CardRef Card_;
-
+    ref<Animation> Animation_;
 public:
     VisualCard(const CardRef card);
 
@@ -17,6 +17,7 @@ public:
     virtual void OnMouseMove() override;
     virtual void OnMouseEnter() override;
     virtual void OnMouseLeave() override;
+    virtual void OnMouseButtonDown() override;
 protected:
     virtual void RenderContent() override;
 
