@@ -208,6 +208,7 @@
     <ClInclude Include="Include\Model\Deck.h" />
     <ClInclude Include="Include\Model\Game.h" />
     <ClInclude Include="Include\Model\Stopwatch.h" />
+    <ClInclude Include="Include\Rendering\Geometry.h" />
     <ClInclude Include="Include\Rendering\Material.h" />
     <ClInclude Include="Include\Rendering\TextureManager.h" />
     <ClInclude Include="Include\Rendering\Transformation.h" />

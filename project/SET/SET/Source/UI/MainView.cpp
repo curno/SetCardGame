@@ -2,7 +2,7 @@
 #include "Include/Set.h"
 #include "Include/UI/MainView.h"
 #include "Include/Rendering/VisualObject.h"
-
+#include "Include/Rendering/Geometry.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif

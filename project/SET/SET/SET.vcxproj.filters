@@ -96,6 +96,9 @@
     <ClInclude Include="Include\Animation\AnimationBehaviors.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Rendering\Geometry.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\UI\MainFrame.cpp">
