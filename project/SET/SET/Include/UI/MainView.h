@@ -8,6 +8,7 @@
 #include "../Rendering/VisualGameScene.h"
 #include "../Animation/GenericAnimation.h"
 #include "../Animation/VisualObjectAnimations.h"
+#include "../Animation/LoopAnimation.h"
 
 // MainView ´°¿Ú
 
@@ -19,7 +20,7 @@ private:
     ref<VisualGameScene> GameScene_;
 
     ::std::set<VisualObject *> CurrentHoveredObjects_;
-    ::std::unordered_map<VisualObject *, ref<GenericAnimation<RotateVisualObject>>> animations;
+    ::std::unordered_map<VisualObject *, ref<Animation>> animations;
 // ¹¹Ôì
 public:
 	MainView();

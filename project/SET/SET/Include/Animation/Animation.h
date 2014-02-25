@@ -2,14 +2,17 @@
 
 #include "stdafx.h"
 #include "../Model/Stopwatch.h"
+#include "AnimationBehaviors.h"
 
 // this is a base animation class for VisualObject
 class Animation abstract
 {
+protected:
+    ref<AnimationBehavior> Behavior_; // animation behavior
     Stopwatch Watch_; // the stopwatch to control the animation.
     bool Stoped_;
 public:
-    Animation() : Stoped_(false) { }
+    Animation() : Stoped_(false), Behavior_(AnimationBehavior::LinearBehavior()) { }
     virtual void Start() { Watch_.Start(); } 
     virtual void Stop()  { Stoped_ = true; Watch_.Stop();  }
     
@@ -20,12 +23,43 @@ public:
     bool readonly(IsStopped);
     bool GetIsStopped() const { return Stoped_; }
 
+    ref<AnimationBehavior> readwrite(Behavior);
+    ref<AnimationBehavior> GetBehavior() { return Behavior_; }
+    ref<AnimationBehavior> SetBehavior(const ref<AnimationBehavior> behavior) { Behavior_ = behavior; }
     // called when WM_TIMER occurs.
     void OnTimer()
     {
         if (IsStopped)
             return;
 
+        double process = GetCurrentProcess();
+
+        // animation over
+        if (process > 1.0 || process < 0.0)
+        {
+            Stop();
+            return;
+        }
+
+        // get ratio from process using Behavior_;
+        double ratio = Behavior_->GetRatio(process);
+        // animate
+        OnAnimationStep(ratio);
+
+        // if over
+        if (ratio >= 1.0)
+            Stop();
+    }
+public:
+    // this function is called to perform a snapshot of the animation
+    // ratio is the progress of the animation
+    virtual void OnAnimationStep(const double ratio) { }
+
+    // get current process according to current elapsed time.
+    // this method can be rewrite to perform different effect like looping, etc.
+    // if this method return a process not in [0.0, 1.0], the animation will stop.
+    virtual double GetCurrentProcess()
+    {
         //elapsed time
         Watch_.Stop();
         auto passed = Watch_.ElapsedMilliseconds;
@@ -34,30 +68,6 @@ public:
         // get duration
         int duration = Duration;
 
-        double ratio = static_cast<double>(passed) / duration;
-
-        // animation over
-        if (ratio >= 1.0)
-            ratio = 1.0;
-
-        // animate
-        double new_ratio = OnAnimationStep(ratio);
-
-        // if there is ratio adjustment
-        if (new_ratio != ratio)
-        {
-            new_ratio = max(0.0, min(1.0, new_ratio));
-            Watch_.SetElapsedMilliseconds(static_cast<long long>(new_ratio * duration));
-        }
-
-        // if over
-        if (new_ratio >= 1.0)
-            Stop();
+        return static_cast<double>(passed) / duration;
     }
-public:
-    // this function is called to perform a snapshot of the animation
-    // ratio is the progress of the animation
-    // user can adjust the ratio by return the new animation ratio.
-    // for most of the time, just return old ratio.
-    virtual double OnAnimationStep(const double ratio) { return ratio; }
 };

@@ -141,7 +141,8 @@ void MainView::OnMouseMove(UINT nFlags, CPoint point)
                 {
                     if (animations.find(object) == animations.end())
                     {
-                        auto animation = MakeGenericAnimation(3000, RotateVisualObject(dynamic_cast<VisualObject *>(object)->shared_from_this(), 0, 1, 0, 6.28));
+                        auto animation1 = MakeGenericAnimation(3000, RotateVisualObject(dynamic_cast<VisualObject *>(object)->shared_from_this(), 0, 1, 0, PI * 2));
+                        auto animation = ::std::make_shared<LoopAnimation>(animation1);
                         animations.insert(make_pair(object, animation));
                         animation->Start();
                             

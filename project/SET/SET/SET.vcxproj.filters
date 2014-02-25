@@ -90,6 +90,12 @@
     <ClInclude Include="Include\Rendering\TextureManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Animation\LoopAnimation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Animation\AnimationBehaviors.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\UI\MainFrame.cpp">
@@ -123,6 +129,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Source\Model\Stopwatch.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Animation\AnimationBehaviors.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

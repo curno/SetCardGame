@@ -197,6 +197,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Animation\Animation.h" />
+    <ClInclude Include="Include\Animation\AnimationBehaviors.h" />
+    <ClInclude Include="Include\Animation\LoopAnimation.h" />
     <ClInclude Include="Include\Animation\VisualObjectAnimations.h" />
     <ClInclude Include="Include\Animation\GenericAnimation.h" />
     <ClInclude Include="Include\Animation\GroupAnimation.h" />
@@ -220,6 +222,7 @@
     <ClInclude Include="Res\Resource.h" />
     <ClInclude Include="Include\stdafx.h" />
     <ClInclude Include="Include\targetver.h" />
+    <ClCompile Include="Source\Animation\AnimationBehaviors.cpp" />
     <ClCompile Include="Source\Model\Stopwatch.cpp" />
   </ItemGroup>
   <ItemGroup>

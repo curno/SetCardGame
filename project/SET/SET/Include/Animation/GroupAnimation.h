@@ -24,7 +24,7 @@ public:
         return retval;
     }
 
-    virtual double OnAnimationStep(const double ratio) override
+    virtual void OnAnimationStep(const double ratio) override
     {
         __super::OnAnimationStep(ratio);
         int current_step = Duration * ratio;
@@ -32,8 +32,6 @@ public:
         // perform each animation in parallel with proper ratio.
         for each (ref<Animation> animation in Animations_)
             animation->OnAnimationStep(static_cast<double>(current_step) / animation->Duration);
-
-        return ratio; // no adjustment
     }
 
 };

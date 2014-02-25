@@ -25,7 +25,7 @@ public:
         return retval;
     }
 
-    virtual double OnAnimationStep(const double ratio) override
+    virtual void OnAnimationStep(const double ratio) override
     {
         __super::OnAnimationStep(ratio);
         int current_step = Duration * ratio;

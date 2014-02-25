@@ -6,6 +6,7 @@ struct AnimationCallable abstract
 {
     double operator ()(double ratio);
 };
+
 template <typename AnimationCallable>
 class GenericAnimation : public Animation
 {
@@ -15,7 +16,7 @@ public:
     GenericAnimation(int duration, AnimationCallable animate) : Duration_(duration), Animation_(animate) { }
 
     virtual int GetDuration() override { return Duration_; }
-    virtual double OnAnimationStep(const double ratio) override { return Animation_(ratio); }
+    virtual void OnAnimationStep(const double ratio) override { Animation_(ratio); }
 };
 
 template <typename AnimationCallable>
