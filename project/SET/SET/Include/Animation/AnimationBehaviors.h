@@ -14,6 +14,8 @@ public:
     // Design Pattern: singleton
     static ref<AnimationBehavior> LinearBehavior();
     static ref<AnimationBehavior> SinBehavior();
+
+    static ref<AnimationBehavior> WiredBehavior(); // for test and fun.:)
 };
 
 

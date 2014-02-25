@@ -25,7 +25,7 @@ public:
 
     ref<AnimationBehavior> readwrite(Behavior);
     ref<AnimationBehavior> GetBehavior() { return Behavior_; }
-    ref<AnimationBehavior> SetBehavior(const ref<AnimationBehavior> behavior) { Behavior_ = behavior; }
+    void SetBehavior(const ref<AnimationBehavior> behavior) { Behavior_ = behavior; }
     // called when WM_TIMER occurs.
     void OnTimer()
     {
