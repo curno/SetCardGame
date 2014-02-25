@@ -2,6 +2,7 @@
 
 #include "../stdafx.h"
 #include "Transformation.h"
+#include "Geometry.h"
 
 // this is the abstract base class of all visual object in the program, like card, deck, button...
 class VisualObject abstract : public ::std::enable_shared_from_this<VisualObject>
@@ -10,8 +11,8 @@ public:
     typedef GLuint GLNameType;
 protected:
     Transformation Transformation_; // the transformation of the object.
-    CPoint Position_; // The location of the object in its parent object. 
-    CSize Size_; // The size of the object in its parent object.
+    Point Position_; // The location of the object in its parent object. 
+    Dimension Size_; // The size of the object in its parent object.
     GLNameType Name_; // The name of the opengl display object.
 protected:
     virtual void RenderContent() = 0; // visual object can render its content.
@@ -21,18 +22,18 @@ protected:
     static GLNameType CreateName();
 public:
     void Render(); // This is the Template method of rendering.
-    CPoint readwrite(Position);
-    CPoint GetPosition() const { return Position_; }
-    void SetPosition(const CPoint &p) { Position_ = p; }
+    Point readwrite(Position);
+    Point GetPosition() const { return Position_; }
+    void SetPosition(const Point &p) { Position_ = p; }
 
-    CSize readwrite(Size);
-    CSize GetSize() const { return Size_; }
-    void SetSize(const CSize &p) 
+    Dimension readwrite(Size);
+    Dimension GetSize() const { return Size_; }
+    void SetSize(const Dimension &p) 
     { 
         if (p != Size_)
         {
             Size_ = p;
-            OnResize(GetSize());
+            OnResize(CSize(p.Width, p.Height));
         }
     }
 
@@ -43,13 +44,13 @@ public:
 
     void Scale(double f)
     {
-        Transformation_.ScaleByCenter(Size.cx / 2.0, Size.cy / 2.0, 0.0,
+        Transformation_.ScaleByCenter(Size.Width / 2.0, Size.Height / 2.0, Size.Depth / 2.0,
             f, f, f);
     }
 
     void Rotate(double axis_x, double axis_y, double axis_z, double theta)
     {
-        Transformation_.RotateByCenter(Size.cx / 2.0, Size.cy / 2.0, 0.0,
+        Transformation_.RotateByCenter(Size.Width / 2.0, Size.Height / 2.0, Size.Depth / 2.0,
             axis_x, axis_y, axis_z, theta);
     }
 

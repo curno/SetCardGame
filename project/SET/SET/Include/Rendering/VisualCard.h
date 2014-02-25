@@ -7,15 +7,11 @@
 
 class VisualCard : public VisualObject
 {
-    static const int DefaultWidth = 100;
-    static const int DefaultHeight = 200;
     CardRef Card_;
 
     Material Material_;
 public:
     VisualCard(const CardRef card);
-
-    
 
     ~VisualCard() { }
 
@@ -26,4 +22,8 @@ protected:
     virtual void RenderContent() override;
     virtual void PrepareRendering() override;
     void SetCard(const CardRef card) { Card_ = card; }
+
+public:
+    static double HeightPerWidthRatio;
+    static double DepthPerWidthRatio;
 };

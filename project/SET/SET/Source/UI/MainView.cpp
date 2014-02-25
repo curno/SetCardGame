@@ -6,7 +6,7 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
+#define LARGE_SCALE 2000
 
 // MainView
 MainView::MainView()
@@ -92,7 +92,7 @@ void MainView::OnSize(UINT nType, int cx, int cy)
     glViewport(0, 0, cx, cy); // set view port to the whole view.
 
     if (GameScene_ != nullptr)
-        GameScene_->Size = CSize(cx, cy);
+        GameScene_->Size = Dimension(cx, cy, LARGE_SCALE);
     Invalidate(NULL);
 }
 
@@ -160,7 +160,7 @@ void MainView::RenderWithOpenGL()
     if (GameScene_ != nullptr)
     {
         glMatrixMode(GL_PROJECTION);
-        glOrtho(0, GameScene_->Size.cx, 0, GameScene_->Size.cy, -2000, 2000);
+        glOrtho(0, GameScene_->Size.Width, 0, GameScene_->Size.Height, -GameScene_->Size.Depth, GameScene_->Size.Depth);
         glMatrixMode(GL_MODELVIEW);
 
         // render

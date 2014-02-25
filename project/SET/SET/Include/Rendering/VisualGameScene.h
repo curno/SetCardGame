@@ -33,7 +33,7 @@ private:
     bool GetEmptySlot(int row_hint, int column_hint, int &row, int &column);
 
     // get the position and size for card card at slot (row, column)
-    void GetSlotGeometryForCard(const ref<VisualCard> card, int row, int column, CPoint &position, CSize &size);
+    void GetSlotGeometryForCard(const ref<VisualCard> card, int row, int column, Point &position, Dimension &size);
 
     // update LayoutParameter_ according to the view size;
     void UpdateLayoutParameter();

@@ -7,11 +7,10 @@
 
 void VisualCard::RenderContent()
 {
-    static const double factor = 0.2;
-    static const double z_factor = factor / (1 - 2 * factor);
+    const double factor = DepthPerWidthRatio / (2 * DepthPerWidthRatio + 1);
 
-    double length = Size.cx * z_factor;
-    double mfactor = 1 - factor;
+    const double length = Size.Depth;
+    const double mfactor = 1 - factor;
     glEnable(GL_TEXTURE_2D);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(IDB_TEST));
@@ -21,11 +20,11 @@ void VisualCard::RenderContent()
     glTexCoord2d(0.0, 0.0);
     glVertex3d(0, 0, length);
     glTexCoord2d(0.0, 1.0);
-    glVertex3d(Size.cx, 0, length);
+    glVertex3d(Size.Width, 0, length);
     glTexCoord2d(1.0, 0.0);
-    glVertex3d(0, Size.cy, length);
+    glVertex3d(0, Size.Height, length);
     glTexCoord2d(1.0, 1.0);
-    glVertex3d(Size.cx, Size.cy, length);
+    glVertex3d(Size.Width, Size.Height, length);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(IDB_CARD_BACKGROUND));
@@ -33,57 +32,57 @@ void VisualCard::RenderContent()
     // top
     glNormal3d(0.0, 1.0, 0.0);
     glTexCoord2d(mfactor, 1.0);
-    glVertex3d(Size.cx, Size.cy, length);
+    glVertex3d(Size.Width, Size.Height, length);
     glTexCoord2d(mfactor, mfactor);
-    glVertex3d(Size.cx, Size.cy, 0.0);
+    glVertex3d(Size.Width, Size.Height, 0.0);
     glTexCoord2d(factor, mfactor);
-    glVertex3d(0.0, Size.cy, 0.0);
+    glVertex3d(0.0, Size.Height, 0.0);
     glTexCoord2d(factor, 1.0);
-    glVertex3d(0.0, Size.cy, length);
+    glVertex3d(0.0, Size.Height, length);
 
     // bottom
     glNormal3d(0.0, -1.0, 0.0);
     glTexCoord2d(mfactor, 0.0);
-    glVertex3d(Size.cx, 0.0, length);
+    glVertex3d(Size.Width, 0.0, length);
     glTexCoord2d(factor, 0.0);
     glVertex3d(0.0, 0.0, length);
     glTexCoord2d(factor, factor);
     glVertex3d(0.0, 0.0, 0.0);
     glTexCoord2d(mfactor, factor);
-    glVertex3d(Size.cx, 0.0, 0.0);
+    glVertex3d(Size.Width, 0.0, 0.0);
 
     // left
     glNormal3d(-1.0, 0.0, 0.0);
     glTexCoord2d(0, factor);
     glVertex3d(0.0, 0.0, length);
     glTexCoord2d(0, mfactor);
-    glVertex3d(0.0, Size.cy, length);
+    glVertex3d(0.0, Size.Height, length);
     glTexCoord2d(factor, mfactor);
-    glVertex3d(0.0, Size.cy, 0.0);
+    glVertex3d(0.0, Size.Height, 0.0);
     glTexCoord2d(factor, factor);
     glVertex3d(0.0, 0.0, 0.0);
 
     // right
     glNormal3d(1.0, 0.0, 0.0);
     glTexCoord2d(1, factor);
-    glVertex3d(Size.cx, 0.0, length);
+    glVertex3d(Size.Width, 0.0, length);
     glTexCoord2d(mfactor, factor);
-    glVertex3d(Size.cx, 0.0, 0.0);
+    glVertex3d(Size.Width, 0.0, 0.0);
     glTexCoord2d(mfactor, mfactor);
-    glVertex3d(Size.cx, Size.cy, 0.0);
+    glVertex3d(Size.Width, Size.Height, 0.0);
     glTexCoord2d(1.0, mfactor);
-    glVertex3d(Size.cx, Size.cy, length);
+    glVertex3d(Size.Width, Size.Height, length);
 
     // back
     glNormal3d(0.0, 0.0, -1.0);
     glTexCoord2d(factor, factor);
     glVertex3d(0.0, 0.0, 0.0);
     glTexCoord2d(factor, mfactor);
-    glVertex3d(0.0, Size.cy, 0.0);
+    glVertex3d(0.0, Size.Height, 0.0);
     glTexCoord2d(mfactor, mfactor);
-    glVertex3d(Size.cx, Size.cy, 0.0);
+    glVertex3d(Size.Width, Size.Height, 0.0);
     glTexCoord2d(mfactor, factor);
-    glVertex3d(Size.cx, 0.0, 0.0);
+    glVertex3d(Size.Width, 0.0, 0.0);
     glEnd();
     
     /*GLdouble modelview[16];
@@ -132,7 +131,8 @@ void VisualCard::OnMouseLeave()
 
 VisualCard::VisualCard(const CardRef card) : Card_(card), Material_(Material::GetMaterial("silver"))
 {
-    Size = CSize(DefaultWidth, DefaultHeight);
 }
 
 
+double VisualCard::HeightPerWidthRatio = 1.618; // 1 : 0.618
+double VisualCard::DepthPerWidthRatio = 0.2; // 1 : 5

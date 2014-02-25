@@ -37,8 +37,8 @@ void VisualGameScene::ArrangeCards(const CSize &)
                 // for every card in the scene.
                 ref<VisualCard> card = Cards_[row][column];
 
-                CSize size;
-                CPoint position;
+                Dimension size;
+                Point position;
                 // get size and position
                 GetSlotGeometryForCard(card, row, column, position, size);
 
@@ -69,40 +69,41 @@ bool VisualGameScene::GetEmptySlot(int row_hint, int column_hint, int &row_resul
 
 void VisualGameScene::UpdateLayoutParameter()
 {
-    CSize size = Size;
+    Dimension size = Size;
     LayoutParameter_.ColumnCount = GetColumnCount();
     if (LayoutParameter_.ColumnCount == 0)
         return;
 
     LayoutParameter_.RowCount = RowCount;
 
-    LayoutParameter_.CellWidth = size.cx * MaginRatio / LayoutParameter_.ColumnCount * CellRatio;
-    LayoutParameter_.CellHeight = size.cy * MaginRatio / LayoutParameter_.RowCount * CellRatio;
+    LayoutParameter_.CellWidth = size.Width * MaginRatio / LayoutParameter_.ColumnCount * CellRatio;
+    LayoutParameter_.CellHeight = size.Height * MaginRatio / LayoutParameter_.RowCount * CellRatio;
 
-    LayoutParameter_.XBase = size.cx * (1 - MaginRatio) / 2.0 + size.cx * MaginRatio / LayoutParameter_.ColumnCount * (1 - CellRatio) / 2.0;
-    LayoutParameter_.YBase = size.cy * (1 - MaginRatio) / 2.0 + size.cy * MaginRatio / LayoutParameter_.RowCount * (1 - CellRatio) / 2.0;
+    LayoutParameter_.XBase = size.Width * (1 - MaginRatio) / 2.0 + size.Width * MaginRatio / LayoutParameter_.ColumnCount * (1 - CellRatio) / 2.0;
+    LayoutParameter_.YBase = size.Height * (1 - MaginRatio) / 2.0 + size.Height * MaginRatio / LayoutParameter_.RowCount * (1 - CellRatio) / 2.0;
 
-    LayoutParameter_.XSpace = size.cx * MaginRatio / LayoutParameter_.ColumnCount;
-    LayoutParameter_.YSpace = size.cy * MaginRatio / LayoutParameter_.RowCount;
+    LayoutParameter_.XSpace = size.Width * MaginRatio / LayoutParameter_.ColumnCount;
+    LayoutParameter_.YSpace = size.Height * MaginRatio / LayoutParameter_.RowCount;
 }
 
-void VisualGameScene::GetSlotGeometryForCard(const ref<VisualCard> card, int row, int column, CPoint &position, CSize &size)
+void VisualGameScene::GetSlotGeometryForCard(const ref<VisualCard> card, int row, int column, Point &position, Dimension &size)
 {
     // the width/height ratio of the card.
-    static double ratio = 0.618;
+    double ratio = 1.0 / VisualCard::HeightPerWidthRatio;
 
-    // set size.
+    Coordinate width;
     // width space superfluous 
     if (LayoutParameter_.CellWidth / LayoutParameter_.CellHeight >= ratio)
-        size = CSize(static_cast<int>(ratio *LayoutParameter_.CellHeight),
-        static_cast<int>(LayoutParameter_.CellHeight));
+        width = static_cast<Coordinate>(ratio * LayoutParameter_.CellHeight);
     else // height superfluous 
-        size = CSize(static_cast<int>(LayoutParameter_.CellWidth),
-        static_cast<int>(LayoutParameter_.CellWidth / ratio));
+        width = static_cast<Coordinate>(LayoutParameter_.CellWidth);
 
     // set position
-    position = CPoint(static_cast<int>(LayoutParameter_.XBase + column * LayoutParameter_.XSpace + (LayoutParameter_.CellWidth - size.cx) / 2.0),
-        static_cast<int>(LayoutParameter_.YBase + row * LayoutParameter_.YSpace + (LayoutParameter_.CellHeight - size.cy) / 2.0));
+    position = Point(static_cast<int>(LayoutParameter_.XBase + column * LayoutParameter_.XSpace + (LayoutParameter_.CellWidth - width) / 2.0),
+        static_cast<int>(LayoutParameter_.YBase + row * LayoutParameter_.YSpace + (LayoutParameter_.CellHeight - width * VisualCard::HeightPerWidthRatio) / 2.0));
+
+    // set size.
+    size = Dimension(width, width * VisualCard::HeightPerWidthRatio, width * VisualCard::DepthPerWidthRatio);
 }
 
 void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
@@ -117,8 +118,8 @@ void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
         ref<VisualCard> visual_card = ref<VisualCard>(new VisualCard(card)); // create visual card
         if (!GetEmptySlot(row, column, row, column)) // get card slot.
             assert(false);
-        CPoint position;
-        CSize size;
+        Point position;
+        Dimension size;
         GetSlotGeometryForCard(visual_card, row, column, position, size); // get visual card geometry
         
         // set geometry
@@ -134,8 +135,8 @@ void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
 VisualGameScene::VisualGameScene(ref<Game> game) : Game_(game)
 {
     Game_->Scene = this;
-    Size = CSize(300, 200);
-    Position = CPoint(0, 0);
+    Size = Dimension(300, 200);
+    Position = Point(0, 0);
     InitializeGameScene();
 }
 
