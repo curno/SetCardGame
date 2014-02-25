@@ -31,11 +31,11 @@ public:
     virtual void OnAnimation(double progress) override
     {
         __super::OnAnimation(progress);
-        int current_step = Duration * progress;
+        double current_step = Duration * progress;
 
         // perform each animation in parallel with proper ratio.
         for each (ref<Animation> animation in Animations_)
-            animation->OnAnimation(static_cast<double>(current_step) / animation->Duration);
+            animation->OnAnimation(current_step / animation->Duration);
     }
 
 };

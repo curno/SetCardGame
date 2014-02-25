@@ -32,19 +32,18 @@ public:
     virtual void OnAnimation(double progress) override
     {
         __super::OnRatio(progress);
-        int current_step = Duration * progress;
+        double current_step = Duration * progress;
 
         // perform current animation.
         int current = 0;
         for (auto i = Animations_.begin(); i != Animations_.end(); ++i)
         {
             int old_current = current;
-            current += (*i)->Duration;
-            if (current >= current_step)
-            {
-                (*i)->OnAnimation(static_cast<double>(current_step - old_current) / (*i)->Duration);
+            if (current <= current_step)
+                (*i)->OnAnimation((current_step - old_current) / (*i)->Duration);
+            else
                 break;
-            }
+            current += (*i)->Duration;
 
         }
     }

@@ -6,7 +6,7 @@
 // it is a singleton
 class AnimationManager
 {
-    ::std::unordered_set<Animation *> Animations_; // all animation pointers.
+    ::std::vector<Animation *> Animations_; // all animation pointers.
 private:
     AnimationManager() { } // private constructor.
     AnimationManager(const AnimationManager &); // suppress copy constructor
@@ -16,10 +16,12 @@ public:
     {
         if (animation == nullptr)
             return;
-        // already in the collection, error
-        assert(Animations_.find(animation) == Animations_.end());
 
-        Animations_.insert(animation);
+        // already in the collection, error
+        if (::std::find(Animations_.begin(), Animations_.end(), animation) != Animations_.end())
+            return;
+
+        Animations_.push_back(animation);
     }
 
     void RemoveAnimation(Animation *animation)
@@ -27,23 +29,28 @@ public:
         if (animation == nullptr)
             return;
 
-        auto i = Animations_.find(animation);
+        auto i = ::std::find(Animations_.begin(), Animations_.end(), animation);
         // not in the collection error
-        assert(i != Animations_.end());
+        if (i == Animations_.end())
+            return;
 
         Animations_.erase(i);
     }
 
     void PerformAllAnimation()
     {
-        for each (Animation *animation in Animations_)
+        if (Animations_.empty())
+            return;
+        for (int i = static_cast<int>(Animations_.size())- 1; i >= 0; --i)
         {
+            auto animation = Animations_[i];
             if (!animation->IsStopped)
                 animation->OnTimer();
         }
     }
     ~AnimationManager()
     {
+
     }
 
     // singleton

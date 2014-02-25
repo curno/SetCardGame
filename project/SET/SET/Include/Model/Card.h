@@ -107,6 +107,9 @@ public:
         return true;
     }
 
+    ~Card()
+    {
 
+    }
 
 };

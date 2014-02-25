@@ -3,6 +3,9 @@
 #include "Include/Rendering/VisualGameScene.h"
 #include "Res/resource.h"
 #include "Include/Rendering/TextureManager.h"
+#include "Include/Animation/VisualObjectAnimations.h"
+#include "Include/Animation/GroupAnimation.h"
+#include "Include/Animation/SequentialAnimation.h"
 
 
 void VisualGameScene::InitializeGameScene()
@@ -121,6 +124,7 @@ void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
     // create visual cards for every new card.
     int row = 0; 
     int column = 0;
+    ::std::vector<ref<VisualCard>> new_cards;
     for (auto i = cards.begin(); i != cards.end(); ++i)
     {
         // for every card
@@ -128,18 +132,41 @@ void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
         ref<VisualCard> visual_card = ref<VisualCard>(new VisualCard(card)); // create visual card
         if (!GetEmptySlot(row, column, row, column)) // get card slot.
             assert(false);
-        Point position;
-        Dimension size;
-        GetSlotGeometryForCard(visual_card, row, column, position, size); // get visual card geometry
-        
-        // set geometry
-        visual_card->Position = position; 
-        visual_card->Size = size;
-
         // save visual card.
         AddChild(visual_card);
         Cards_[row][column] = visual_card;
+
+        new_cards.push_back(visual_card);
     }
+
+    ref<GroupAnimation> animation = ::std::make_shared<GroupAnimation>();
+    DealCardAnimation_ = animation;
+    UpdateLayoutParameter();
+    for (int row = 0; row < RowCount; ++row)
+    {
+        for (int column = 0; column < ColumnCount; ++column)
+        {
+            if (Cards_[row][column] != nullptr)
+            {
+                Point position;
+                Dimension size;
+                GetSlotGeometryForCard(Cards_[row][column], row, column, position, size); // get visual card geometry
+                if (::std::find(new_cards.begin(), new_cards.end(), Cards_[row][column])
+                     != new_cards.end())
+                {
+                   animation->AddAnimation(DealCardAnimation(Cards_[row][column], position, size));
+                }
+                else
+                {
+                    ref<Animation> move = MakeGenericAnimation(500, MoveVisualObject(Cards_[row][column].get(), position));
+                    ref<Animation> rotate = MakeGenericAnimation(500, TransformVisualObject(Cards_[row][column].get(), Transformation()));
+                    animation->AddAnimation(move);
+                    animation->AddAnimation(rotate);
+                }
+            }
+        }
+    }
+    animation->Start();
 }
 
 VisualGameScene::VisualGameScene(ref<Game> game) : Game_(game)
@@ -189,6 +216,39 @@ void VisualGameScene::RenderContent()
     glEnd();
 
     __super::RenderContent();
+}
+
+ref<Animation> VisualGameScene::DealCardAnimation(ref<VisualCard> card, Point position, Dimension dimension)
+{
+    static const double speed = 1;
+    static const int TurnDuration = 500;
+    card->Rotate(0.0, 1.0, 0.0, PI);
+    Point start_point(position.X, static_cast<Coordinate>(Size.Height + dimension.Height / 2.0 + 100), static_cast<Coordinate>(dimension.Depth * 1.6));
+    card->Position = start_point;
+    card->Size = dimension;
+    Point end_point(position.X, position.Y, start_point.Z);
+    int duration = static_cast<int>(abs((end_point.Y - start_point.Y) / speed));
+    ref<Animation> move_animation = MakeGenericAnimation(duration, MoveVisualObject(card.get(), start_point, end_point));
+
+    Point start_point_down = end_point;
+    Point end_point_down = position;
+    ref<Animation> move_animation_down = MakeGenericAnimation(TurnDuration, MoveVisualObject(card.get(), start_point_down, end_point_down));
+    ref<Animation> turn_animation = MakeGenericAnimation(TurnDuration, RotateVisualObject(card.get(), 0.0, 1.0, 0.0, PI));
+    ref<GroupAnimation> group_animation = ::std::make_shared<GroupAnimation>();
+    group_animation->AddAnimation(move_animation_down);
+    group_animation->AddAnimation(turn_animation);
+    
+    auto sequential_animation = ::std::make_shared<SequentialAnimation>();
+    sequential_animation->AddAnimation(move_animation);
+    sequential_animation->AddAnimation(group_animation);
+
+    return sequential_animation;
+}
+
+void VisualGameScene::OnMouseButtonDown()
+{
+    if (Game_->MoreToDeal())
+        Game_->DealMore();
 }
 
 const double VisualGameScene::MaginRatio = 0.8;

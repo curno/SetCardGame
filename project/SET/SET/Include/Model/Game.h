@@ -10,6 +10,7 @@ class Game
     typedef int ScoreType;
     static const ScoreType ScorePerSet = 3; // Each set give 3 points.
     static const int CardCountPerDeal = 3; // Deal more 3 cards every time.
+    static const int MaxCardsOnDesk = 21; // At one time, at most 21 cards on desk.
 private:
     ref<Deck> Deck_; // cards
     ::std::unordered_set<CardRef> CardsInHand_; // card refs in hand, which can be dealed.

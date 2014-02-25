@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../stdafx.h"
 #include "VisualScene.h"
 #include "VisualCard.h"
 #include "../Model/Game.h"
@@ -13,6 +14,7 @@ class VisualGameScene : public VisualScene
 private:
     ref<Game> Game_;
     ref<VisualCard> Cards_[RowCount][ColumnCount]; // 3 * 7 = 21 visual card slots in the game scene, which can be empty.
+    ref<Animation> DealCardAnimation_;
 public:
     VisualGameScene(ref<Game> game);
     
@@ -21,6 +23,7 @@ protected:
     virtual void OnResize(const CSize &size) override;
     virtual void PrepareRendering() override;
     virtual void RenderContent() override;
+    virtual void OnMouseButtonDown() override;
 private:
     void InitializeGameScene();
     // this function set the geometry of the visual cards in the game scene according to current scene size.
@@ -56,6 +59,9 @@ private:
         double CellWidth;
         double CellHeight;
     } LayoutParameter_;
+
+    ref<Animation> DealCardAnimation(ref<VisualCard> card, Point position, Dimension dimension);
+
 
 private:
     // game logic

@@ -11,11 +11,12 @@ protected:
     ref<AnimationBehavior> Behavior_; // animation behavior
     Stopwatch Watch_; // the stopwatch to control the animation.
     bool Stoped_;
+    bool DeleteWhenStopped_;
 public:
     Animation();
-    ~Animation();
-    virtual void Start() { Watch_.Start(); } 
-    virtual void Stop()  { Stoped_ = true; Watch_.Stop();  }
+    virtual ~Animation();
+    virtual void Start(); 
+    virtual void Stop();
     
     // Duration in milliseconds.
     int readonly(Duration);
@@ -27,6 +28,10 @@ public:
     ref<AnimationBehavior> readwrite(Behavior);
     ref<AnimationBehavior> GetBehavior() { return Behavior_; }
     void SetBehavior(const ref<AnimationBehavior> behavior) { Behavior_ = behavior; }
+
+    bool readwrite(DeleteWhenStopped);
+    bool GetDeleteWhenStopped() const { return DeleteWhenStopped_; }
+    void SetDeleteWhenStopped(bool delete_when_stop) { DeleteWhenStopped_ = delete_when_stop; }
     // called when WM_TIMER occurs.
     void OnTimer()
     {
@@ -48,15 +53,12 @@ public:
         return;
     }
 
-    
-
 public:
     // this method perform the animation with process.
     virtual void OnAnimation(double process)
     {
-        // process is not in the right area.
-        if (process > 1.0 || process < 0.0)
-            return;
+        // put process in the right area.
+        process = min(1.0, max(0.0, process));
         // get ratio from process using Behavior_;
         double ratio = Behavior_->GetRatio(process);
 

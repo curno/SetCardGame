@@ -46,7 +46,7 @@ void Game::DealMore()
 
 bool Game::MoreToDeal()
 {
-    return CardsInHand_.size() >= CardCountPerDeal;
+    return CardsInHand_.size() >= CardCountPerDeal && CardsInDesk_.size() < MaxCardsOnDesk;
 }
 
 bool Game::CheckAndScore(CardRef card1, CardRef card2, CardRef card3)

@@ -14,13 +14,6 @@ MainView::MainView()
 {
     Game_ = ref<Game>(new Game);
     GameScene_ = ref<VisualGameScene>(new VisualGameScene(Game_));
-    Game_->DealMore();
-    Game_->DealMore();
-    Game_->DealMore();
-    Game_->DealMore();
-    Game_->DealMore();
-    Game_->DealMore();
-    Game_->DealMore();
 }
 
 MainView::~MainView()
