@@ -57,7 +57,6 @@ private:
         double CellHeight;
     } LayoutParameter_;
 
-    
 private:
     // game logic
     void DealCard()

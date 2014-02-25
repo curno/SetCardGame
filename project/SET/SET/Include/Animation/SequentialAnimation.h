@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Animation.h"
+#include "AnimationManager.h"
 
 // SequentialAnimation is a group of animations which are performed sequentially;
 class SequentialAnimation : public Animation
@@ -14,6 +15,9 @@ public:
         if (::std::find(Animations_.begin(), Animations_.end(), animation) != Animations_.end())
             return;
         Animations_.push_back(animation);
+
+        // remove from the AnimationManager, because animation is not independent anymore
+        AnimationManager::Instance().RemoveAnimation(animation.get());
     }
 
     // the sum of durations of the animations in this group is the SequentialAnimation's duration.

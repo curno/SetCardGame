@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Animation.h"
+#include "AnimationManager.h"
 
 // GroupAnimation is a group of animations which are performed in parallel.
 class GroupAnimation : public Animation
@@ -13,6 +14,9 @@ public:
         if (::std::find(Animations_.begin(), Animations_.end(), animation) != Animations_.end())
             return;
         Animations_.push_back(animation);
+
+        // remove from the AnimationManager, because animation is not independent anymore
+        AnimationManager::Instance().RemoveAnimation(animation.get());
     }
 
     // the longest duration of the animations in this group is the GroupAnimation's duration.
