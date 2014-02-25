@@ -128,7 +128,7 @@ void VisualCard::OnMouseLeave()
 
 VisualCard::VisualCard(const CardRef card, VisualGameScene *parent) : Card_(card), Choosed_(false), Parent_(parent)
 {
-    Material_ = (Material::GetMaterial("silver"));
+    Material_ = (Material::GetMaterial("default"));
 }
 
 void VisualCard::OnMouseButtonDown()
@@ -182,4 +182,4 @@ void VisualCard::Choosed()
 
 
 double VisualCard::HeightPerWidthRatio = 1.618; // 1 : 0.618
-double VisualCard::DepthPerWidthRatio = 0.2; // 1 : 5
+double VisualCard::DepthPerWidthRatio = 0.25; // 1 : 3

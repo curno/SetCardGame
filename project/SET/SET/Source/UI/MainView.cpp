@@ -68,6 +68,7 @@ int MainView::OnCreate(LPCREATESTRUCT lpCreateStruct)
     SetTimer(1, 20, NULL);
     
     Invalidate(NULL);
+
     return 0;
 }
 

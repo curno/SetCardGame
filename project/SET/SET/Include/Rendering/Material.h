@@ -52,6 +52,7 @@ public:
     {
         // build in materials, from http://devernay.free.fr/cours/opengl/materials.html
         static const  Material BuildInMaterial[] = {
+            { "default", 0.3f, 0.3f, 0.3f, 1.0f, 0.8f, 0.8f, 0.8f, 1.0f, 0.5f, 0.5f, 0.5f, 1.0f, 0.6f, 0.0f, 0.0f, 0.0f, 0.0f },
             { "emerald", 0.0215f, 0.1745f, 0.0215f, 1.0f, 0.07568f, 0.61424f, 0.07568f, 1.0f, 0.633f, 0.727811f, 0.633f, 1.0f, 0.6f, 0.0f, 0.0f, 0.0f, 0.0f },
             { "jade", 0.135f, 0.2225f, 0.1575f, 1.0f, 0.54f, 0.89f, 0.63f, 1.0f, 0.316228f, 0.316228f, 0.316228f, 1.0f, 0.1f, 0.0f, 0.0f, 0.0f, 0.0f },
             { "obsidian", 0.05375f, 0.05f, 0.06625f, 1.0f, 0.18275f, 0.17f, 0.22525f, 1.0f, 0.332741f, 0.328634f, 0.346435f, 1.0f, 0.3f, 0.0f, 0.0f, 0.0f, 0.0f },

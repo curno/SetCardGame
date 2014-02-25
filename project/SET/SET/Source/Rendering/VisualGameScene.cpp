@@ -11,7 +11,7 @@
 void VisualGameScene::InitializeGameScene()
 {
     // init no cards.
-    Material_ = Material::GetMaterial("white rubber");
+    Material_ = Material::GetMaterial("default");
 }
 
 void VisualGameScene::OnResize(const CSize &size)
@@ -22,6 +22,8 @@ void VisualGameScene::OnResize(const CSize &size)
     GetTransformation().Reset();
     GetTransformation().RotateByCenter(Size.Width / 2.0, Size.Height / 2.0, 0.0,
         1.0, 0.0, 0.0, -SlopeTheta);
+    GetTransformation().RotateByCenter(Size.Width / 2.0, Size.Height / 2.0, 0.0,
+        0.0, 1.0, 0.0, -SlopeTheta / 2);
     return;
 }
 
@@ -159,9 +161,7 @@ void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
                 else
                 {
                     ref<Animation> move = MakeGenericAnimation(500, MoveVisualObject(Cards_[row][column].get(), position));
-                    ref<Animation> rotate = MakeGenericAnimation(500, TransformVisualObject(Cards_[row][column].get(), Transformation()));
                     animation->AddAnimation(move);
-                    animation->AddAnimation(rotate);
                 }
             }
         }
@@ -187,10 +187,8 @@ void VisualGameScene::PrepareRendering()
     glShadeModel(GL_SMOOTH);
     glEnable(GL_POINT_SMOOTH);
     glEnable(GL_LINE_SMOOTH);
-    //glEnable(GL_POLYGON_SMOOTH);
     glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
     glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-    //glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -242,7 +240,7 @@ ref<Animation> VisualGameScene::DealCardAnimation(ref<VisualCard> card, Point po
 
 ref<Animation> VisualGameScene::DiscardCardAnimation(ref<VisualCard> card)
 {
-    static const double speed = 0.7;
+    static const double speed = 0.8;
     static const double Theta = 3.3 * PI / 2;
     Point start_point = card->Position;
     Point end_point(card->Position.X, -card->Size.Height * 2, card->Position.Z);
@@ -259,20 +257,19 @@ ref<Animation> VisualGameScene::DiscardCardAnimation(ref<VisualCard> card)
 
 void VisualGameScene::OnMouseButtonDown()
 {
-    if (Game_->MoreToDeal())
-        Game_->DealMore();
+    if (Game_->GameState == Game::State::Initilized)
+        Game_->Start();
+    else
+    {
+        if (Game_->MoreToDeal())
+            Game_->DealMore();
+    }
 }
 
 bool VisualGameScene::IsAnimating()
 {
-    return DealCardAnimation_ != nullptr && !DealCardAnimation_->IsStopped;
+    return /*DealCardAnimation_ != nullptr && !DealCardAnimation_->IsStopped;*/ false;
 }
-
-void VisualGameScene::DealCard()
-{
-    Game_->DealMore();
-}
-
 
 void VisualGameScene::OnCardChoosed(ref<VisualCard> visual_card)
 {
@@ -282,8 +279,10 @@ void VisualGameScene::OnCardChoosed(ref<VisualCard> visual_card)
         bool success = Game_->CheckAndScore(CurrentChoosedCard_[0]->Card,
             CurrentChoosedCard_[1]->Card,
             CurrentChoosedCard_[2]->Card);
-        if (false)
+        if (!success)
         {
+            for each (auto card in CurrentChoosedCard_)
+                card->CancelChoosed();
             CurrentChoosedCard_.clear();
         }
         else

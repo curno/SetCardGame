@@ -9,9 +9,15 @@ class Game
 {
 public:
     typedef int ScoreType;
+    enum class State
+    {
+        Initilized, Active, Paused, Stopped
+    };
+
     static const ScoreType ScorePerSet = 3; // Each set give 3 points.
     static const int CardCountPerDeal = 3; // Deal more 3 cards every time.
     static const int MaxCardsOnDesk = 21; // At one time, at most 21 cards on desk.
+    static const int InitCardsCount = 12;
 private:
     ref<Deck> Deck_; // cards
     ::std::unordered_set<CardRef> CardsInHand_; // card refs in hand, which can be dealed.
@@ -20,11 +26,8 @@ private:
     ScoreType Score_; // game score
 
     mutable Stopwatch Watch_; // the stop watch to get the elapsed time.
-    enum class State
-    {
-        Initilized, Active, Paused, Stopped
-    } State_; // game state
-
+    
+    State State_; // game state
     // One scene that observe the change of the game. OBSERVER design pattern.
     // The game does NOT own the scene, so it is a weak ref.
     VisualGameScene *Scene_; 
@@ -45,9 +48,14 @@ public:
     VisualGameScenePtr readwrite(Scene);
     VisualGameScenePtr GetScene() const;
     void SetScene(VisualGameScenePtr scene);
+
+    State readonly(GameState);
+    State GetGameState() const { return State_; }
+
 private:
     void Clear();
     void Deal(int card_count);
+    void InitDeal();
 };
 
 

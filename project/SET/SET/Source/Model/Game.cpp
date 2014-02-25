@@ -13,7 +13,7 @@ void Game::Start()
 {
     Clear();
     State_ = State::Active;
-
+    InitDeal();
     Watch_.Restart();
 }
 
@@ -112,6 +112,11 @@ void Game::SetScene(VisualGameScenePtr scene)
 Game::VisualGameScenePtr Game::GetScene() const
 {
     return Scene_;
+}
+
+void Game::InitDeal()
+{
+    Deal(InitCardsCount);
 }
 
 
