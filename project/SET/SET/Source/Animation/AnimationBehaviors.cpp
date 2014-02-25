@@ -29,7 +29,7 @@ ref<AnimationBehavior> AnimationBehavior::WiredBehavior()
     static ref<AnimationBehavior> WiredBehavior_ = MakeGenericAnimation(
         [](double progress) -> double
     {
-        return sin(progress * 8); 
+        return sin(progress * 8.3); 
     }
     );
     return WiredBehavior_;

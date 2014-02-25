@@ -95,17 +95,6 @@ void VisualCard::RenderContent()
     gluProject(0, 0, 0, modelview, projection, viewport, &x, &y, &z);*/
 }
 
-void VisualCard::PrepareRendering()
-{
-    // set material.
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Material_.Ambient);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_.Diffuse);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, Material_.Specular);
-    GLfloat shininess = Material_.Shininess[0] * 255;
-    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, Material_.Emission);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
-}
-
 void VisualCard::OnMouseMove()
 {
     __super::OnMouseMove();
@@ -129,10 +118,10 @@ void VisualCard::OnMouseLeave()
     Material_.SetData(Material::Parameter::Emission, emission);
 }
 
-VisualCard::VisualCard(const CardRef card) : Card_(card), Material_(Material::GetMaterial("silver"))
+VisualCard::VisualCard(const CardRef card) : Card_(card)
 {
+    Material_ = (Material::GetMaterial("silver"));
 }
-
 
 double VisualCard::HeightPerWidthRatio = 1.618; // 1 : 0.618
 double VisualCard::DepthPerWidthRatio = 0.2; // 1 : 5

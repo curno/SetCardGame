@@ -28,3 +28,20 @@ VisualObject *VisualObject::GetObjectByGLName(GLNameType name)
     else
         return nullptr;
 }
+
+void VisualObject::SetMaterial()
+{
+    // set material.
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Material_.Ambient);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Material_.Diffuse);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, Material_.Specular);
+    GLfloat shininess = Material_.Shininess[0] * 255;
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, Material_.Emission);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
+}
+
+void VisualObject::PrepareRendering()
+{
+
+    SetMaterial();
+}

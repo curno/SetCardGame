@@ -20,6 +20,7 @@ public:
 protected:
     virtual void OnResize(const CSize &size) override;
     virtual void PrepareRendering() override;
+    virtual void RenderContent() override;
 private:
     void InitializeGameScene();
     // this function set the geometry of the visual cards in the game scene according to current scene size.

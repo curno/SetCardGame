@@ -6,6 +6,7 @@
 void VisualGameScene::InitializeGameScene()
 {
     // init no cards.
+    Material_ = Material::GetMaterial("white rubber");
 }
 
 void VisualGameScene::OnResize(const CSize &size)
@@ -103,7 +104,7 @@ void VisualGameScene::GetSlotGeometryForCard(const ref<VisualCard> card, int row
         static_cast<int>(LayoutParameter_.YBase + row * LayoutParameter_.YSpace + (LayoutParameter_.CellHeight - width * VisualCard::HeightPerWidthRatio) / 2.0));
 
     // set size.
-    size = Dimension(width, width * VisualCard::HeightPerWidthRatio, width * VisualCard::DepthPerWidthRatio);
+    size = Dimension(width, static_cast<Coordinate>(width * VisualCard::HeightPerWidthRatio), static_cast<Coordinate>(width * VisualCard::DepthPerWidthRatio));
 }
 
 void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
@@ -142,6 +143,7 @@ VisualGameScene::VisualGameScene(ref<Game> game) : Game_(game)
 
 void VisualGameScene::PrepareRendering()
 {
+    __super::PrepareRendering();
     glEnable(GL_NORMALIZE);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -157,6 +159,21 @@ void VisualGameScene::PrepareRendering()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+}
+
+void VisualGameScene::RenderContent()
+{
+    static const int Outer = 1;
+    // first render ground
+    glBegin(GL_QUADS);
+    glNormal3d(0.0, 0.0, 1.0);
+    glVertex3d(-Size.Width * Outer, -Size.Height * Outer, 0);
+    glVertex3d((1 + Outer) * Size.Width, -Size.Height * Outer, 0);
+    glVertex3d((1 + Outer) * Size.Width, (1 + Outer) * Size.Height, 0);
+    glVertex3d(-Size.Width * Outer, (1 + Outer) * Size.Height, 0);
+    glEnd();
+
+    __super::RenderContent();
 }
 
 const double VisualGameScene::MaginRatio = 0.8;
