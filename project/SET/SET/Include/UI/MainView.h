@@ -19,7 +19,7 @@ private:
     ref<Game> Game_;
     ref<VisualGameScene> GameScene_;
 
-    ::std::set<VisualObject *> CurrentHoveredObjects_;
+    VisualObject *CurrentObject_;
     ::std::unordered_map<VisualObject *, ref<Animation>> animations;
 // ππ‘Ï
 public:
@@ -56,7 +56,7 @@ private:
     HGLRC GLRC_; // opengl rendering handle.
     void RenderWithOpenGL();
     void InitOpenGL();
-    ::std::set<VisualObject *> PickObject(CPoint &point, int w, int h);
+    VisualObject *PickObject(CPoint &point, int w, int h);
 public:
     afx_msg void OnTimer(UINT_PTR nIDEvent);
     //static void CALLBACK EXPORT TimerProc(

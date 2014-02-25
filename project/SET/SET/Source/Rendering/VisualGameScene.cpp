@@ -129,7 +129,7 @@ void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
     {
         // for every card
         CardRef card = *i;
-        ref<VisualCard> visual_card = ref<VisualCard>(new VisualCard(card)); // create visual card
+        ref<VisualCard> visual_card = ref<VisualCard>(new VisualCard(card, this)); // create visual card
         if (!GetEmptySlot(row, column, row, column)) // get card slot.
             assert(false);
         // save visual card.
@@ -154,7 +154,7 @@ void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
                 if (::std::find(new_cards.begin(), new_cards.end(), Cards_[row][column])
                      != new_cards.end())
                 {
-                   animation->AddAnimation(DealCardAnimation(Cards_[row][column], position, size));
+                    animation->AddAnimation(DealCardAnimation(Cards_[row][column], position, size));
                 }
                 else
                 {
@@ -220,9 +220,8 @@ void VisualGameScene::RenderContent()
 
 ref<Animation> VisualGameScene::DealCardAnimation(ref<VisualCard> card, Point position, Dimension dimension)
 {
-    static const double speed = 1;
+    static const double speed = 2;
     static const int TurnDuration = 500;
-    card->Rotate(0.0, 1.0, 0.0, PI);
     Point start_point(position.X, static_cast<Coordinate>(Size.Height + dimension.Height / 2.0 + 100), static_cast<Coordinate>(dimension.Depth * 1.6));
     card->Position = start_point;
     card->Size = dimension;
@@ -233,16 +232,29 @@ ref<Animation> VisualGameScene::DealCardAnimation(ref<VisualCard> card, Point po
     Point start_point_down = end_point;
     Point end_point_down = position;
     ref<Animation> move_animation_down = MakeGenericAnimation(TurnDuration, MoveVisualObject(card.get(), start_point_down, end_point_down));
-    ref<Animation> turn_animation = MakeGenericAnimation(TurnDuration, RotateVisualObject(card.get(), 0.0, 1.0, 0.0, PI));
-    ref<GroupAnimation> group_animation = ::std::make_shared<GroupAnimation>();
-    group_animation->AddAnimation(move_animation_down);
-    group_animation->AddAnimation(turn_animation);
     
     auto sequential_animation = ::std::make_shared<SequentialAnimation>();
     sequential_animation->AddAnimation(move_animation);
-    sequential_animation->AddAnimation(group_animation);
+    sequential_animation->AddAnimation(move_animation_down);
 
     return sequential_animation;
+}
+
+ref<Animation> VisualGameScene::DiscardCardAnimation(ref<VisualCard> card)
+{
+    static const double speed = 0.7;
+    static const double Theta = 3.3 * PI / 2;
+    Point start_point = card->Position;
+    Point end_point(card->Position.X, -card->Size.Height * 2, card->Position.Z);
+    int duration = static_cast<int>(abs((end_point.Y - start_point.Y) / speed));
+    ref<Animation> move_animation = MakeGenericAnimation(duration, MoveVisualObject(card.get(), end_point));
+    move_animation->Behavior = AnimationBehavior::WiredBehavior();
+    ref<Animation> rotate_animation = MakeGenericAnimation(duration, RotateVisualObject(card.get(), 0.0, 0.0, 1.0, Theta));
+    ref<GroupAnimation> animation = ::std::make_shared<GroupAnimation>();
+    animation->AddAnimation(move_animation);
+    animation->AddAnimation(rotate_animation);
+    return animation;
+
 }
 
 void VisualGameScene::OnMouseButtonDown()
@@ -250,6 +262,68 @@ void VisualGameScene::OnMouseButtonDown()
     if (Game_->MoreToDeal())
         Game_->DealMore();
 }
+
+bool VisualGameScene::IsAnimating()
+{
+    return DealCardAnimation_ != nullptr && !DealCardAnimation_->IsStopped;
+}
+
+void VisualGameScene::DealCard()
+{
+    Game_->DealMore();
+}
+
+
+void VisualGameScene::OnCardChoosed(ref<VisualCard> visual_card)
+{
+    CurrentChoosedCard_.push_back(visual_card);
+    if (CurrentChoosedCard_.size() == Game::CardCountPerDeal)
+    {
+        bool success = Game_->CheckAndScore(CurrentChoosedCard_[0]->Card,
+            CurrentChoosedCard_[1]->Card,
+            CurrentChoosedCard_[2]->Card);
+        if (false)
+        {
+            CurrentChoosedCard_.clear();
+        }
+        else
+        {
+            
+            ::std::copy(CurrentChoosedCard_.begin(), CurrentChoosedCard_.end(), 
+                ::std::inserter(DiscardedCards_, DiscardedCards_.end()));
+
+            auto animation = ::std::make_shared<GroupAnimation>();
+
+            for each (auto card in CurrentChoosedCard_)
+            {
+                animation->AddAnimation(DiscardCardAnimation(card));
+                EmptySlot(card);
+            }
+
+            animation->Start();
+            CurrentChoosedCard_.clear();
+            DropCardAnimation_ = animation;
+        }
+    }
+}
+
+void VisualGameScene::OnCardCancleChoosed(ref<VisualCard> visual_card)
+{
+    CurrentChoosedCard_.erase(::std::find(CurrentChoosedCard_.begin(), CurrentChoosedCard_.end(), visual_card));
+}
+
+void VisualGameScene::EmptySlot(ref<VisualCard> card)
+{
+    for (int row = 0; row < RowCount; ++row)
+        for (int column = 0; column < ColumnCount; ++column)
+            if (Cards_[row][column] == card)
+            {
+                Cards_[row][column] = nullptr;
+                return;
+            }
+}
+
+
 
 const double VisualGameScene::MaginRatio = 0.8;
 const double VisualGameScene::CellRatio = 0.8;

@@ -7,6 +7,7 @@
 class VisualGameScene;
 class Game
 {
+public:
     typedef int ScoreType;
     static const ScoreType ScorePerSet = 3; // Each set give 3 points.
     static const int CardCountPerDeal = 3; // Deal more 3 cards every time.

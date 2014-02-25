@@ -115,7 +115,6 @@ void VisualCard::OnMouseEnter()
     //Rotate(0.0, 1.0, 0.0, -0.3);
     GLfloat emission[] = { 0.9f, 0.9f, 0.9f, 1.0f };
     Material_.SetData(Material::Parameter::Emission, emission);
-
     
 }
 
@@ -127,7 +126,7 @@ void VisualCard::OnMouseLeave()
     
 }
 
-VisualCard::VisualCard(const CardRef card) : Card_(card), Choosed_(false)
+VisualCard::VisualCard(const CardRef card, VisualGameScene *parent) : Card_(card), Choosed_(false), Parent_(parent)
 {
     Material_ = (Material::GetMaterial("silver"));
 }
@@ -135,9 +134,37 @@ VisualCard::VisualCard(const CardRef card) : Card_(card), Choosed_(false)
 void VisualCard::OnMouseButtonDown()
 {
     __super::OnMouseButtonDown();
-    Choosed_ = !Choosed_;
+    if (!Choosed_)
+    {
+        Choosed();
+        Parent_->OnCardChoosed(SHARED_THIS);
+
+    }
+    else
+    {
+        CancelChoosed();
+        Parent_->OnCardCancleChoosed(SHARED_THIS);
+    }
+}
+
+void VisualCard::CancelChoosed()
+{
     if (Choosed_)
     {
+        Choosed_ = false;
+        if (Animation_ != nullptr)
+            Animation_->Stop();
+        Transformation target;
+        Animation_ = MakeGenericAnimation(300, TransformVisualObject(this, Transformation()));
+        Animation_->Start();
+    }
+}
+
+void VisualCard::Choosed()
+{
+    if (!Choosed_)
+    {
+        Choosed_ = true;
         if (Animation_ != nullptr)
             Animation_->Stop();
         double theta = VisualGameScene::SlopeTheta;
@@ -150,15 +177,9 @@ void VisualCard::OnMouseButtonDown()
         Animation_ = MakeGenericAnimation(300, TransformVisualObject(this, target));
         Animation_->Start();
     }
-    else
-    {
-        if (Animation_ != nullptr)
-            Animation_->Stop();
-        Transformation target;
-        Animation_ = MakeGenericAnimation(300, TransformVisualObject(this, Transformation()));
-        Animation_->Start();
-    }
 }
+
+
 
 double VisualCard::HeightPerWidthRatio = 1.618; // 1 : 0.618
 double VisualCard::DepthPerWidthRatio = 0.2; // 1 : 5

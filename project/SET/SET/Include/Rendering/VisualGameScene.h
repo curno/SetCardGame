@@ -15,10 +15,15 @@ private:
     ref<Game> Game_;
     ref<VisualCard> Cards_[RowCount][ColumnCount]; // 3 * 7 = 21 visual card slots in the game scene, which can be empty.
     ref<Animation> DealCardAnimation_;
+    ref<Animation> DropCardAnimation_;
+    ::std::vector<ref<VisualCard>> CurrentChoosedCard_;
+    ::std::set<ref<VisualCard>> DiscardedCards_;
 public:
     VisualGameScene(ref<Game> game);
     
     void DealCards(const ::std::unordered_set<CardRef> &cards);
+
+    bool IsAnimating();
 protected:
     virtual void OnResize(const CSize &size) override;
     virtual void PrepareRendering() override;
@@ -38,6 +43,8 @@ private:
 
     // get the position and size for card card at slot (row, column)
     void GetSlotGeometryForCard(const ref<VisualCard> card, int row, int column, Point &position, Dimension &size);
+
+    void EmptySlot(ref<VisualCard> card);
 
     // update LayoutParameter_ according to the view size;
     void UpdateLayoutParameter();
@@ -61,15 +68,14 @@ private:
     } LayoutParameter_;
 
     ref<Animation> DealCardAnimation(ref<VisualCard> card, Point position, Dimension dimension);
+    ref<Animation> DiscardCardAnimation(ref<VisualCard> card);
 
-
-private:
+public:
     // game logic
-    void DealCard()
-    {
-        Game_->DealMore();
-    }
+    void DealCard();
 
+    void OnCardChoosed(ref<VisualCard> visual_card);
+    void OnCardCancleChoosed(ref<VisualCard> visual_card);
 public:
     static const double SlopeTheta;
 };

@@ -10,7 +10,7 @@
 #define LARGE_SCALE 2000
 
 // MainView
-MainView::MainView()
+MainView::MainView() : CurrentObject_(nullptr)
 {
     Game_ = ref<Game>(new Game);
     GameScene_ = ref<VisualGameScene>(new VisualGameScene(Game_));
@@ -102,30 +102,23 @@ void MainView::OnMouseMove(UINT nFlags, CPoint point)
     static const int MouseRadius = 3;
     CWnd::OnMouseMove(nFlags, point);
 
-    // pick objects.
-    ::std::set<VisualObject *> objects = PickObject(point, MouseRadius, MouseRadius);
+    // pick object.
+    VisualObject *object = PickObject(point, MouseRadius, MouseRadius);
 
-    // send message to entered objects.
-    ::std::set<VisualObject *> entered_objects;
-    ::std::set_difference(objects.begin(), objects.end(),
-        CurrentHoveredObjects_.begin(), CurrentHoveredObjects_.end(),
-        inserter(entered_objects, entered_objects.end()));
-    for each (VisualObject *object in entered_objects)
-        object->OnMouseEnter();
-
-    // send message to leaved objects
-    ::std::set<VisualObject *> leaved_objects;
-    ::std::set_difference(CurrentHoveredObjects_.begin(), CurrentHoveredObjects_.end(),
-        objects.begin(), objects.end(),
-        inserter(leaved_objects, leaved_objects.end()));
-    for each (VisualObject *object in leaved_objects)
-        object->OnMouseLeave();
-
+    if (object != CurrentObject_)
+    {
+        // send message to leaved object
+        if (CurrentObject_ != nullptr)
+            CurrentObject_->OnMouseLeave();
+        // send message to entered object
+        if (object != nullptr)
+            object->OnMouseEnter();
+    }
+    
     // send message to hover objects.
-    for each (VisualObject *object in objects)
-        object->OnMouseMove(); // move mouse.
+    object->OnMouseMove(); // move mouse.
 
-    CurrentHoveredObjects_ = objects; // update current hovered objects.
+    CurrentObject_ = object; // update current hovered objects.
 
     Invalidate(NULL);
 }
@@ -134,8 +127,17 @@ void MainView::OnLButtonDown(UINT nFlags, CPoint point)
 {
     CView::OnLButtonDown(nFlags, point);
 
-    for each (VisualObject *object in CurrentHoveredObjects_)
-        object->OnMouseButtonDown(); // send message.
+    if (CurrentObject_ == nullptr)
+        return;
+    // if game scene is animating, block visual card click.
+    if (GameScene_->IsAnimating())
+    {
+        if (IsType(CurrentObject_, VisualCard))
+            return;
+    }
+       
+    CurrentObject_->OnMouseButtonDown(); // send message.
+
 }
 
 
@@ -178,7 +180,7 @@ void MainView::InitOpenGL()
 
 }
 
-::std::set<VisualObject *> MainView::PickObject(CPoint &point, int w, int h)
+VisualObject *MainView::PickObject(CPoint &point, int w, int h)
 {
     static const unsigned int NameBufferSize = 512;
     static VisualObject::GLNameType NameBuffer[NameBufferSize];
@@ -206,21 +208,28 @@ void MainView::InitOpenGL()
     glMatrixMode(GL_PROJECTION); // restore
     glPopMatrix();
 
-    // get selected objects.
+    // get selected object.
     int hits = glRenderMode(GL_RENDER);
+
+    // process hits.
     VisualObject::GLNameType *ptr = NameBuffer;
-    ::std::set<VisualObject *> retval;
+    VisualObject *retval = nullptr;
+
+    // for every hits, found least deep hit.
+    VisualObject::GLNameType min_depth = 0xffffffff;
     for (int i = 0; i < hits; ++i)
     {
         int name_count = *ptr;
-        ptr += 3;
-        for (int j = 0; j < name_count; ++j)
+        if (*(ptr + 1) < min_depth)
         {
-            auto *object = GameScene_->GetObjectByGLName(*ptr);
+            min_depth = *(ptr + 2);
+            // get the object
+            auto *object = GameScene_->GetObjectByGLName(*(ptr + 2 + name_count));
             if (object != nullptr)
-                retval.insert(object);
-            ++ptr;
+                retval = object;
         }
+        ptr += 3 + name_count;
+        
     }
     return retval;
 }
