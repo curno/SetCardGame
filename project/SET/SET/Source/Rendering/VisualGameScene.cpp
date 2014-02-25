@@ -172,7 +172,7 @@ void VisualGameScene::PrepareRendering()
 
 void VisualGameScene::RenderContent()
 {
-    static const int Outer = 0;
+    static const int Outer = 1;
     // first render ground
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(IDB_BOARD));
