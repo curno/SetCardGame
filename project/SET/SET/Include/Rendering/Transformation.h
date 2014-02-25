@@ -118,4 +118,9 @@ public:
         Scale(x, y, z);
         Translate(center_x, center_y, center_z);
     }
+
+    void Reset()
+    {
+        *this = Transformation();
+    }
 };

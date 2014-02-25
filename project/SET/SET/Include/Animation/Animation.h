@@ -37,6 +37,8 @@ public:
         // animation over
         if (process > 1.0 || process < 0.0)
         {
+            process = min(1.0, max(0.0, process));
+            OnAnimation(process);
             Stop();
             return;
         }

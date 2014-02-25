@@ -13,6 +13,10 @@ void VisualGameScene::OnResize(const CSize &size)
 {
     __super::OnResize(size);
     ArrangeCards(size);
+
+    /*GetTransformation().Reset();
+    GetTransformation().RotateByCenter(Size.Width / 2.0, Size.Height / 2.0, 0.0,
+        1.0, 0.0, 0.0, 0.3);*/
     return;
 }
 
@@ -105,6 +109,9 @@ void VisualGameScene::GetSlotGeometryForCard(const ref<VisualCard> card, int row
 
     // set size.
     size = Dimension(width, static_cast<Coordinate>(width * VisualCard::HeightPerWidthRatio), static_cast<Coordinate>(width * VisualCard::DepthPerWidthRatio));
+
+    // move position to center as final result
+    position += Dimension(size.Width / 2, size.Height / 2, size.Depth / 2);
 }
 
 void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)

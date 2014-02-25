@@ -5,7 +5,7 @@
 #include "Geometry.h"
 #include "Material.h"
 
-// this is the abstract base class of all visual object in the program, like card, deck, button...
+// this is the abstract base class of all visual object in the program, like card, button...
 class VisualObject abstract : public ::std::enable_shared_from_this<VisualObject>
 {
 public:
@@ -16,7 +16,7 @@ protected:
     Dimension Size_; // The size of the object in its parent object.
     GLNameType Name_; // The name of the opengl display object.
     Material Material_; // The opengl material of the object
-
+    
 protected:
     virtual void RenderContent() = 0; // visual object can render its content.
     virtual void PrepareRendering(); // prepare to render.
@@ -31,6 +31,8 @@ public:
 
     Dimension readwrite(Size);
     Dimension GetSize() const { return Size_; }
+
+    Transformation &GetTransformation() { return Transformation_; }
     void SetSize(const Dimension &p) 
     { 
         if (p != Size_)
@@ -47,13 +49,13 @@ public:
 
     void Scale(double f)
     {
-        Transformation_.ScaleByCenter(Size.Width / 2.0, Size.Height / 2.0, Size.Depth / 2.0,
+        Transformation_.ScaleByCenter(0, 0, 0,
             f, f, f);
     }
 
     void Rotate(double axis_x, double axis_y, double axis_z, double theta)
     {
-        Transformation_.RotateByCenter(Size.Width / 2.0, Size.Height / 2.0, Size.Depth / 2.0,
+        Transformation_.RotateByCenter(0, 0, 0,
             axis_x, axis_y, axis_z, theta);
     }
 

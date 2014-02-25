@@ -11,7 +11,7 @@ void VisualScene::RenderContent()
     for each (ref<VisualObject> child in Children_)
     {
         glPushMatrix(); // save current matrix
-        glTranslated(child->Position.X, child->Position.Y, 0.0); // move child to its position
+        glTranslated(child->Position.X, child->Position.Y, child->Position.Z); // move child to its position
         child->Render(); // render child
         glPopMatrix(); // restore
     }

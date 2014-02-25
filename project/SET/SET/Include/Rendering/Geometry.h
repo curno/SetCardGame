@@ -56,7 +56,10 @@ struct Point
     Coordinate Y;
     Coordinate Z;
 
-    Point(Coordinate x = 0, Coordinate y = 0, Coordinate z = 0) : X(x), Y(y), Z(z) { }
+    Point(Coordinate x = 0, Coordinate y = 0, Coordinate z = 0) 
+        : X(x), Y(y), Z(z)
+    {
+    }
     Point operator- () const
     {
         Point p = { -X, -Y, -Z };
@@ -91,6 +94,7 @@ struct Point
         X += that.Width;
         Y += that.Height;
         Z += that.Depth;
+        return *this;
     }
     Point operator+ (const Dimension &that) const
     {
