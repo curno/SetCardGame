@@ -16,7 +16,7 @@ public:
     GenericAnimation(int duration, AnimationCallable animate) : Duration_(duration), Animation_(animate) { }
 
     virtual int GetDuration() override { return Duration_; }
-    virtual void OnAnimationStep(const double ratio) override { Animation_(ratio); }
+    virtual void OnRatio(const double ratio) override { Animation_(ratio); }
 };
 
 template <typename AnimationCallable>

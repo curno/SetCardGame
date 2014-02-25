@@ -41,19 +41,29 @@ public:
             return;
         }
 
+        OnAnimation(process);
+        return;
+    }
+
+    
+
+public:
+    // this method perform the animation with process.
+    virtual void OnAnimation(double process)
+    {
+        // process is not in the right area.
+        if (process > 1.0 || process < 0.0)
+            return;
         // get ratio from process using Behavior_;
         double ratio = Behavior_->GetRatio(process);
-        // animate
-        OnAnimationStep(ratio);
 
-        // if over
-        if (ratio >= 1.0)
-            Stop();
+        // animate, virtual function
+        OnRatio(ratio);
     }
-public:
+
     // this function is called to perform a snapshot of the animation
     // ratio is the progress of the animation
-    virtual void OnAnimationStep(const double ratio) { }
+    virtual void OnRatio(const double ratio) { }
 
     // get current process according to current elapsed time.
     // this method can be rewrite to perform different effect like looping, etc.

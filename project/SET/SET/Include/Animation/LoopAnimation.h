@@ -11,10 +11,10 @@ class LoopAnimation : public Animation
 public:
     LoopAnimation(ref<Animation> target) : Target_(target) { }
 
-    virtual void OnAnimationStep(const double ratio) override
+    virtual void OnRatio(const double ratio) override
     {
         // pass to target
-        Target_->OnAnimationStep(ratio);
+        Target_->OnRatio(ratio);
     }
 
     virtual double GetCurrentProcess() override

@@ -25,10 +25,10 @@ public:
         return retval;
     }
 
-    virtual void OnAnimationStep(const double ratio) override
+    virtual void OnAnimation(double progress) override
     {
-        __super::OnAnimationStep(ratio);
-        int current_step = Duration * ratio;
+        __super::OnRatio(progress);
+        int current_step = Duration * progress;
 
         // perform current animation.
         int current = 0;
@@ -38,12 +38,10 @@ public:
             current += (*i)->Duration;
             if (current >= current_step)
             {
-                (*i)->OnAnimationStep(static_cast<double>(current_step - old_current) / (*i)->Duration);
+                (*i)->OnAnimation(static_cast<double>(current_step - old_current) / (*i)->Duration);
                 break;
             }
 
         }
-
-        return ratio; // no adjustment
     }
 };
