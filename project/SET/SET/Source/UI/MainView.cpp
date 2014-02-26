@@ -114,8 +114,10 @@ void MainView::OnMouseMove(UINT nFlags, CPoint point)
             object->OnMouseEnter();
     }
     
+
     // send message to hover objects.
-    object->OnMouseMove(); // move mouse.
+    if (object != nullptr)
+        object->OnMouseMove(); // move mouse.
 
     CurrentObject_ = object->shared_from_this(); // update current hovered objects.
 

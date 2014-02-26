@@ -43,7 +43,11 @@ public:
     State readwrite(CurrentState);
     State GetCurrentState() const { return State_; }
     void SetCurrentState(State state) { State_ = state; }
+
+private:
+    void RenderFrontRectangle(GLdouble p0x, GLdouble p0y, GLdouble p1x, GLdouble p1y);
 public:
     static double HeightPerWidthRatio;
     static double DepthPerWidthRatio;
+    static double SymbolRatio;
 };

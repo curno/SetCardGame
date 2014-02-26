@@ -97,13 +97,13 @@ private:
         bitmap.LoadBitmap(id);
         bitmap.GetBitmap(&retval.Data);
         retval.Data.bmBits = new byte[retval.Data.bmWidthBytes * retval.Data.bmHeight];
+
         bitmap.GetBitmapBits(retval.Data.bmWidthBytes * retval.Data.bmHeight, retval.Data.bmBits);
+        FillAlphaElement(retval);
 
         CreateNameAndTexture(retval);
         return retval;
     }
-
-    
 
     Texture CreateTexture(const CardParameter &param)
     {
@@ -129,7 +129,7 @@ private:
         bitmap.GetBitmap(&t.Data);
         t.Data.bmBits = new byte[t.Data.bmWidthBytes * t.Data.bmHeight];
         bitmap.GetBitmapBits(t.Data.bmWidthBytes * t.Data.bmHeight, t.Data.bmBits);
-
+        FillAlphaElement(t);
         ColorElement color[4];
         GetColorData(param.Color, color);
         Texture retval = CreateTexture(t, color, TransparentKey);
@@ -168,6 +168,25 @@ private:
         return retval;
     }
 
+    void FillAlphaElement(Texture &retval)
+    {
+        static ColorElement TransparentKey[] = { 255, 255, 255, 0 };
+        ColorElement *data = static_cast<ColorElement *>(retval.Data.bmBits);
+        for (int h = 0; h < retval.Data.bmHeight; ++h)
+        {
+            ColorElement *data_row = data;
+            for (int w = 0; w < retval.Data.bmWidth; ++w)
+            {
+                if (SameColor(data_row, TransparentKey))
+                    data_row[3] = 0; // set alpha to 255;
+                else
+                    data_row[3] = 255;
+                data_row += 4;
+            }
+            data += retval.Data.bmWidthBytes;
+        }
+    }
+
     void CreateNameAndTexture(Texture &texture)
     {
         TextureName name;
@@ -175,7 +194,7 @@ private:
         texture.Name = name;
         glBindTexture(GL_TEXTURE_2D, texture.Name);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, texture.Data.bmWidth, texture.Data.bmHeight, 0, GL_BGRA_EXT, GL_UNSIGNED_BYTE, texture.Data.bmBits);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.Data.bmWidth, texture.Data.bmHeight, 0, GL_BGRA_EXT, GL_UNSIGNED_BYTE, texture.Data.bmBits);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -195,7 +214,7 @@ private:
     // 
     void GetColorData(Card::ColorType color, ColorElement *data)
     {
-        static const ColorElement Red[] = { 255, 0, 0, 255 };
+        static const ColorElement Red[] = { 211, 215, 56, 255 };
         static const ColorElement Green[] = { 0, 255, 0, 255 };
         static const ColorElement Purple[] = { 0, 0, 255, 255 };
         const ColorElement *source = nullptr;

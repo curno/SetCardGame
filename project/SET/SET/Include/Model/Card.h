@@ -58,7 +58,7 @@ public:
     ShadingType GetShading() const { return Shading_; }
     NumberType readonly(Number);
     NumberType GetNumber() const { return Number_; }
-
+    int GetIntegerNumber() const { return static_cast<int>(Number) + 1; }
 public:
     // operators
     bool operator== (const Card &that)
