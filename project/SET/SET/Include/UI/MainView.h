@@ -20,7 +20,6 @@ private:
     ref<VisualGameScene> GameScene_;
 
     VisualObject *CurrentObject_;
-    ::std::unordered_map<VisualObject *, ref<Animation>> animations;
 // ππ‘Ï
 public:
 	MainView();

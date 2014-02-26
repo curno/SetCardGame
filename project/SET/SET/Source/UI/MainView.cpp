@@ -4,9 +4,7 @@
 #include "Include/Rendering/VisualObject.h"
 #include "Include/Rendering/Geometry.h"
 #include "Include/Animation/AnimationManager.h"
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#endif
+
 #define LARGE_SCALE 2000
 
 // MainView

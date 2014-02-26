@@ -13,6 +13,7 @@ public:
     {
         for each (ref<Animation> animation in Animations_)
             animation->Stop();
+        __super::Stop();
     }
     void AddAnimation(ref<Animation> animation)
     {

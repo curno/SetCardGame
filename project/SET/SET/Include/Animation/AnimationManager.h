@@ -41,11 +41,11 @@ public:
     {
         if (Animations_.empty())
             return;
-        for (int i = static_cast<int>(Animations_.size())- 1; i >= 0; --i)
+        auto copy = Animations_;
+        for (auto i = copy.begin(); i != copy.end(); ++i)
         {
-            auto animation = Animations_[i];
-            if (!animation->IsStopped)
-                animation->OnTimer();
+            if (!(*i)->IsStopped)
+                (*i)->OnTimer();
         }
     }
     ~AnimationManager()

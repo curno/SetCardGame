@@ -22,6 +22,5 @@ public:
 template <typename AnimationCallable>
 ref<GenericAnimation<AnimationCallable>> MakeGenericAnimation(int duration, AnimationCallable callable)
 {
-    GenericAnimation<AnimationCallable> *pointer = new GenericAnimation<AnimationCallable>(duration, callable);
-    return ref<GenericAnimation<AnimationCallable>>(pointer);
+    return ::std::make_shared<GenericAnimation<AnimationCallable>>(duration, callable);
 }
