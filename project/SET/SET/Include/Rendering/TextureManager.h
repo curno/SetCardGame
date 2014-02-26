@@ -11,14 +11,13 @@ class TextureManager
 public:
     typedef GLuint TextureName;
     typedef int ResourceID;
-    typedef unsigned int ColorElement;
+    typedef unsigned char ColorElement;
 private:
     struct Texture
     {
         TextureName Name;
         BITMAP Data;
     };
-
 
     struct CardParameter
     {
@@ -64,7 +63,7 @@ public:
         TextureMap_.insert(::std::make_pair(id, t));
         return t.Name;
     }
-    TextureName GetTexture(Card *card) 
+    TextureName GetTexture(CardRef card) 
     { 
         assert(card != nullptr);
         CardParameter parameter = { card->Symbol, card->Shading, card->Color };
@@ -80,6 +79,8 @@ public:
     {
         for each (auto pair in TextureMap_)
             delete[] pair.second.Data.bmBits;
+        for each (auto pair in CardTextureMap_)
+            delete pair.second.Data.bmBits;
     }
 
     // singleton
@@ -102,36 +103,11 @@ private:
         return retval;
     }
 
-    // 
-    void GetColorData(Card::ColorType color, ColorElement *data)
-    {
-        static const ColorElement Red[] = { 255, 0, 0, 255 };
-        static const ColorElement Green[] = { 0, 255, 0, 255 };
-        static const ColorElement Purple[] = { 0, 0, 255, 255 };
-        const ColorElement *source = nullptr;
-        switch (color)
-        {
-        case Card::ColorType::Red:
-            source = Red;
-            break;
-        case Card::ColorType::Green:
-            source = Green;
-            break;
-        case Card::ColorType::Purple:
-            source = Purple;
-            break;
-        default:
-            break;
-        }
-        data[0] = source[0];
-        data[1] = source[1];
-        data[2] = source[2];
-        data[3] = source[3];
-    }
+    
 
     Texture CreateTexture(const CardParameter &param)
     {
-        static ColorElement TransparentKey[] = { 255, 255, 255, 255 };
+        static ColorElement TransparentKey[] = { 255, 255, 255, 0 };
         for each (auto &i in CardTextureMap_)
         {
             // if there already exists a texture which has same symbol and shading
@@ -154,7 +130,7 @@ private:
         t.Data.bmBits = new byte[t.Data.bmWidthBytes * t.Data.bmHeight];
         bitmap.GetBitmapBits(t.Data.bmWidthBytes * t.Data.bmHeight, t.Data.bmBits);
 
-        ColorElement *color;
+        ColorElement color[4];
         GetColorData(param.Color, color);
         Texture retval = CreateTexture(t, color, TransparentKey);
         delete[] t.Data.bmBits;
@@ -179,6 +155,8 @@ private:
             {
                 if (!SameColor(source_row, transparent_key))
                     CopyColor(dest_row, c);
+                else
+                    CopyColor(dest_row, transparent_key);
                 dest_row += 4;
                 source_row += 4;
             }
@@ -212,6 +190,33 @@ private:
     void CopyColor(ColorElement *dest, const ColorElement *source)
     {
         *(int *)(dest) = *(const int *)(source); // C Style cast, dangerous!!
+    }
+
+    // 
+    void GetColorData(Card::ColorType color, ColorElement *data)
+    {
+        static const ColorElement Red[] = { 255, 0, 0, 255 };
+        static const ColorElement Green[] = { 0, 255, 0, 255 };
+        static const ColorElement Purple[] = { 0, 0, 255, 255 };
+        const ColorElement *source = nullptr;
+        switch (color)
+        {
+        case Card::ColorType::Red:
+            source = Red;
+            break;
+        case Card::ColorType::Green:
+            source = Green;
+            break;
+        case Card::ColorType::Purple:
+            source = Purple;
+            break;
+        default:
+            break;
+        }
+        data[0] = source[0];
+        data[1] = source[1];
+        data[2] = source[2];
+        data[3] = source[3];
     }
 
     int GetResourceID(Card::SymbolType symbol, Card::ShadingType shading)

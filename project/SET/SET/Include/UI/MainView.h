@@ -19,7 +19,7 @@ private:
     ref<Game> Game_;
     ref<VisualGameScene> GameScene_;
 
-    VisualObject *CurrentObject_;
+    ref<VisualObject> CurrentObject_;
 // ππ‘Ï
 public:
 	MainView();

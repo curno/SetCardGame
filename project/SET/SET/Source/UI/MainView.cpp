@@ -104,7 +104,7 @@ void MainView::OnMouseMove(UINT nFlags, CPoint point)
     // pick object.
     VisualObject *object = PickObject(point, MouseRadius, MouseRadius);
 
-    if (object != CurrentObject_)
+    if (object != CurrentObject_.get())
     {
         // send message to leaved object
         if (CurrentObject_ != nullptr)
@@ -117,7 +117,7 @@ void MainView::OnMouseMove(UINT nFlags, CPoint point)
     // send message to hover objects.
     object->OnMouseMove(); // move mouse.
 
-    CurrentObject_ = object; // update current hovered objects.
+    CurrentObject_ = object->shared_from_this(); // update current hovered objects.
 
     Invalidate(NULL);
 }
@@ -128,12 +128,6 @@ void MainView::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (CurrentObject_ == nullptr)
         return;
-    // if game scene is animating, block visual card click.
-    if (GameScene_->IsAnimating())
-    {
-        if (IsType(CurrentObject_, VisualCard))
-            return;
-    }
        
     CurrentObject_->OnMouseButtonDown(); // send message.
 

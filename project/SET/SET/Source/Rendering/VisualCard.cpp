@@ -19,7 +19,7 @@ void VisualCard::RenderContent()
 
     glEnable(GL_TEXTURE_2D);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(IDB_TEST));
+    glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(Card_));
     glBegin(GL_TRIANGLE_STRIP);
     // front
     glNormal3d(0.0, 0.0, 1.0);
