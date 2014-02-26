@@ -2,7 +2,8 @@
 
 #include "stdafx.h"
 
-// this class manage all opengl texture objects in the program.
+#include "../Model/Card.h"
+// this class manage all opengl texture objects from bitmaps in the program.
 // it is a singleton
 class TextureManager
 {
@@ -34,6 +35,7 @@ public:
         }
         return i->second.Name;
     }
+
     ~TextureManager()
     {
         for each (auto pair in TextureMap_)
@@ -70,4 +72,6 @@ private:
 
         return retval;
     }
+
+    
 };

@@ -112,7 +112,6 @@ void VisualCard::OnMouseMove()
 
 void VisualCard::OnMouseEnter()
 {
-    //Rotate(0.0, 1.0, 0.0, -0.3);
     GLfloat emission[] = { 0.9f, 0.9f, 0.9f, 1.0f };
     Material_.SetData(Material::Parameter::Emission, emission);
     
@@ -120,13 +119,12 @@ void VisualCard::OnMouseEnter()
 
 void VisualCard::OnMouseLeave()
 {
-    //Rotate(0.0, 1.0, 0.0, 0.3);
     GLfloat emission[] = { 0.0, 0.0, 0.0, 0.0 };
     Material_.SetData(Material::Parameter::Emission, emission);
     
 }
 
-VisualCard::VisualCard(const CardRef card, VisualGameScene *parent) : Card_(card), Choosed_(false), Parent_(parent)
+VisualCard::VisualCard(const CardRef card, VisualGameScene *parent) : Card_(card), State_(State::OnDesk), Parent_(parent)
 {
     Material_ = (Material::GetMaterial("default"));
 }
@@ -134,24 +132,29 @@ VisualCard::VisualCard(const CardRef card, VisualGameScene *parent) : Card_(card
 void VisualCard::OnMouseButtonDown()
 {
     __super::OnMouseButtonDown();
-    if (!Choosed_)
+    switch (CurrentState)
     {
+    case VisualCard::State::OnDesk:
         Choosed();
         Parent_->OnCardChoosed(SHARED_THIS);
-
-    }
-    else
-    {
+        break;
+    case VisualCard::State::Choosed:
         CancelChoosed();
         Parent_->OnCardCancleChoosed(SHARED_THIS);
+        break;
+    case VisualCard::State::Discarded:
+        // do nothing
+        break;
+    default:
+        break;
     }
 }
 
 void VisualCard::CancelChoosed()
 {
-    if (Choosed_)
+    if (this->GetIsChoosed())
     {
-        Choosed_ = false;
+        CurrentState = State::OnDesk;
         if (Animation_ != nullptr)
             Animation_->Stop();
         Transformation target;
@@ -162,9 +165,9 @@ void VisualCard::CancelChoosed()
 
 void VisualCard::Choosed()
 {
-    if (!Choosed_)
+    if (!this->GetIsChoosed())
     {
-        Choosed_ = true;
+        CurrentState = State::Choosed;
         if (Animation_ != nullptr)
             Animation_->Stop();
         double theta = VisualGameScene::SlopeTheta;
@@ -177,6 +180,12 @@ void VisualCard::Choosed()
         Animation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), target));
         Animation_->Start();
     }
+}
+
+void VisualCard::Discarded()
+{
+    if (CurrentState != State::Discarded)
+        CurrentState = State::Discarded;
 }
 
 

@@ -260,7 +260,7 @@ ref<Animation> VisualGameScene::DealCardAnimation(ref<VisualCard> card, Point po
     return sequential_animation;
 }
 
-ref<Animation> VisualGameScene::DiscardCardAnimation(ref<VisualCard> card)
+void VisualGameScene::DiscardCardAnimation(ref<VisualCard> card)
 {
     static const double speed = 0.8;
     static const double Theta = 3.3 * PI / 2;
@@ -270,10 +270,15 @@ ref<Animation> VisualGameScene::DiscardCardAnimation(ref<VisualCard> card)
     ref<Animation> move_animation = MakeGenericAnimation(duration, MoveVisualObject(card.get(), end_point));
     move_animation->Behavior = AnimationBehavior::WiredBehavior();
     ref<Animation> rotate_animation = MakeGenericAnimation(duration, ::Rotate(card->GetTransformation(), 0.0, 0.0, 1.0, Theta));
-    ref<GroupAnimation> animation = ::std::make_shared<GroupAnimation>();
+    GroupAnimation *animation = new GroupAnimation;
     animation->AddAnimation(move_animation);
     animation->AddAnimation(rotate_animation);
-    return animation;
+    animation->DeleteWhenStopped = true;
+    animation->StopOperation = MakeGenericStopOperation(
+        [card, this](){
+        this->RemoveChild(card); // remove card.
+    });
+    animation->Start();
 
 }
 
@@ -290,7 +295,7 @@ void VisualGameScene::OnMouseButtonDown()
 
 bool VisualGameScene::IsAnimating()
 {
-    return /*DealCardAnimation_ != nullptr && !DealCardAnimation_->IsStopped;*/ false;
+    return false;
 }
 
 void VisualGameScene::OnCardChoosed(ref<VisualCard> visual_card)
@@ -309,25 +314,8 @@ void VisualGameScene::OnCardChoosed(ref<VisualCard> visual_card)
         }
         else
         {
-            ::std::vector<ref<VisualCard>> discarded_cards;
-            ::std::copy(CurrentChoosedCard_.begin(), CurrentChoosedCard_.end(), 
-                ::std::back_inserter(discarded_cards));
-
-            auto animation = new GroupAnimation();
-
             for each (auto card in CurrentChoosedCard_)
-            {
-                EmptySlot(card);
-                animation->AddAnimation(DiscardCardAnimation(card));
-            }
-
-            animation->StopOperation = MakeGenericStopOperation(
-                [discarded_cards, this]()
-                {
-                this->RemoveCards(discarded_cards);
-            });
-            animation->DeleteWhenStopped = true;
-            animation->Start();
+                DiscardCard(card);
             CurrentChoosedCard_.clear();
         }
     }
@@ -348,13 +336,11 @@ void VisualGameScene::EmptySlot(ref<VisualCard> card)
                 return;
             }
 }
-
-void VisualGameScene::RemoveCards(::std::vector<ref<VisualCard>> cards)
+void VisualGameScene::DiscardCard(ref<VisualCard> card)
 {
-    for each (auto card in cards)
-    {
-        RemoveChild(card);
-    }
+    card->Discarded(); // discard card
+    EmptySlot(card); // empty slot
+    DiscardCardAnimation(card); // animate
 }
 
 

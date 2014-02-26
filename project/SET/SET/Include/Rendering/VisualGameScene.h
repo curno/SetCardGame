@@ -5,6 +5,8 @@
 #include "VisualCard.h"
 #include "../Model/Game.h"
 
+
+
 class VisualGameScene : public VisualScene
 {
     static const int RowCount = 3;
@@ -19,8 +21,6 @@ private:
 public:
     VisualGameScene(ref<Game> game);
     
-    void DealCards(const ::std::unordered_set<CardRef> &cards);
-
     bool IsAnimating();
 protected:
     virtual void OnResize(const CSize &size) override;
@@ -71,14 +71,19 @@ private:
     // 2. Then the card moves down from current position to the final position.
     // 3. While step 2, the card flip over, so the content of card will be seen.
     ref<Animation> DealCardAnimation(ref<VisualCard> card, Point position, Dimension dimension);
-    ref<Animation> DiscardCardAnimation(ref<VisualCard> card);
+    void DiscardCardAnimation(ref<VisualCard> card);
 
 public:
+    // create visual cards and add them to the scene with animations.
+    void DealCards(const ::std::unordered_set<CardRef> &cards);
     // game logic
-    void DealCard();
-    void RemoveCards(::std::vector<ref<VisualCard>> cards);
     void OnCardChoosed(ref<VisualCard> visual_card);
     void OnCardCancleChoosed(ref<VisualCard> visual_card);
+
+private:
+    // remove a visual card from the scene, with animation
+    void DiscardCard(ref<VisualCard> card);
+    
 public:
     static const double SlopeTheta;
 };
