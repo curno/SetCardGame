@@ -23,7 +23,7 @@ public:
 
 // the convenient creation method for GenericStopOperation<...>
 template <typename Callable>
-ref<GenericStopOperation<Callable>> MakeGenericBehavior(Callable callable)
+ref<GenericStopOperation<Callable>> MakeGenericStopOperation(Callable callable)
 {
     return ::std::make_shared<GenericStopOperation<Callable>>(callable);
 }

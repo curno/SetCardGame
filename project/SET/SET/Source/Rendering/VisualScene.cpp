@@ -13,7 +13,7 @@ void VisualScene::RenderContent()
         glPushMatrix(); // save current matrix
         Point position = pair.first->Position;
         glTranslated(position.X, position.Y, position.Z); // move child to its position
-        glMultMatrixd(pair.second.Data); // add the child transformation
+        glMultMatrixd(pair.second->Data); // add the child transformation
         pair.first->Render(); // render child
         glPopMatrix(); // restore
     }
@@ -40,12 +40,12 @@ void VisualScene::AddChild(ref<VisualObject> child)
     for each (auto pair in Children_)
         if (pair.first == child)
             return;
-    Children_.push_back(::std::make_pair(child, Transformation()));
+    Children_.push_back(::std::make_pair(child, new Transformation()));
 }
 
 Transformation &VisualScene::GetTransformation(int index)
 {
-    return Children_[index].second;
+    return *Children_[index].second;
 }
 
 int VisualScene::IndexOf(ref<VisualObject> child)
@@ -56,4 +56,10 @@ int VisualScene::IndexOf(ref<VisualObject> child)
             return static_cast<int>(i);
     }
     return -1;
+}
+
+VisualScene::~VisualScene()
+{
+    for each (auto pair in Children_)
+        delete pair.second;
 }

@@ -8,8 +8,9 @@
 class VisualScene : public VisualObject
 {
     // every child with its corresponding transformation
-    ::std::vector<::std::pair<ref<VisualObject>, Transformation>> Children_;  
+    ::std::vector<::std::pair<ref<VisualObject>, Transformation *>> Children_;  
 public:
+    virtual ~VisualScene();
     virtual void RenderContent() override;
 
     void AddChild(ref<VisualObject> child);

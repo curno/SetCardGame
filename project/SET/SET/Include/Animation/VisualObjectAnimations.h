@@ -14,7 +14,7 @@ class Rotate
     const GLdouble CenterZ_;
     GLdouble CurrentTheta_;
 public:
-    Rotate(Transformation target,
+    Rotate(Transformation &target,
         GLdouble axis_x, GLdouble axis_y, GLdouble axis_z, GLdouble theta) : 
         Target_(target), 
         AxisX_(axis_x), AxisY_(axis_y), AxisZ_(axis_z), Theta_(theta), CurrentTheta_(0), CenterX_(0.0), CenterY_(0.0), CenterZ_(0.0){ }

@@ -8,6 +8,12 @@ class GroupAnimation : public Animation
 {
     ::std::vector<ref<Animation>> Animations_;
 public:
+    ~GroupAnimation() { Stop(); }
+    virtual void Stop() override
+    {
+        for each (ref<Animation> animation in Animations_)
+            animation->Stop();
+    }
     void AddAnimation(ref<Animation> animation)
     {
         // already in the group.

@@ -218,19 +218,41 @@ void VisualGameScene::RenderContent()
 
 ref<Animation> VisualGameScene::DealCardAnimation(ref<VisualCard> card, Point position, Dimension dimension)
 {
-    static const double speed = 2;
+    static const double speed = 2; 
     static const int TurnDuration = 500;
-    Point start_point(position.X, static_cast<Coordinate>(Size.Height + dimension.Height / 2.0 + 100), static_cast<Coordinate>(dimension.Depth * 1.6));
-    card->Position = start_point;
-    card->Size = dimension;
-    Point end_point(position.X, position.Y, start_point.Z);
-    int duration = static_cast<int>(abs((end_point.Y - start_point.Y) / speed));
-    ref<Animation> move_animation = MakeGenericAnimation(duration, MoveVisualObject(card.get(), start_point, end_point));
 
+    // Init flip the card over in the scene
+    int index = this->IndexOf(card);
+    this->GetTransformation(index).Rotate(0.0, 1.0, 0.0, PI); // flip card.
+
+    // start from up outside the scene
+    Point start_point(position.X, static_cast<Coordinate>(Size.Height + dimension.Height / 2.0 + 100), static_cast<Coordinate>(dimension.Depth * 1.6));
+    // set start point
+    card->Position = start_point;
+    // set size
+    card->Size = dimension;
+    // end point is right above the correct position
+    Point end_point(position.X, position.Y, start_point.Z);
+    // calc duration with speed
+    int duration = static_cast<int>(abs((end_point.Y - start_point.Y) / speed));
+    // create move animation. Step 1
+    ref<Animation> move_animation = MakeGenericAnimation(duration, MoveVisualObject(card.get(), start_point, end_point));
+    // create the flip animation. Step 3
+    Animation *turn_animation = new GenericAnimation<::Rotate>(duration, ::Rotate(this->GetTransformation(index), 0.0, 1.0, 0.0, PI));
+    turn_animation->DeleteWhenStopped = true; // the flip animation deletes itself
+    // set the flip animation (Step 3) to be started when the move animation (Step 1) stops.
+    move_animation->StopOperation = MakeGenericStopOperation(
+        [turn_animation]()
+        {
+        turn_animation->Start();
+        });
+        
+    // create the down animation. (Step 2)
     Point start_point_down = end_point;
     Point end_point_down = position;
     ref<Animation> move_animation_down = MakeGenericAnimation(TurnDuration, MoveVisualObject(card.get(), start_point_down, end_point_down));
     
+    // create a sequential animation for step 1 and step 2
     auto sequential_animation = ::std::make_shared<SequentialAnimation>();
     sequential_animation->AddAnimation(move_animation);
     sequential_animation->AddAnimation(move_animation_down);

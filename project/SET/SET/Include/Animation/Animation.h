@@ -18,7 +18,7 @@ public:
     Animation();
     virtual ~Animation();
     void Start(); 
-    void Stop();
+    virtual void Stop();
     
     // Duration in milliseconds.
     int readonly(Duration);
@@ -33,7 +33,7 @@ public:
 
     ref<::StopOperation> readwrite(StopOperation);
     ref<::StopOperation> GetStopOperation() { return StopOperation_; }
-    void SetBehavior(const ref<::StopOperation> operation) { StopOperation_ = operation; }
+    void SetStopOperation(const ref<::StopOperation> operation) { StopOperation_ = operation; }
 
     bool readwrite(DeleteWhenStopped);
     bool GetDeleteWhenStopped() const { return DeleteWhenStopped_; }

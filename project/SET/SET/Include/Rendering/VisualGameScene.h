@@ -67,6 +67,11 @@ private:
         double CellHeight;
     } LayoutParameter_;
 
+    // This function create a animation for the card when the card is dealed.
+    // At first, the card is flipped over. The animation consists of three steps:
+    // 1. The card moving from up outside of the scene to the above of the final position. 
+    // 2. Then the card moves down from current position to the final position.
+    // 3. While step 2, the card flip over, so the content of card will be seen.
     ref<Animation> DealCardAnimation(ref<VisualCard> card, Point position, Dimension dimension);
     ref<Animation> DiscardCardAnimation(ref<VisualCard> card);
 

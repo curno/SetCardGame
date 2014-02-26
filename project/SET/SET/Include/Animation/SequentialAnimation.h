@@ -9,6 +9,12 @@ class SequentialAnimation : public Animation
     ::std::vector<ref<Animation>> Animations_;
 
 public:
+    virtual ~SequentialAnimation() { Stop(); }
+    virtual void Stop() override
+    {
+        for each (ref<Animation> animation in Animations_)
+            animation->Stop();
+    }
     void AddAnimation(ref<Animation> animation)
     {
         // already in the group.
