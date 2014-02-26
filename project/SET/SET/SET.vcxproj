@@ -200,6 +200,7 @@
     <ClInclude Include="Include\Animation\AnimationBehaviors.h" />
     <ClInclude Include="Include\Animation\AnimationManager.h" />
     <ClInclude Include="Include\Animation\LoopAnimation.h" />
+    <ClInclude Include="Include\Animation\StopOperation.h" />
     <ClInclude Include="Include\Animation\VisualObjectAnimations.h" />
     <ClInclude Include="Include\Animation\GenericAnimation.h" />
     <ClInclude Include="Include\Animation\GroupAnimation.h" />

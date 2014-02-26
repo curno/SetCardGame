@@ -155,7 +155,7 @@ void VisualCard::CancelChoosed()
         if (Animation_ != nullptr)
             Animation_->Stop();
         Transformation target;
-        Animation_ = MakeGenericAnimation(300, TransformVisualObject(this, Transformation()));
+        Animation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), Transformation()));
         Animation_->Start();
     }
 }
@@ -174,7 +174,7 @@ void VisualCard::Choosed()
         target.Scale(1.1, 1.1, 1.1);
         target.Rotate(1.0, 0.0, 0.0, theta);
         target.Translate(0.0, -Size.Height / 2.0, 0.0);
-        Animation_ = MakeGenericAnimation(300, TransformVisualObject(this, target));
+        Animation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), target));
         Animation_->Start();
     }
 }

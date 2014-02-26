@@ -3,20 +3,22 @@
 #include "stdafx.h"
 #include "../Model/Stopwatch.h"
 #include "AnimationBehaviors.h"
+#include "StopOperation.h"
 
 // this is a base animation class for VisualObject
 class Animation abstract
 {
 protected:
     ref<AnimationBehavior> Behavior_; // animation behavior
+    ref<::StopOperation> StopOperation_; // stop operation
     Stopwatch Watch_; // the stopwatch to control the animation.
     bool Stoped_;
     bool DeleteWhenStopped_;
 public:
     Animation();
     virtual ~Animation();
-    virtual void Start(); 
-    virtual void Stop();
+    void Start(); 
+    void Stop();
     
     // Duration in milliseconds.
     int readonly(Duration);
@@ -28,6 +30,10 @@ public:
     ref<AnimationBehavior> readwrite(Behavior);
     ref<AnimationBehavior> GetBehavior() { return Behavior_; }
     void SetBehavior(const ref<AnimationBehavior> behavior) { Behavior_ = behavior; }
+
+    ref<::StopOperation> readwrite(StopOperation);
+    ref<::StopOperation> GetStopOperation() { return StopOperation_; }
+    void SetBehavior(const ref<::StopOperation> operation) { StopOperation_ = operation; }
 
     bool readwrite(DeleteWhenStopped);
     bool GetDeleteWhenStopped() const { return DeleteWhenStopped_; }

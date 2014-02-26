@@ -8,6 +8,7 @@
 class AnimationBehavior abstract
 {
 public:
+    ~AnimationBehavior() { }
     virtual double GetRatio(double process) = 0;
 
 public:

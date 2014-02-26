@@ -2,41 +2,46 @@
 
 #include "GenericAnimation.h"
 #include "../Rendering/VisualObject.h"
-class RotateVisualObject
+class Rotate
 {
-    VisualObject *Target_;
-    const GLdouble AxisX_;
+    Transformation &Target_; // the target transformation the animation add to
+    const GLdouble AxisX_; // the rotate axis
     const GLdouble AxisY_;
     const GLdouble AxisZ_;
-    const GLdouble Theta_;
+    const GLdouble Theta_; // the rotate angle
+    const GLdouble CenterX_;
+    const GLdouble CenterY_;
+    const GLdouble CenterZ_;
     GLdouble CurrentTheta_;
 public:
-    RotateVisualObject(VisualObject *target, 
+    Rotate(Transformation target,
         GLdouble axis_x, GLdouble axis_y, GLdouble axis_z, GLdouble theta) : 
         Target_(target), 
-        AxisX_(axis_x), AxisY_(axis_y), AxisZ_(axis_z), Theta_(theta), CurrentTheta_(0) { }
+        AxisX_(axis_x), AxisY_(axis_y), AxisZ_(axis_z), Theta_(theta), CurrentTheta_(0), CenterX_(0.0), CenterY_(0.0), CenterZ_(0.0){ }
     void operator() (double ratio)
     {
         GLdouble theta = ratio * Theta_;
-        Target_->Rotate(AxisX_, AxisY_, AxisZ_, theta - CurrentTheta_);
+        Target_.RotateByCenter(CenterX_, CenterY_, CenterZ_,
+            AxisX_, AxisY_, AxisZ_, 
+            theta - CurrentTheta_);
         CurrentTheta_ = theta;
     }
 };
 
-class TransformVisualObject
+class Transform
 {
-    VisualObject *Target_;
-    Transformation DeltaTransformation_;
-    Transformation StartTransformation_;
+    Transformation &Target_; // the target transformation the animation add to.
+    Transformation DeltaTransformation_; 
+    Transformation StartTransformation_; // the start value, can be different from  target
 public:
-    TransformVisualObject(VisualObject *target, Transformation target_transformation)
-        : Target_(target), DeltaTransformation_(target_transformation - target->GetTransformation()), StartTransformation_(target->GetTransformation()) { }
-    TransformVisualObject(VisualObject *target, Transformation start_transformation, Transformation target_transformation)
+    Transform(Transformation &target, Transformation target_transformation)
+        : Target_(target), DeltaTransformation_(target_transformation - target), StartTransformation_(target) { }
+    Transform(Transformation &target, Transformation start_transformation, Transformation target_transformation)
         : Target_(target), DeltaTransformation_(target_transformation - start_transformation), StartTransformation_(start_transformation) { }
     void operator() (double ratio)
     {
         Transformation t = StartTransformation_ + DeltaTransformation_ * ratio;
-        Target_->GetTransformation() = t;
+        Target_ = t;
     }
 };
 

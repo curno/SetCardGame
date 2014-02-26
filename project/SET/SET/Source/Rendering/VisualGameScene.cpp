@@ -247,7 +247,7 @@ ref<Animation> VisualGameScene::DiscardCardAnimation(ref<VisualCard> card)
     int duration = static_cast<int>(abs((end_point.Y - start_point.Y) / speed));
     ref<Animation> move_animation = MakeGenericAnimation(duration, MoveVisualObject(card.get(), end_point));
     move_animation->Behavior = AnimationBehavior::WiredBehavior();
-    ref<Animation> rotate_animation = MakeGenericAnimation(duration, RotateVisualObject(card.get(), 0.0, 0.0, 1.0, Theta));
+    ref<Animation> rotate_animation = MakeGenericAnimation(duration, ::Rotate(card->GetTransformation(), 0.0, 0.0, 1.0, Theta));
     ref<GroupAnimation> animation = ::std::make_shared<GroupAnimation>();
     animation->AddAnimation(move_animation);
     animation->AddAnimation(rotate_animation);

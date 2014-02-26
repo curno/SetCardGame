@@ -15,6 +15,8 @@ Animation::~Animation()
 void Animation::Stop()
 {
     Stoped_ = true; Watch_.Stop();
+    if (StopOperation_ != nullptr)
+        (*StopOperation_)(); // call stop operation.
     if (DeleteWhenStopped_)
         delete this;
 }

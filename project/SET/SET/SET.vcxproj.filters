@@ -102,6 +102,9 @@
     <ClInclude Include="Include\Animation\AnimationManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Animation\StopOperation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\UI\MainFrame.cpp">
