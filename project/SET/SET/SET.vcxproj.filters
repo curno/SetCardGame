@@ -169,6 +169,24 @@
     <Image Include="Res\Board.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="DiamondOutlined.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="DiamondSolid.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="DiamondStriped.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\DiamondOutlined.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\DiamondSolid.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\DiamondStriped.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Res\SET.rc">

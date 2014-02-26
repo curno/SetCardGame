@@ -99,15 +99,14 @@ private:
         retval.Data.bmBits = new byte[retval.Data.bmWidthBytes * retval.Data.bmHeight];
 
         bitmap.GetBitmapBits(retval.Data.bmWidthBytes * retval.Data.bmHeight, retval.Data.bmBits);
-        FillAlphaElement(retval);
 
-        CreateNameAndTexture(retval);
+        CreateNameAndTexture(retval, false);
         return retval;
     }
 
     Texture CreateTexture(const CardParameter &param)
     {
-        static ColorElement TransparentKey[] = { 255, 255, 255, 0 };
+        static ColorElement TransparentKey[] = { 0, 0, 0, 0 };
         for each (auto &i in CardTextureMap_)
         {
             // if there already exists a texture which has same symbol and shading
@@ -116,7 +115,7 @@ private:
             {
                 ColorElement color[4];
                 GetColorData(param.Color, color);
-                return CreateTexture(i.second, color, TransparentKey);
+                return CreateTextureForCard(i.second, color, TransparentKey);
             }
         }
 
@@ -129,15 +128,15 @@ private:
         bitmap.GetBitmap(&t.Data);
         t.Data.bmBits = new byte[t.Data.bmWidthBytes * t.Data.bmHeight];
         bitmap.GetBitmapBits(t.Data.bmWidthBytes * t.Data.bmHeight, t.Data.bmBits);
-        FillAlphaElement(t);
+        FillAlphaElement(t, TransparentKey);
         ColorElement color[4];
         GetColorData(param.Color, color);
-        Texture retval = CreateTexture(t, color, TransparentKey);
+        Texture retval = CreateTextureForCard(t, color, TransparentKey);
         delete[] t.Data.bmBits;
         return retval;
     }
 
-    Texture CreateTexture(const Texture &t, ColorElement *c, ColorElement *transparent_key)
+    Texture CreateTextureForCard(const Texture &t, ColorElement *c, ColorElement *transparent_key)
     {
         Texture retval;
 
@@ -154,7 +153,16 @@ private:
             for (int w = 0; w < t.Data.bmWidth; ++w)
             {
                 if (!SameColor(source_row, transparent_key))
-                    CopyColor(dest_row, c);
+                {
+                    double factor = 0.0;
+                    factor = max(factor, source_row[0] / 255.0);
+                    factor = max(factor, source_row[1] / 255.0);
+                    factor = max(factor, source_row[2] / 255.0);
+                    dest_row[0] = static_cast<ColorElement>(c[0] * factor);
+                    dest_row[1] = static_cast<ColorElement>(c[1] * factor);
+                    dest_row[2] = static_cast<ColorElement>(c[2] * factor);
+                    dest_row[3] = c[3];
+                }
                 else
                     CopyColor(dest_row, transparent_key);
                 dest_row += 4;
@@ -164,37 +172,34 @@ private:
             dest += t.Data.bmWidthBytes;
         }
 
-        CreateNameAndTexture(retval);
+        CreateNameAndTexture(retval, true);
         return retval;
     }
 
-    void FillAlphaElement(Texture &retval)
+    void FillAlphaElement(Texture &retval, ColorElement *transparent_key)
     {
-        static ColorElement TransparentKey[] = { 255, 255, 255, 0 };
         ColorElement *data = static_cast<ColorElement *>(retval.Data.bmBits);
         for (int h = 0; h < retval.Data.bmHeight; ++h)
         {
             ColorElement *data_row = data;
             for (int w = 0; w < retval.Data.bmWidth; ++w)
             {
-                if (SameColor(data_row, TransparentKey))
-                    data_row[3] = 0; // set alpha to 255;
-                else
-                    data_row[3] = 255;
+                if (!SameColor(data_row, transparent_key))
+                    data_row[3] = 255; // set alpha to 255;
                 data_row += 4;
             }
             data += retval.Data.bmWidthBytes;
         }
     }
 
-    void CreateNameAndTexture(Texture &texture)
+    void CreateNameAndTexture(Texture &texture, bool with_alpha)
     {
         TextureName name;
         glGenTextures(1, &name);
         texture.Name = name;
         glBindTexture(GL_TEXTURE_2D, texture.Name);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.Data.bmWidth, texture.Data.bmHeight, 0, GL_BGRA_EXT, GL_UNSIGNED_BYTE, texture.Data.bmBits);
+        glTexImage2D(GL_TEXTURE_2D, 0, (with_alpha ? 4 : 3), texture.Data.bmWidth, texture.Data.bmHeight, 0, GL_BGRA_EXT, GL_UNSIGNED_BYTE, texture.Data.bmBits);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -214,9 +219,9 @@ private:
     // 
     void GetColorData(Card::ColorType color, ColorElement *data)
     {
-        static const ColorElement Red[] = { 211, 215, 56, 255 };
+        static const ColorElement Red[] = { 255, 255, 0, 255 };
         static const ColorElement Green[] = { 0, 255, 0, 255 };
-        static const ColorElement Purple[] = { 0, 0, 255, 255 };
+        static const ColorElement Purple[] = { 255, 0, 255, 255 };
         const ColorElement *source = nullptr;
         switch (color)
         {
@@ -240,6 +245,27 @@ private:
 
     int GetResourceID(Card::SymbolType symbol, Card::ShadingType shading)
     {
+        switch (symbol)
+        {
+        case Card::SymbolType::Squiggle:
+            break;
+        case Card::SymbolType::Diamond:
+            switch (shading)
+            {
+            case Card::ShadingType::Solid:
+                return IDB_SOLID_DIAMOND;
+            case Card::ShadingType::Striped:
+                return IDB_STRIPED_DIAMOND;
+            case Card::ShadingType::Outlined:
+                return IDB_OUTLINED_DIAMOND;
+            }
+        case Card::SymbolType::Oval:
+            break;
+        case Card::SymbolType::Count:
+            break;
+        default:
+            break;
+        }
         return IDB_TEST;
     }
 };

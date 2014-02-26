@@ -18,7 +18,7 @@ void VisualCard::RenderContent()
     Point p1 = -p0;
 
     glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE);
+    glBlendFunc(GL_ONE, GL_ZERO);
     //glEnable(GL_ALPHA_TEST);
     //glAlphaFunc(GL_GREATER, 0.9);
 
@@ -205,11 +205,11 @@ void VisualCard::RenderFrontRectangle(GLdouble p0x, GLdouble p0y, GLdouble p1x, 
     glNormal3d(0.0, 0.0, 1.0);
     glTexCoord2d(0.0, 0.0);
     glVertex2d(p0x, p0y);
-    glTexCoord2d(1.0, 0.0);
+    glTexCoord2d(0.0, 1.0);
     glVertex2d(p1x, p0y);
     glTexCoord2d(1.0, 1.0);
     glVertex2d(p1x, p1y);
-    glTexCoord2d(0.0, 1.0);
+    glTexCoord2d(1.0, 0.0);
     glVertex2d(p0x, p1y);
     glEnd();
 }
