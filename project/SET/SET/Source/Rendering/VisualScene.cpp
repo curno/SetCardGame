@@ -63,3 +63,16 @@ VisualScene::~VisualScene()
     for each (auto pair in Children_)
         delete pair.second;
 }
+
+void VisualScene::RemoveChild(ref<VisualObject> child)
+{
+    for (auto i = Children_.begin(); i != Children_.end(); ++i)
+    {
+        if (i->first == child)
+        {
+            delete i->second;
+            Children_.erase(i);
+            return;
+        }
+    }
+}

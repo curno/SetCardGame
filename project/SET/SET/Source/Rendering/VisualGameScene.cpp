@@ -301,7 +301,7 @@ void VisualGameScene::OnCardChoosed(ref<VisualCard> visual_card)
         bool success = Game_->CheckAndScore(CurrentChoosedCard_[0]->Card,
             CurrentChoosedCard_[1]->Card,
             CurrentChoosedCard_[2]->Card);
-        if (!success)
+        if (false)
         {
             for each (auto card in CurrentChoosedCard_)
                 card->CancelChoosed();
@@ -309,21 +309,26 @@ void VisualGameScene::OnCardChoosed(ref<VisualCard> visual_card)
         }
         else
         {
-            
+            ::std::vector<ref<VisualCard>> discarded_cards;
             ::std::copy(CurrentChoosedCard_.begin(), CurrentChoosedCard_.end(), 
-                ::std::inserter(DiscardedCards_, DiscardedCards_.end()));
+                ::std::back_inserter(discarded_cards));
 
-            auto animation = ::std::make_shared<GroupAnimation>();
+            auto animation = new GroupAnimation();
 
             for each (auto card in CurrentChoosedCard_)
             {
-                animation->AddAnimation(DiscardCardAnimation(card));
                 EmptySlot(card);
+                animation->AddAnimation(DiscardCardAnimation(card));
             }
 
+            animation->StopOperation = MakeGenericStopOperation(
+                [discarded_cards, this]()
+                {
+                this->RemoveCards(discarded_cards);
+            });
+            animation->DeleteWhenStopped = true;
             animation->Start();
             CurrentChoosedCard_.clear();
-            DropCardAnimation_ = animation;
         }
     }
 }
@@ -342,6 +347,14 @@ void VisualGameScene::EmptySlot(ref<VisualCard> card)
                 Cards_[row][column] = nullptr;
                 return;
             }
+}
+
+void VisualGameScene::RemoveCards(::std::vector<ref<VisualCard>> cards)
+{
+    for each (auto card in cards)
+    {
+        RemoveChild(card);
+    }
 }
 
 

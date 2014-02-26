@@ -15,9 +15,7 @@ private:
     ref<Game> Game_;
     ref<VisualCard> Cards_[RowCount][ColumnCount]; // 3 * 7 = 21 visual card slots in the game scene, which can be empty.
     ref<Animation> DealCardAnimation_;
-    ref<Animation> DropCardAnimation_;
     ::std::vector<ref<VisualCard>> CurrentChoosedCard_;
-    ::std::set<ref<VisualCard>> DiscardedCards_;
 public:
     VisualGameScene(ref<Game> game);
     
@@ -78,7 +76,7 @@ private:
 public:
     // game logic
     void DealCard();
-
+    void RemoveCards(::std::vector<ref<VisualCard>> cards);
     void OnCardChoosed(ref<VisualCard> visual_card);
     void OnCardCancleChoosed(ref<VisualCard> visual_card);
 public:

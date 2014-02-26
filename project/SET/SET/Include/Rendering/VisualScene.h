@@ -14,7 +14,7 @@ public:
     virtual void RenderContent() override;
 
     void AddChild(ref<VisualObject> child);
-    
+    void RemoveChild(ref<VisualObject> child);
     using VisualObject::GetTransformation;
     Transformation &GetTransformation(int index);
     int IndexOf(ref<VisualObject> child);
