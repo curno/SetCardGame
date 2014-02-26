@@ -5,6 +5,8 @@
 #include "../Animation/Animation.h"
 
 class VisualGameScene;
+class VisualCard;
+typedef ref<VisualCard> VisualCardRef;
 class VisualCard : public VisualObject
 {
 public:

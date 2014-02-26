@@ -47,7 +47,7 @@ void VisualGameScene::ArrangeCards(const CSize &)
             if (Cards_[row][column] != nullptr)
             {
                 // for every card in the scene.
-                ref<VisualCard> card = Cards_[row][column];
+                VisualCardRef card = Cards_[row][column];
 
                 Dimension size;
                 Point position;
@@ -98,7 +98,7 @@ void VisualGameScene::UpdateLayoutParameter()
     LayoutParameter_.YSpace = size.Height * MaginRatio / LayoutParameter_.RowCount;
 }
 
-void VisualGameScene::GetSlotGeometryForCard(const ref<VisualCard> card, int row, int column, Point &position, Dimension &size)
+void VisualGameScene::GetSlotGeometryForCard(const VisualCardRef card, int row, int column, Point &position, Dimension &size)
 {
     // the width/height ratio of the card.
     double ratio = 1.0 / VisualCard::HeightPerWidthRatio;
@@ -126,12 +126,12 @@ void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
     // create visual cards for every new card.
     int row = 0; 
     int column = 0;
-    ::std::vector<ref<VisualCard>> new_cards;
+    ::std::vector<VisualCardRef> new_cards;
     for (auto i = cards.begin(); i != cards.end(); ++i)
     {
         // for every card
         CardRef card = *i;
-        ref<VisualCard> visual_card = ref<VisualCard>(new VisualCard(card, this)); // create visual card
+        VisualCardRef visual_card = VisualCardRef(new VisualCard(card, this)); // create visual card
         if (!GetEmptySlot(row, column, row, column)) // get card slot.
             assert(false);
         // save visual card.
@@ -216,7 +216,7 @@ void VisualGameScene::RenderContent()
     __super::RenderContent();
 }
 
-ref<Animation> VisualGameScene::DealCardAnimation(ref<VisualCard> card, Point position, Dimension dimension)
+ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point position, Dimension dimension)
 {
     static const double speed = 2; 
     static const int TurnDuration = 500;
@@ -260,7 +260,7 @@ ref<Animation> VisualGameScene::DealCardAnimation(ref<VisualCard> card, Point po
     return sequential_animation;
 }
 
-void VisualGameScene::DiscardCardAnimation(ref<VisualCard> card)
+void VisualGameScene::DiscardCardAnimation(VisualCardRef card)
 {
     static const double speed = 0.8;
     static const double Theta = 3.3 * PI / 2;
@@ -298,7 +298,7 @@ bool VisualGameScene::IsAnimating()
     return false;
 }
 
-void VisualGameScene::OnCardChoosed(ref<VisualCard> visual_card)
+void VisualGameScene::OnCardChoosed(VisualCardRef visual_card)
 {
     CurrentChoosedCard_.push_back(visual_card);
     if (CurrentChoosedCard_.size() == Game::CardCountPerDeal)
@@ -321,12 +321,12 @@ void VisualGameScene::OnCardChoosed(ref<VisualCard> visual_card)
     }
 }
 
-void VisualGameScene::OnCardCancleChoosed(ref<VisualCard> visual_card)
+void VisualGameScene::OnCardCancleChoosed(VisualCardRef visual_card)
 {
     CurrentChoosedCard_.erase(::std::find(CurrentChoosedCard_.begin(), CurrentChoosedCard_.end(), visual_card));
 }
 
-void VisualGameScene::EmptySlot(ref<VisualCard> card)
+void VisualGameScene::EmptySlot(VisualCardRef card)
 {
     for (int row = 0; row < RowCount; ++row)
         for (int column = 0; column < ColumnCount; ++column)
@@ -336,7 +336,7 @@ void VisualGameScene::EmptySlot(ref<VisualCard> card)
                 return;
             }
 }
-void VisualGameScene::DiscardCard(ref<VisualCard> card)
+void VisualGameScene::DiscardCard(VisualCardRef card)
 {
     card->Discarded(); // discard card
     EmptySlot(card); // empty slot

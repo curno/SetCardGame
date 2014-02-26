@@ -35,7 +35,7 @@ public:
         }
         return i->second.Name;
     }
-
+    TextureName GetTexture(CardRef) { return 0; }
     ~TextureManager()
     {
         for each (auto pair in TextureMap_)

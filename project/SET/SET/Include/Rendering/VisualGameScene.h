@@ -15,9 +15,9 @@ class VisualGameScene : public VisualScene
     static const double CellRatio;
 private:
     ref<Game> Game_;
-    ref<VisualCard> Cards_[RowCount][ColumnCount]; // 3 * 7 = 21 visual card slots in the game scene, which can be empty.
+    VisualCardRef Cards_[RowCount][ColumnCount]; // 3 * 7 = 21 visual card slots in the game scene, which can be empty.
     ref<Animation> DealCardAnimation_;
-    ::std::vector<ref<VisualCard>> CurrentChoosedCard_;
+    ::std::vector<VisualCardRef> CurrentChoosedCard_;
 public:
     VisualGameScene(ref<Game> game);
     
@@ -40,9 +40,9 @@ private:
     bool GetEmptySlot(int row_hint, int column_hint, int &row, int &column);
 
     // get the position and size for card card at slot (row, column)
-    void GetSlotGeometryForCard(const ref<VisualCard> card, int row, int column, Point &position, Dimension &size);
+    void GetSlotGeometryForCard(const VisualCardRef card, int row, int column, Point &position, Dimension &size);
 
-    void EmptySlot(ref<VisualCard> card);
+    void EmptySlot(VisualCardRef card);
 
     // update LayoutParameter_ according to the view size;
     void UpdateLayoutParameter();
@@ -70,19 +70,19 @@ private:
     // 1. The card moving from up outside of the scene to the above of the final position. 
     // 2. Then the card moves down from current position to the final position.
     // 3. While step 2, the card flip over, so the content of card will be seen.
-    ref<Animation> DealCardAnimation(ref<VisualCard> card, Point position, Dimension dimension);
-    void DiscardCardAnimation(ref<VisualCard> card);
+    ref<Animation> DealCardAnimation(VisualCardRef card, Point position, Dimension dimension);
+    void DiscardCardAnimation(VisualCardRef card);
 
 public:
     // create visual cards and add them to the scene with animations.
     void DealCards(const ::std::unordered_set<CardRef> &cards);
     // game logic
-    void OnCardChoosed(ref<VisualCard> visual_card);
-    void OnCardCancleChoosed(ref<VisualCard> visual_card);
+    void OnCardChoosed(VisualCardRef visual_card);
+    void OnCardCancleChoosed(VisualCardRef visual_card);
 
 private:
     // remove a visual card from the scene, with animation
-    void DiscardCard(ref<VisualCard> card);
+    void DiscardCard(VisualCardRef card);
     
 public:
     static const double SlopeTheta;
