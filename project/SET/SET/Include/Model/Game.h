@@ -40,7 +40,7 @@ public:
     void DealMore();
     bool MoreToDeal();
     bool CheckAndScore(CardRef card1, CardRef card2, CardRef card3);
-
+    bool Hint(CardRef &card1, CardRef &card2, CardRef &card3);
     CTimeSpan readonly(TimeElapsed);
     CTimeSpan GetTimeElapsed() const;
 

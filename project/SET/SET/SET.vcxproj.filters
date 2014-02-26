@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Include\stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -167,6 +164,60 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="Res\Board.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="DiamondOutlined.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="DiamondSolid.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="DiamondStriped.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\DiamondOutlined.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\DiamondSolid.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\DiamondStriped.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="OvalOutlined.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="OvalSolid.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="OvalStriped.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="SquiggleOutlined.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="SquiggleSolid.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="SquiggleStriped.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\OvalOutlined.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\OvalSolid.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\OvalStriped.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\SquiggleOutlined.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\SquiggleSolid.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\SquiggleStriped.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

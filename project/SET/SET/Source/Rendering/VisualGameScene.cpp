@@ -306,7 +306,7 @@ void VisualGameScene::OnCardChoosed(VisualCardRef visual_card)
         bool success = Game_->CheckAndScore(CurrentChoosedCard_[0]->Card,
             CurrentChoosedCard_[1]->Card,
             CurrentChoosedCard_[2]->Card);
-        if (false)
+        if (!success)
         {
             for each (auto card in CurrentChoosedCard_)
                 card->CancelChoosed();

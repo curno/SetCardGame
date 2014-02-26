@@ -19,9 +19,7 @@ void VisualCard::RenderContent()
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ZERO);
-    //glEnable(GL_ALPHA_TEST);
-    //glAlphaFunc(GL_GREATER, 0.9);
-
+    
     glEnable(GL_TEXTURE_2D);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(Card_));
@@ -205,11 +203,11 @@ void VisualCard::RenderFrontRectangle(GLdouble p0x, GLdouble p0y, GLdouble p1x, 
     glNormal3d(0.0, 0.0, 1.0);
     glTexCoord2d(0.0, 0.0);
     glVertex2d(p0x, p0y);
-    glTexCoord2d(1.0, 0.0);
+    glTexCoord2d(0.0, 1.0);
     glVertex2d(p1x, p0y);
     glTexCoord2d(1.0, 1.0);
     glVertex2d(p1x, p1y);
-    glTexCoord2d(0.0, 1.0);
+    glTexCoord2d(1.0, 0.0);
     glVertex2d(p0x, p1y);
     glEnd();
 }

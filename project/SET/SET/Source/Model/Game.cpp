@@ -119,4 +119,29 @@ void Game::InitDeal()
     Deal(InitCardsCount);
 }
 
+bool Game::Hint(CardRef &card1, CardRef &card2, CardRef &card3)
+{
+    for (auto i = CardsInDesk_.begin(); i != CardsInDesk_.end(); ++i)
+    {
+        auto j = i;
+        ++j;
+        for (; j != CardsInDesk_.end(); ++j)
+        {
+            auto k = j;
+            ++k;
+            for (; k != CardsInDesk_.end(); ++k)
+            {
+                if (Card::IsSet(*i, *j, *k))
+                {
+                    card1 = *i;
+                    card2 = *j;
+                    card3 = *k;
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 
