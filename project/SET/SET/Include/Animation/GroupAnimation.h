@@ -35,7 +35,15 @@ public:
 
         // perform each animation in parallel with proper ratio.
         for each (ref<Animation> animation in Animations_)
-            animation->OnAnimation(current_step / animation->Duration);
+        {
+            if (!animation->IsStopped)
+            {
+                double sub_progress = current_step / animation->Duration;
+                animation->OnAnimation(sub_progress);
+                if (!Animation::ValidProgress(sub_progress))
+                    animation->Stop();
+            }
+        }
     }
 
 };

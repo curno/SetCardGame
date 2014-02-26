@@ -38,6 +38,7 @@ public:
     bool readwrite(DeleteWhenStopped);
     bool GetDeleteWhenStopped() const { return DeleteWhenStopped_; }
     void SetDeleteWhenStopped(bool delete_when_stop) { DeleteWhenStopped_ = delete_when_stop; }
+
     // called when WM_TIMER occurs.
     void OnTimer()
     {
@@ -91,4 +92,10 @@ public:
 
         return static_cast<double>(passed) / duration;
     }
+
+public:
+    // utils
+    static bool ValidProgress(double progress) { return progress >= 0.0 && progress <= 1.0; }
+    static void AdjustProgress(double &progress) { progress = max(0.0, min(1.0, progress)); }
+    
 };

@@ -38,9 +38,18 @@ public:
         int current = 0;
         for (auto i = Animations_.begin(); i != Animations_.end(); ++i)
         {
+            
             int old_current = current;
             if (current <= current_step)
-                (*i)->OnAnimation((current_step - old_current) / (*i)->Duration);
+            {
+                if (!(*i)->IsStopped)
+                {
+                    double sub_progress = (current_step - old_current) / (*i)->Duration;
+                    (*i)->OnAnimation(sub_progress);
+                    if (!Animation::ValidProgress(sub_progress))
+                        (*i)->Stop();
+                }
+            }
             else
                 break;
             current += (*i)->Duration;
