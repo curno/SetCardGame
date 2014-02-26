@@ -154,31 +154,13 @@
     <Image Include="Res\res\bitmap1.bmp">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="..\..\..\..\..\..\..\Pictures\WALL Papers\1.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
     <Image Include="Res\res\Set.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\..\..\pictures\wall papers\bitmap2.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\..\..\Pictures\WALL Papers\2.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="card background.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="test.bmp">
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="Res\card background.bmp">
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="Res\test.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Board.bmp">
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="Res\Board.bmp">
