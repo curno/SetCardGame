@@ -37,8 +37,7 @@ public:
 protected:
     virtual void RenderContent() override;
 public:
-    CardRef readwrite(Card);
-    void SetCard(const CardRef card) { Card_ = card; }
+    CardRef readonly(Card);
     CardRef GetCard() { return Card_; }
 
     State readwrite(CurrentState);

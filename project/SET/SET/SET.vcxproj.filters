@@ -102,9 +102,6 @@
     <ClInclude Include="Include\Animation\StopOperation.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Rendering\CardTextureManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Rendering\TextureManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
