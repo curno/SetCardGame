@@ -18,7 +18,7 @@ void VisualCard::RenderContent()
     Point p1 = -p0;
 
     glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ZERO);
+    glBlendFunc(GL_ONE, GL_ONE);
     //glEnable(GL_ALPHA_TEST);
     //glAlphaFunc(GL_GREATER, 0.9);
 
