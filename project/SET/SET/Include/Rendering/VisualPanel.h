@@ -9,6 +9,7 @@ class VisualPanel : public VisualScene
 {
     ref<VisualButton> ButtonNewGame_;
     ref<VisualButton> ButtonCommit_;
+    ref<VisualCard> Deck_;
     VisualGameScene *GameScene_;
 protected:
     virtual void RenderContent() override

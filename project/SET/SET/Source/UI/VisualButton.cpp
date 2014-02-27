@@ -56,7 +56,7 @@ void VisualButton::PrepareRendering()
 void VisualButton::OnMouseEnter()
 {
     __super::OnMouseEnter();
-    GLfloat emission[] = { 0.7f, 0.7f, 0.7f, 1.0f };
+    GLfloat emission[] = { 0.5f, 0.5f, 0.5f, 1.0f };
     Material_.SetData(Material::Parameter::Emission, emission);
 }
 
@@ -74,4 +74,4 @@ void VisualButton::OnMouseMove()
 
 const double VisualButton::CornerRatioX = 0.1;
 const double VisualButton::CornerRatioY = 0.1;
-const double VisualButton::HeightPerWidth = 0.45;
+const double VisualButton::HeightPerWidth = 0.42;

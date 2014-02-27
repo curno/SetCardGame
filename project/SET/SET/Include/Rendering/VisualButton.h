@@ -12,6 +12,8 @@ public:
     VisualButton(ref<Operation> operation) : Operation_(operation), TextureName_(0)
     {
         Material_ = Material::GetMaterial("ruby");
+        GLfloat emission[] = { 0.3f, 0.3f, 0.3f, 1.0f };
+        Material_.SetData(Material::Parameter::Emission, emission);
     }
 protected:
 
