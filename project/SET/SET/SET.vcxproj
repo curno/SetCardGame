@@ -80,7 +80,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\Output\$(Configuration) $(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Immediate\$(Configuration) $(Platform)\</IntDir>
-    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(ProjectDir)Dependencies\glew\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Dependencies/glew/lib/Release/win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -249,12 +250,6 @@
     <ResourceCompile Include="Res\SET.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="DiamondOutlined.bmp" />
-    <Image Include="DiamondSolid.bmp" />
-    <Image Include="DiamondStriped.bmp" />
-    <Image Include="OvalOutlined.bmp" />
-    <Image Include="OvalSolid.bmp" />
-    <Image Include="OvalStriped.bmp" />
     <Image Include="Resource\Resource\SET.ico" />
     <Image Include="Res\Board.bmp" />
     <Image Include="Res\card background.bmp" />
@@ -271,9 +266,6 @@
     <Image Include="Res\SquiggleSolid.bmp" />
     <Image Include="Res\SquiggleStriped.bmp" />
     <Image Include="Res\test.bmp" />
-    <Image Include="SquiggleOutlined.bmp" />
-    <Image Include="SquiggleSolid.bmp" />
-    <Image Include="SquiggleStriped.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

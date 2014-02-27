@@ -42,8 +42,13 @@
 #include <memory>
 
 // opengl header
-#include <gl/GL.h>
-#include <gl/GLU.h>
+//#include <gl/GL.h>
+//#include <gl/GLU.h>
+
+#include "GL/glew.h"
+#include "GL/wglew.h"
+#pragma comment(lib, "glew32.lib")
+#pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "OpenGL32.lib")
 #pragma comment(lib, "GLu32.lib")
 

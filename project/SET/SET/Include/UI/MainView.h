@@ -51,10 +51,12 @@ protected:
 public:
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 
+
 private:
     HGLRC GLRC_; // opengl rendering handle.
     void RenderWithOpenGL();
     void InitOpenGL();
+    BOOL InitGLRC(HDC hdc);
     VisualObject *PickObject(CPoint &point, int w, int h);
 public:
     afx_msg void OnTimer(UINT_PTR nIDEvent);
