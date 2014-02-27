@@ -6,6 +6,7 @@
 #include "Include/Animation/VisualObjectAnimations.h"
 #include "Include/Animation/GroupAnimation.h"
 #include "Include/Animation/SequentialAnimation.h"
+#include "Include/Sound/SoundPlayer.h"
 
 
 void VisualGameScene::InitializeGameScene()
@@ -171,7 +172,6 @@ void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
 
 VisualGameScene::VisualGameScene(ref<Game> game) : Game_(game)
 {
-    Game_->Scene = this;
     Size = Dimension(300, 200);
     Position = Point(0, 0);
     InitializeGameScene();
@@ -244,7 +244,8 @@ ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point posi
     move_animation->StopOperation = MakeGenericStopOperation(
         [turn_animation]()
         {
-        turn_animation->Start();
+        SoundPlayer::Instance().Play(IDR_PUT_CARD);
+            turn_animation->Start();
         });
         
     // create the down animation. (Step 2)
@@ -285,11 +286,17 @@ void VisualGameScene::DiscardCardAnimation(VisualCardRef card)
 void VisualGameScene::OnMouseButtonDown()
 {
     if (Game_->GameState == Game::State::Initilized)
-        Game_->Start();
+    {
+        Start();
+    }
     else
     {
         if (Game_->MoreToDeal())
-            Game_->DealMore();
+        {
+            ::std::unordered_set<CardRef> new_cards;
+            Game_->DealMore(new_cards);
+            DealCards(new_cards);
+        }
     }
 }
 
@@ -364,6 +371,12 @@ VisualCardRef VisualGameScene::GetVisualCard(CardRef card)
                 return Cards_[i][j];
     }
     return nullptr;
+}
+
+void VisualGameScene::Start()
+{
+    Game_->Start();
+    DealCards(Game_->GetCardsOnDesk());
 }
 
 const double VisualGameScene::MaginRatio = 0.8;

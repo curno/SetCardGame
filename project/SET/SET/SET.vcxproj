@@ -194,6 +194,9 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Include\UI\MainView.cpp" />
+    <ClCompile Include="Source\UI\OpenGLView.cpp" />
+    <ClCompile Include="Source\UI\PanelView.cpp" />
     <ClInclude Include="Dependencies\glew.h" />
     <ClInclude Include="Dependencies\wglew.h" />
     <ClInclude Include="Include\Animation\Animation.h" />
@@ -220,14 +223,18 @@
     <ClInclude Include="Include\Rendering\VisualObject.h" />
     <ClInclude Include="Include\Rendering\VisualScene.h" />
     <ClInclude Include="Include\SET.h" />
+    <ClInclude Include="Include\Sound\SoundPlayer.h" />
     <ClInclude Include="Include\UI\MainFrame.h" />
+    <ClInclude Include="Include\UI\GameView.h" />
     <ClInclude Include="Include\UI\MainView.h" />
+    <ClInclude Include="Include\UI\OpenGLView.h" />
     <ClInclude Include="Res\Resource.h" />
     <ClInclude Include="Include\stdafx.h" />
     <ClInclude Include="Include\targetver.h" />
     <ClCompile Include="Source\Animation\Animation.cpp" />
     <ClCompile Include="Source\Animation\AnimationBehaviors.cpp" />
     <ClCompile Include="Source\Model\Stopwatch.cpp" />
+    <ClInclude Include="Include\UI\PanelView.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Rendering\VisualScene.cpp" />
@@ -241,7 +248,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\UI\MainFrame.cpp" />
-    <ClCompile Include="Source\UI\MainView.cpp">
+    <ClCompile Include="Source\UI\GameView.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -268,6 +275,9 @@
     <Image Include="Res\SquiggleSolid.bmp" />
     <Image Include="Res\SquiggleStriped.bmp" />
     <Image Include="Res\test.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\res\sound1.bin" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -57,9 +57,6 @@
     <ClInclude Include="Res\Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Include\UI\MainView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Include\SET.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -108,12 +105,24 @@
     <ClInclude Include="Dependencies\wglew.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Sound\SoundPlayer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UI\PanelView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UI\OpenGLView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UI\GameView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UI\MainView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\UI\MainFrame.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\UI\MainView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Source\SET.cpp">
@@ -147,6 +156,18 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Source\Animation\Animation.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\OpenGLView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\GameView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\UI\MainView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\PanelView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -204,5 +225,10 @@
     <ResourceCompile Include="Res\SET.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\res\sound1.bin">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

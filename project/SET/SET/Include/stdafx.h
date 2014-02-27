@@ -32,6 +32,8 @@
 
 #include <afxcontrolbars.h>     // MFC support for ribbons and control bars
 
+#include "Mmsystem.h"
+#pragma comment(lib, "Winmm.lib")
 // stl header
 #include <algorithm>
 #include <iterator>

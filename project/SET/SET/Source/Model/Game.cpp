@@ -3,7 +3,7 @@
 #include "Include/Model/Game.h"
 #include "Include/Rendering/VisualGameScene.h"
 
-Game::Game() : Scene_(nullptr)
+Game::Game() 
 {
     Deck_ = ref<Deck>(new Deck);
     Clear();
@@ -13,7 +13,8 @@ void Game::Start()
 {
     Clear();
     State_ = State::Active;
-    InitDeal();
+    ::std::unordered_set<CardRef> new_cards;
+    InitDeal(new_cards);
     Watch_.Restart();
 }
 
@@ -39,9 +40,9 @@ void Game::Stop()
     Watch_.Stop();
 }
 
-void Game::DealMore()
+void Game::DealMore(::std::unordered_set<CardRef> &new_cards)
 {
-    Deal(CardCountPerDeal);
+    Deal(CardCountPerDeal, new_cards);
 }
 
 bool Game::MoreToDeal()
@@ -84,9 +85,8 @@ void Game::Clear()
     Deck_->SetAllCardsTo(CardsInHand_);
 }
 
-void Game::Deal(int card_count)
+void Game::Deal(int card_count, ::std::unordered_set<CardRef> &new_cards)
 {
-    ::std::unordered_set<CardRef> new_cards;
     auto it = CardsInHand_.begin();
     for (int i = 0; i < card_count; ++i)
     {
@@ -98,24 +98,12 @@ void Game::Deal(int card_count)
         // remove from hand
         CardsInHand_.erase(it++);
     }
-
-    if (Scene_ != nullptr)
-        Scene_->DealCards(new_cards);
 }
 
-void Game::SetScene(VisualGameScenePtr scene)
-{
-    Scene_ = scene;
-}
 
-Game::VisualGameScenePtr Game::GetScene() const
+void Game::InitDeal(::std::unordered_set<CardRef> &new_cards)
 {
-    return Scene_;
-}
-
-void Game::InitDeal()
-{
-    Deal(InitCardsCount);
+    Deal(InitCardsCount, new_cards);
 }
 
 bool Game::Hint(::std::vector<CardRef> &cards)

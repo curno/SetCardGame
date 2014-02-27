@@ -28,34 +28,29 @@ private:
     mutable Stopwatch Watch_; // the stop watch to get the elapsed time.
     
     State State_; // game state
-    // One scene that observe the change of the game. OBSERVER design pattern.
-    // The game does NOT own the scene, so it is a weak ref.
-    VisualGameScene *Scene_; 
+   
+
 public:
     Game();
     void Start();
     void Pause();
     void Resume();
     void Stop();
-    void DealMore();
+    void DealMore(::std::unordered_set<CardRef> &new_cards);
     bool MoreToDeal();
     bool CheckAndScore(const ::std::vector<CardRef> &cards);
     bool Hint(::std::vector<CardRef> &cards);
     CTimeSpan readonly(TimeElapsed);
     CTimeSpan GetTimeElapsed() const;
 
-    typedef VisualGameScene *VisualGameScenePtr;
-    VisualGameScenePtr readwrite(Scene);
-    VisualGameScenePtr GetScene() const;
-    void SetScene(VisualGameScenePtr scene);
-
     State readonly(GameState);
     State GetGameState() const { return State_; }
 
+    ::std::unordered_set<CardRef> &GetCardsOnDesk() { return CardsOnDesk_; }
 private:
     void Clear();
-    void Deal(int card_count);
-    void InitDeal();
+    void Deal(int card_count, ::std::unordered_set<CardRef> &new_cards);
+    void InitDeal(::std::unordered_set<CardRef> &new_cards);
 };
 
 

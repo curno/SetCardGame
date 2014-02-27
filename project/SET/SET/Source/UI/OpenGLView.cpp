@@ -1,88 +1,70 @@
 #include "Include/stdafx.h"
-#include "Include/Set.h"
-#include "Include/UI/MainView.h"
-#include "Include/Rendering/VisualObject.h"
-#include "Include/Rendering/Geometry.h"
+
+#include "Include/UI/OpenGLView.h"
 #include "Include/Animation/AnimationManager.h"
 
-#define LARGE_SCALE 2000
 
 // MainView
-MainView::MainView() : CurrentObject_(nullptr)
-{
-    Game_ = ref<Game>(new Game);
-    GameScene_ = ref<VisualGameScene>(new VisualGameScene(Game_));
-}
-
-MainView::~MainView()
+OpenGLView::OpenGLView()
 {
 }
 
-IMPLEMENT_DYNCREATE(MainView, CView)
+OpenGLView::~OpenGLView()
+{
+}
 
-BEGIN_MESSAGE_MAP(MainView, CView)
+IMPLEMENT_DYNCREATE(OpenGLView, CView)
+
+BEGIN_MESSAGE_MAP(OpenGLView, CView)
     ON_WM_CREATE()
     ON_WM_DESTROY()
     ON_WM_SIZE()
     ON_WM_ERASEBKGND()
     ON_WM_MOUSEMOVE()
-    ON_WM_TIMER()
     ON_WM_LBUTTONDOWN()
     ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
-BOOL MainView::PreCreateWindow(CREATESTRUCT& cs) 
+int OpenGLView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if (!CView::PreCreateWindow(cs))
-		return FALSE;
-	return TRUE;
-}
-
-int MainView::OnCreate(LPCREATESTRUCT lpCreateStruct)
-{
-    if (CWnd::OnCreate(lpCreateStruct) == -1)
+    if (__super::OnCreate(lpCreateStruct) == -1)
         return -1;
 
     CClientDC thisdc(this);
-
     InitGLRC(thisdc);
-
     SetTimer(1, 20, NULL);
-
     Invalidate(NULL);
     return 0;
 }
 
-void MainView::OnDestroy()
+void OpenGLView::OnDestroy()
 {
-    CWnd::OnDestroy();
+    __super::OnDestroy();
 
     wglMakeCurrent(nullptr, nullptr); // make current null
     wglDeleteContext(GLRC_); // release opengl rendering content.
     GLRC_ = nullptr;
 }
 
-void MainView::OnSize(UINT nType, int cx, int cy)
+void OpenGLView::OnSize(UINT nType, int cx, int cy)
 {
-    CWnd::OnSize(nType, cx, cy);
-
+    __super::OnSize(nType, cx, cy);
+    MakeCurrent();
     glViewport(0, 0, cx, cy); // set view port to the whole view.
-
-    if (GameScene_ != nullptr)
-        GameScene_->Size = Dimension(cx, cy, LARGE_SCALE);
+    CancelCurrent();
     Invalidate(NULL);
 }
 
 
-BOOL MainView::OnEraseBkgnd(CDC* pDC)
+BOOL OpenGLView::OnEraseBkgnd(CDC* pDC)
 {
     return TRUE; // suppress erase background.
 }
 
-void MainView::OnMouseMove(UINT nFlags, CPoint point)
+void OpenGLView::OnMouseMove(UINT nFlags, CPoint point)
 {
     static const int MouseRadius = 3;
-    CWnd::OnMouseMove(nFlags, point);
+    __super::OnMouseMove(nFlags, point);
 
     // pick object.
     VisualObject *object = PickObject(point, MouseRadius, MouseRadius);
@@ -96,7 +78,7 @@ void MainView::OnMouseMove(UINT nFlags, CPoint point)
         if (object != nullptr)
             object->OnMouseEnter();
     }
-    
+
 
     // send message to hover objects.
     if (object != nullptr)
@@ -108,73 +90,38 @@ void MainView::OnMouseMove(UINT nFlags, CPoint point)
     Invalidate(NULL);
 }
 
-void MainView::OnLButtonDown(UINT nFlags, CPoint point)
+void OpenGLView::OnLButtonDown(UINT nFlags, CPoint point)
 {
     CView::OnLButtonDown(nFlags, point);
 
     if (CurrentObject_ == nullptr)
         return;
-       
+
     CurrentObject_->OnMouseButtonDown(); // send message.
 
 }
 
 
-void MainView::RenderWithOpenGL()
-{
-    if (GameScene_ != nullptr)
-    {
-        glMatrixMode(GL_PROJECTION);
-        glOrtho(0, GameScene_->Size.Width, 0, GameScene_->Size.Height, -GameScene_->Size.Depth, GameScene_->Size.Depth);
-        glMatrixMode(GL_MODELVIEW);
+void OpenGLView::RenderWithOpenGL() { }
 
-        // render
-        GameScene_->Render();
-    }
-}
+void OpenGLView::InitOpenGL() { }
 
-void MainView::InitOpenGL()
-{
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    // enable light
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-
-    // light parameter
-    GLfloat light_position[] = { 0.0f, 0.0f, 1.0f, 0.0f };
-    GLfloat light_ambient[] = { 0.6f, 0.6f, 0.6f, 0.6f };
-    GLfloat light_diffuse[] = { 0.8f, 0.8f, 0.8f, 0.6f };
-    GLfloat light_specular[] = { 0.5f, 0.5f, 0.5f, 1.0f };
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-
-}
-
-VisualObject *MainView::PickObject(CPoint &point, int w, int h)
+VisualObject *OpenGLView::PickObject(CPoint &point, int w, int h)
 {
     static const unsigned int NameBufferSize = 512;
     static VisualObject::GLNameType NameBuffer[NameBufferSize];
-
+    MakeCurrent();
     glSelectBuffer(NameBufferSize, NameBuffer);
     glRenderMode(GL_SELECT);
 
     // init view 
     glInitNames();
     glPushName(0);
-    
+
     // get view port
     GLint viewport[4];
     glGetIntegerv(GL_VIEWPORT, viewport);
-    
+
     // set pick projection
     glMatrixMode(GL_PROJECTION);
     glPushMatrix(); // save
@@ -203,44 +150,36 @@ VisualObject *MainView::PickObject(CPoint &point, int w, int h)
         {
             min_depth = *(ptr + 2);
             // get the object
-            auto *object = GameScene_->GetObjectByGLName(*(ptr + 2 + name_count));
+            auto *object = GetObjectByGLName(*(ptr + 2 + name_count));
             if (object != nullptr)
                 retval = object;
         }
         ptr += 3 + name_count;
-        
+
     }
+    CancelCurrent();
     return retval;
 }
 
-
-void MainView::OnTimer(UINT_PTR nIDEvent)
-{
-    CWnd::OnTimer(nIDEvent);
-    AnimationManager::Instance().PerformAllAnimation(); // perform animation
-    Invalidate(NULL); // always refresh. 
-}
-
-void MainView::OnDraw(CDC* pDC)
+void OpenGLView::OnDraw(CDC* pDC)
 {
     CClientDC dc(this);
+    MakeCurrent();
 
     InitOpenGL();
     RenderWithOpenGL();
 
+    CancelCurrent();
     SwapBuffers(dc.m_hDC); // swap buffer and begin another rendering process.
 }
 
 
-void MainView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+void OpenGLView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-
-    CView::OnKeyDown(nChar, nRepCnt, nFlags);
-    GameScene_->Hint();
-
+    __super::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
-BOOL MainView::InitGLRC(HDC hdc)
+BOOL OpenGLView::InitGLRC(HDC hdc)
 {
     HWND dummy_window = CreateWindow(TEXT("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
     HDC dummy_dc = ::GetDC(dummy_window);
@@ -266,7 +205,8 @@ BOOL MainView::InitGLRC(HDC hdc)
     PROC wglChoosePixelFormatARB_ = wglGetProcAddress("wglChoosePixelFormatARB");
 
     wglMakeCurrent(nullptr, nullptr);
-    
+    wglDeleteContext(dummy_glrc);
+
     float fAttributes[] = { 0, 0 };
     int pixelFormat;
     UINT numFormats;
@@ -301,4 +241,19 @@ BOOL MainView::InitGLRC(HDC hdc)
     wglMakeCurrent(hdc, GLRC_); // make current
 
     return success;
+}
+
+VisualObject * OpenGLView::GetObjectByGLName(VisualObject::GLNameType name)
+{
+    return nullptr;
+}
+
+void OpenGLView::MakeCurrent()
+{
+    wglMakeCurrent(GetDC()->m_hDC, GLRC_);
+}
+
+void OpenGLView::CancelCurrent()
+{
+    wglMakeCurrent(NULL, NULL);
 }

@@ -75,6 +75,7 @@ private:
     ref<Animation> DealCardAnimation(VisualCardRef card, Point position, Dimension dimension);
     void DiscardCardAnimation(VisualCardRef card);
 public:
+    void Start();
     // create visual cards and add them to the scene with animations.
     void DealCards(const ::std::unordered_set<CardRef> &cards);
 
