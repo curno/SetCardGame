@@ -102,7 +102,8 @@ void MainView::OnMouseMove(UINT nFlags, CPoint point)
     if (object != nullptr)
         object->OnMouseMove(); // move mouse.
 
-    CurrentObject_ = object->shared_from_this(); // update current hovered objects.
+    if (object != nullptr)
+        CurrentObject_ = object->shared_from_this(); // update current hovered objects.
 
     Invalidate(NULL);
 }
@@ -263,7 +264,6 @@ BOOL MainView::InitGLRC(HDC hdc)
     bool success = true;
     // get function address.
     PROC wglChoosePixelFormatARB_ = wglGetProcAddress("wglChoosePixelFormatARB");
-    PROC wglGetPixelFormatAttribivARB_ = wglGetProcAddress("wglGetPixelFormatAttribivARB");
 
     wglMakeCurrent(nullptr, nullptr);
     

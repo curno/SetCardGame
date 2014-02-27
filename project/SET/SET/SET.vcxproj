@@ -80,8 +80,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\Output\$(Configuration) $(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Immediate\$(Configuration) $(Platform)\</IntDir>
-    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(ProjectDir)Dependencies\glew\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Dependencies/glew/lib/Release/win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(ProjectDir)Dependencies\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -194,6 +194,8 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Dependencies\glew.h" />
+    <ClInclude Include="Dependencies\wglew.h" />
     <ClInclude Include="Include\Animation\Animation.h" />
     <ClInclude Include="Include\Animation\AnimationBehaviors.h" />
     <ClInclude Include="Include\Animation\AnimationManager.h" />

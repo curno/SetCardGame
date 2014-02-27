@@ -102,6 +102,12 @@
     <ClInclude Include="Include\Rendering\TextureManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Dependencies\glew.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\wglew.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\UI\MainFrame.cpp">

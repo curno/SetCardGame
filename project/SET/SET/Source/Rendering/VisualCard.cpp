@@ -17,8 +17,7 @@ void VisualCard::RenderContent()
     Point p0(-Size.Width / 2, -Size.Height / 2, -Size.Depth / 2);
     Point p1 = -p0;
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ZERO);
+    glDisable(GL_BLEND);
     
     glEnable(GL_TEXTURE_2D);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -107,7 +106,7 @@ void VisualCard::RenderContent()
     #pragma endregion
 
     glDisable(GL_BLEND);
-    glDisable(GL_ALPHA_TEST);
+    glDisable(GL_TEXTURE_2D);
 }
 
 void VisualCard::OnMouseMove()

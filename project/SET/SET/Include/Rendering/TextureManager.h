@@ -165,6 +165,11 @@ private:
                     dest_row[2] = min(255, max(0, static_cast<ColorElement>(c[2] * factor)));
                     dest_row[3] = c[3];*/
                     CopyColor(dest_row, c);
+                    double factor = 0.0;
+                    factor = max(factor, source_row[0] / 255.0);
+                    factor = max(factor, source_row[1] / 255.0);
+                    factor = max(factor, source_row[2] / 255.0);
+                    c[3] = static_cast<ColorElement>(factor * 255);
                 }
                 else
                     CopyColor(dest_row, transparent_color);
@@ -205,6 +210,7 @@ private:
         glBindTexture(GL_TEXTURE_2D, texture.Name);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
         glTexImage2D(GL_TEXTURE_2D, 0, alpha ? GL_RGBA : GL_RGB, texture.Data.bmWidth, texture.Data.bmHeight, 0, GL_BGRA_EXT, GL_UNSIGNED_BYTE, texture.Data.bmBits);
+        
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
