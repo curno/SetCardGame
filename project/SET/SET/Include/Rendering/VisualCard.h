@@ -15,10 +15,14 @@ public:
         OnDesk, Choosed, Discarded
     };
 private:
-    CardRef Card_;
-    ref<Animation> Animation_;
-    VisualGameScene *Parent_;
-    State State_;
+    CardRef Card_; // the internal card
+    VisualGameScene *Parent_; // the parent scene, must not be null.
+    State State_; // current state
+
+    ref<Animation> ChoosedAnimation_; // ChoosedAnimation is using build-in transformation of the VisualCard.
+
+    Transformation ShakeAnimationTransformation_; 
+    ref<Animation> ShakeAnimation_; // ShakeAnimation is using ShakeAnimationTransformation_;
 public:
     VisualCard(const CardRef card, VisualGameScene *parent);
 
@@ -32,10 +36,16 @@ public:
     virtual void OnMouseButtonDown() override;
 
     void Choosed();
+    void ChoosedAnimate();
+
     void CancelChoosed();
+    void CancelChoosedAnimate();
+
     void Discarded();
+    void Shake();
 protected:
     virtual void RenderContent() override;
+    virtual void PrepareRendering() override;
 public:
     CardRef readonly(Card);
     CardRef GetCard() { return Card_; }

@@ -74,7 +74,6 @@ private:
     // 3. While step 2, the card flip over, so the content of card will be seen.
     ref<Animation> DealCardAnimation(VisualCardRef card, Point position, Dimension dimension);
     void DiscardCardAnimation(VisualCardRef card);
-    ref<Animation> HintCardAnimation(VisualCardRef card);
 public:
     // create visual cards and add them to the scene with animations.
     void DealCards(const ::std::unordered_set<CardRef> &cards);

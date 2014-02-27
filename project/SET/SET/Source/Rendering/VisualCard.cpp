@@ -164,11 +164,8 @@ void VisualCard::CancelChoosed()
     if (this->GetIsChoosed())
     {
         CurrentState = State::OnDesk;
-        if (Animation_ != nullptr)
-            Animation_->Stop();
-        Transformation target;
-        Animation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), Transformation()));
-        Animation_->Start();
+        
+        CancelChoosedAnimate();
     }
 }
 
@@ -177,17 +174,8 @@ void VisualCard::Choosed()
     if (!this->GetIsChoosed())
     {
         CurrentState = State::Choosed;
-        if (Animation_ != nullptr)
-            Animation_->Stop();
-        double theta = VisualGameScene::SlopeTheta;
-
-        Transformation target;
-        target.Translate(0.0, Size.Height / 2.0, Size.Width / 2.0);
-        target.Scale(1.1, 1.1, 1.1);
-        target.Rotate(1.0, 0.0, 0.0, theta);
-        target.Translate(0.0, -Size.Height / 2.0, 0.0);
-        Animation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), target));
-        Animation_->Start();
+        
+        ChoosedAnimate();
     }
 }
 
@@ -210,6 +198,38 @@ void VisualCard::RenderFrontRectangle(GLdouble p0x, GLdouble p0y, GLdouble p1x, 
     glTexCoord2d(1.0, 0.0);
     glVertex2d(p0x, p1y);
     glEnd();
+}
+
+void VisualCard::PrepareRendering()
+{
+    __super::PrepareRendering();
+    glMatrixMode(GL_MODELVIEW);
+    glMultMatrixd(ShakeAnimationTransformation_.Data); // apply shake.
+}
+
+void VisualCard::Shake()
+{
+    ShakeAnimation_ = MakeGenericAnimation(1000, ::Shake(ShakeAnimationTransformation_, 0.0, 0.0, 1.0));
+    ShakeAnimation_->Start();
+}
+
+void VisualCard::ChoosedAnimate()
+{
+    double theta = VisualGameScene::SlopeTheta;
+    Transformation target;
+    target.Translate(0.0, Size.Height / 2.0, Size.Width / 2.0);
+    target.Scale(1.1, 1.1, 1.1);
+    target.Rotate(1.0, 0.0, 0.0, theta);
+    target.Translate(0.0, -Size.Height / 2.0, 0.0);
+    ChoosedAnimation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), target));
+    ChoosedAnimation_->Start();
+}
+
+void VisualCard::CancelChoosedAnimate()
+{
+    Transformation target;
+    ChoosedAnimation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), Transformation()));
+    ChoosedAnimation_->Start();
 }
 
 

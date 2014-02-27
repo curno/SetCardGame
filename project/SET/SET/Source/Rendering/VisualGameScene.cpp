@@ -348,18 +348,10 @@ void VisualGameScene::Hint()
     CardRef card1, card2, card3;
     if (Game_->Hint(card1, card2, card3))
     {
-        auto animation = ::std::make_shared<GroupAnimation>();
-        VisualCardRef visual_card1 = GetVisualCard(card1);
-        if (!visual_card1->GetIsChoosed())
-            animation->AddAnimation(HintCardAnimation(visual_card1));
-        VisualCardRef visual_card2 = GetVisualCard(card2);
-        if (!visual_card2->GetIsChoosed())
-            animation->AddAnimation(HintCardAnimation(visual_card2));
-        VisualCardRef visual_card3 = GetVisualCard(card3);
-        if (!visual_card3->GetIsChoosed())
-            animation->AddAnimation(HintCardAnimation(visual_card3));
-        HintCardsAnimation_ = animation;
-        animation->Start();
+        // animation.
+        GetVisualCard(card1)->Shake();
+        GetVisualCard(card2)->Shake();
+        GetVisualCard(card3)->Shake();
     }
 }
 
@@ -373,14 +365,6 @@ VisualCardRef VisualGameScene::GetVisualCard(CardRef card)
     }
     return nullptr;
 }
-
-ref<Animation> VisualGameScene::HintCardAnimation(VisualCardRef card1)
-{
-    ref<Animation> animation = MakeGenericAnimation(1000, ShakeVisualObject(card1.get(), 0.0, 0.0, 1.0));
-    return animation;
-}
-
-
 
 const double VisualGameScene::MaginRatio = 0.8;
 const double VisualGameScene::CellRatio = 0.8;
