@@ -15,13 +15,13 @@ public:
     };
 
     static const ScoreType ScorePerSet = 3; // Each set give 3 points.
-    static const int CardCountPerDeal = 3; // Deal more 3 cards every time.
+    static const int CardCountPerDeal = Card::CardCountInASet; // Deal more 3 cards every time.
     static const int MaxCardsOnDesk = 21; // At one time, at most 21 cards on desk.
     static const int InitCardsCount = 12;
 private:
     ref<Deck> Deck_; // cards
     ::std::unordered_set<CardRef> CardsInHand_; // card refs in hand, which can be dealed.
-    ::std::unordered_set<CardRef> CardsInDesk_; // card refs currently stay on desk, which can be selected.
+    ::std::unordered_set<CardRef> CardsOnDesk_; // card refs currently stay on desk, which can be selected.
 
     ScoreType Score_; // game score
 
@@ -39,8 +39,8 @@ public:
     void Stop();
     void DealMore();
     bool MoreToDeal();
-    bool CheckAndScore(CardRef card1, CardRef card2, CardRef card3);
-    bool Hint(CardRef &card1, CardRef &card2, CardRef &card3);
+    bool CheckAndScore(const ::std::vector<CardRef> &cards);
+    bool Hint(::std::vector<CardRef> &cards);
     CTimeSpan readonly(TimeElapsed);
     CTimeSpan GetTimeElapsed() const;
 

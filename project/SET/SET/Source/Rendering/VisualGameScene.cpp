@@ -301,21 +301,22 @@ bool VisualGameScene::IsAnimating()
 void VisualGameScene::OnCardChoosed(VisualCardRef visual_card)
 {
     CurrentChoosedCard_.push_back(visual_card);
-    if (CurrentChoosedCard_.size() == Game::CardCountPerDeal)
+    if (CurrentChoosedCard_.size() == Card::CardCountInASet)
     {
-        bool success = Game_->CheckAndScore(CurrentChoosedCard_[0]->Card,
-            CurrentChoosedCard_[1]->Card,
-            CurrentChoosedCard_[2]->Card);
+        ::std::vector<CardRef> cards;
+        for each(VisualCardRef visual_card in CurrentChoosedCard_)
+            cards.push_back(visual_card->Card);
+        bool success = Game_->CheckAndScore(cards);
         if (!success)
         {
-            for each (auto card in CurrentChoosedCard_)
-                card->CancelChoosed();
+            for each (auto visual_card in CurrentChoosedCard_)
+                visual_card->CancelChoosed();
             CurrentChoosedCard_.clear();
         }
         else
         {
-            for each (auto card in CurrentChoosedCard_)
-                DiscardCard(card);
+            for each (auto visual_card in CurrentChoosedCard_)
+                DiscardCard(visual_card);
             CurrentChoosedCard_.clear();
         }
     }
@@ -345,13 +346,12 @@ void VisualGameScene::DiscardCard(VisualCardRef card)
 
 void VisualGameScene::Hint()
 {
-    CardRef card1, card2, card3;
-    if (Game_->Hint(card1, card2, card3))
+    std::vector<CardRef> cards;
+    if (Game_->Hint(cards))
     {
         // animation.
-        GetVisualCard(card1)->Shake();
-        GetVisualCard(card2)->Shake();
-        GetVisualCard(card3)->Shake();
+        for each (CardRef card in cards)
+            GetVisualCard(card)->Shake();
     }
 }
 
