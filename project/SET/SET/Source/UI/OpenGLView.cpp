@@ -104,7 +104,16 @@ void OpenGLView::OnLButtonDown(UINT nFlags, CPoint point)
 
 void OpenGLView::RenderWithOpenGL() { }
 
-void OpenGLView::InitOpenGL() { }
+void OpenGLView::InitOpenGL() 
+{
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+}
 
 VisualObject *OpenGLView::PickObject(CPoint &point, int w, int h)
 {
@@ -250,7 +259,10 @@ VisualObject * OpenGLView::GetObjectByGLName(VisualObject::GLNameType name)
 
 void OpenGLView::MakeCurrent()
 {
-    wglMakeCurrent(GetDC()->m_hDC, GLRC_);
+    CClientDC dc(this);
+    if (dc.m_hDC == nullptr)
+        return;
+    wglMakeCurrent(dc.m_hDC, GLRC_);
 }
 
 void OpenGLView::CancelCurrent()

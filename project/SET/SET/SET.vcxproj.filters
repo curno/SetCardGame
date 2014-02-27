@@ -93,9 +93,6 @@
     <ClInclude Include="Include\Animation\AnimationManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Animation\StopOperation.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Rendering\TextureManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -118,6 +115,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Include\UI\MainView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Rendering\VisualButton.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Rendering\VisualPanel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Rendering\Operation.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -170,6 +176,9 @@
     <ClCompile Include="Source\UI\PanelView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UI\VisualButton.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Resource\SET.ico">
@@ -220,6 +229,24 @@
     <Image Include="Res\SquiggleStriped.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="NewGame.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\NewGame.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="PanelBackground.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\PanelBackground.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Commit.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\Commit.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Res\SET.rc">
@@ -230,5 +257,10 @@
     <None Include="Res\res\sound1.bin">
       <Filter>资源文件</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Res\PutCardSound.wav">
+      <Filter>资源文件</Filter>
+    </Media>
   </ItemGroup>
 </Project>

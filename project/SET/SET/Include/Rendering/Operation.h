@@ -2,10 +2,10 @@
 
 // this is the base class of the operation when a animation stops.
 // this is a strategy class for Animation class.
-class StopOperation
+class Operation
 {
 public:
-    virtual ~StopOperation() { }
+    virtual ~Operation() { }
     virtual void operator()() = 0;
 };
 
@@ -13,7 +13,7 @@ public:
 // Design Pattern: strategy
 // the callable object is the strategy
 template <typename Callable>
-class GenericStopOperation : public StopOperation
+class GenericStopOperation : public Operation
 {
     Callable Operation_;
 public:
@@ -23,7 +23,7 @@ public:
 
 // the convenient creation method for GenericStopOperation<...>
 template <typename Callable>
-ref<GenericStopOperation<Callable>> MakeGenericStopOperation(Callable callable)
+ref<GenericStopOperation<Callable>> MakeGenericOperation(Callable callable)
 {
     return ::std::make_shared<GenericStopOperation<Callable>>(callable);
 }

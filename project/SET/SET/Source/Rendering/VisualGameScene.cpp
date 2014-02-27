@@ -180,6 +180,20 @@ VisualGameScene::VisualGameScene(ref<Game> game) : Game_(game)
 void VisualGameScene::PrepareRendering()
 {
     __super::PrepareRendering();
+    // enable light
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
+    // light parameter
+    GLfloat light_position[] = { 0.0f, 0.0f, 1.0f, 0.0f };
+    GLfloat light_ambient[] = { 0.6f, 0.6f, 0.6f, 0.6f };
+    GLfloat light_diffuse[] = { 0.8f, 0.8f, 0.8f, 0.6f };
+    GLfloat light_specular[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+
     glEnable(GL_NORMALIZE);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -241,7 +255,7 @@ ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point posi
     Animation *turn_animation = new GenericAnimation<::Rotate>(duration, ::Rotate(this->GetTransformation(index), 0.0, 1.0, 0.0, PI));
     turn_animation->DeleteWhenStopped = true; // the flip animation deletes itself
     // set the flip animation (Step 3) to be started when the move animation (Step 1) stops.
-    move_animation->StopOperation = MakeGenericStopOperation(
+    move_animation->StopOperation = MakeGenericOperation(
         [turn_animation]()
         {
         SoundPlayer::Instance().Play(IDR_PUT_CARD);
@@ -275,7 +289,7 @@ void VisualGameScene::DiscardCardAnimation(VisualCardRef card)
     animation->AddAnimation(move_animation);
     animation->AddAnimation(rotate_animation);
     animation->DeleteWhenStopped = true;
-    animation->StopOperation = MakeGenericStopOperation(
+    animation->StopOperation = MakeGenericOperation(
         [card, this](){
         this->RemoveChild(card); // remove card.
     });
@@ -287,7 +301,7 @@ void VisualGameScene::OnMouseButtonDown()
 {
     if (Game_->GameState == Game::State::Initilized)
     {
-        Start();
+        // Start();
     }
     else
     {
@@ -375,8 +389,23 @@ VisualCardRef VisualGameScene::GetVisualCard(CardRef card)
 
 void VisualGameScene::Start()
 {
+    Clear();
     Game_->Start();
     DealCards(Game_->GetCardsOnDesk());
+}
+
+void VisualGameScene::Clear()
+{
+    DealCardAnimation_ = nullptr;
+    CurrentChoosedCard_.clear();
+    HintCardsAnimation_ = nullptr;
+    for (int i = 0; i < RowCount; ++i)
+        for (int j = 0; j < ColumnCount; ++j)
+        {
+            if (Cards_[i][j] != nullptr)
+                DiscardCard(Cards_[i][j]);
+        }
+    
 }
 
 const double VisualGameScene::MaginRatio = 0.8;

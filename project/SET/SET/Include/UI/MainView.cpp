@@ -7,6 +7,7 @@ BEGIN_MESSAGE_MAP(MainView, CView)
     ON_WM_SIZE()
     ON_WM_CREATE()
     ON_WM_TIMER()
+    ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 
@@ -20,7 +21,7 @@ void MainView::OnSize(UINT nType, int cx, int cy)
 MainView::MainView()
 {
     GameView_ = new GameView();
-    PanelView_ = new PanelView();
+    PanelView_ = new PanelView(GameView_->GetGameScene().get());
 }
 
 
@@ -29,13 +30,13 @@ int MainView::OnCreate(LPCREATESTRUCT lpCreateStruct)
     if (CView::OnCreate(lpCreateStruct) == -1)
         return -1;
     
-    if (!GameView_->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW, CRect(0, 0, 800, 400), this, AFX_IDW_PANE_FIRST, NULL))
+    if (!GameView_->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW, CRect(0, 0, 800, 400), this, 0, NULL))
     {
         TRACE0("未能创建视图窗口\n");
         return -1;
     }
     
-    if (!PanelView_->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW, CRect(0, 0, 800, 400), this, AFX_IDW_PANE_FIRST + 1, NULL))
+    if (!PanelView_->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW, CRect(0, 0, 800, 400), this, 0 + 1, NULL))
     {
         TRACE0("未能创建视图窗口\n");
         return -1;
@@ -51,4 +52,10 @@ void MainView::OnTimer(UINT_PTR nIDEvent)
     CView::OnTimer(nIDEvent);
     AnimationManager::Instance().PerformAllAnimation(); // perform animation
     Invalidate(NULL); // always refresh. 
+}
+
+
+BOOL MainView::OnEraseBkgnd(CDC* pDC)
+{
+    return TRUE;
 }

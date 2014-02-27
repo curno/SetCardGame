@@ -32,12 +32,12 @@ public:
 // й╣ож
 public:
 	virtual ~GameView();
+    ref<VisualGameScene> GetGameScene() { return GameScene_; }
 protected:
     virtual void OnSize(UINT nType, int cx, int cy) override;
 
 private:
     virtual void RenderWithOpenGL() override;
-    virtual void InitOpenGL() override;
     virtual VisualObject *GetObjectByGLName(VisualObject::GLNameType name) override;
 public:
     virtual void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);

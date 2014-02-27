@@ -43,38 +43,11 @@ void GameView::RenderWithOpenGL()
     }
 }
 
-void GameView::InitOpenGL()
-{
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    // enable light
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-
-    // light parameter
-    GLfloat light_position[] = { 0.0f, 0.0f, 1.0f, 0.0f };
-    GLfloat light_ambient[] = { 0.6f, 0.6f, 0.6f, 0.6f };
-    GLfloat light_diffuse[] = { 0.8f, 0.8f, 0.8f, 0.6f };
-    GLfloat light_specular[] = { 0.5f, 0.5f, 0.5f, 1.0f };
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-
-}
 
 void GameView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-
     __super::OnKeyDown(nChar, nRepCnt, nFlags);
     GameScene_->Hint();
-
 }
 
 VisualObject *GameView::GetObjectByGLName(VisualObject::GLNameType name)

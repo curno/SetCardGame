@@ -197,13 +197,14 @@
     <ClCompile Include="Include\UI\MainView.cpp" />
     <ClCompile Include="Source\UI\OpenGLView.cpp" />
     <ClCompile Include="Source\UI\PanelView.cpp" />
+    <ClCompile Include="Source\UI\VisualButton.cpp" />
     <ClInclude Include="Dependencies\glew.h" />
     <ClInclude Include="Dependencies\wglew.h" />
     <ClInclude Include="Include\Animation\Animation.h" />
     <ClInclude Include="Include\Animation\AnimationBehaviors.h" />
     <ClInclude Include="Include\Animation\AnimationManager.h" />
     <ClInclude Include="Include\Animation\LoopAnimation.h" />
-    <ClInclude Include="Include\Animation\StopOperation.h" />
+    <ClInclude Include="Include\Rendering\Operation.h" />
     <ClInclude Include="Include\Animation\VisualObjectAnimations.h" />
     <ClInclude Include="Include\Animation\GenericAnimation.h" />
     <ClInclude Include="Include\Animation\GroupAnimation.h" />
@@ -217,10 +218,12 @@
     <ClInclude Include="Include\Rendering\Material.h" />
     <ClInclude Include="Include\Rendering\TextureManager.h" />
     <ClInclude Include="Include\Rendering\Transformation.h" />
+    <ClInclude Include="Include\Rendering\VisualButton.h" />
     <ClInclude Include="Include\Rendering\VisualCard.h" />
     <ClInclude Include="Include\Rendering\VisualDeck.h" />
     <ClInclude Include="Include\Rendering\VisualGameScene.h" />
     <ClInclude Include="Include\Rendering\VisualObject.h" />
+    <ClInclude Include="Include\Rendering\VisualPanel.h" />
     <ClInclude Include="Include\Rendering\VisualScene.h" />
     <ClInclude Include="Include\SET.h" />
     <ClInclude Include="Include\Sound\SoundPlayer.h" />
@@ -259,15 +262,21 @@
     <ResourceCompile Include="Res\SET.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Commit.bmp" />
+    <Image Include="NewGame.bmp" />
+    <Image Include="PanelBackground.bmp" />
     <Image Include="Resource\Resource\SET.ico" />
     <Image Include="Res\Board.bmp" />
     <Image Include="Res\card background.bmp" />
+    <Image Include="Res\Commit.bmp" />
     <Image Include="Res\DiamondOutlined.bmp" />
     <Image Include="Res\DiamondSolid.bmp" />
     <Image Include="Res\DiamondStriped.bmp" />
+    <Image Include="Res\NewGame.bmp" />
     <Image Include="Res\OvalOutlined.bmp" />
     <Image Include="Res\OvalSolid.bmp" />
     <Image Include="Res\OvalStriped.bmp" />
+    <Image Include="Res\PanelBackground.bmp" />
     <Image Include="Res\res\bitmap1.bmp" />
     <Image Include="Res\res\Set.ico" />
     <Image Include="Res\SET.ico" />
@@ -278,6 +287,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Res\res\sound1.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Res\PutCardSound.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

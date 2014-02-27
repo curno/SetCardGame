@@ -87,6 +87,7 @@ public:
 private:
     // remove a visual card from the scene, with animation
     void DiscardCard(VisualCardRef card);
+    void Clear();
     
 public:
     static const double SlopeTheta;

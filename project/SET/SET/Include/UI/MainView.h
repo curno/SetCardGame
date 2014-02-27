@@ -24,4 +24,5 @@ private:
     static const int PanelWidth = 300;
 public:
     afx_msg void OnTimer(UINT_PTR nIDEvent);
+    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
