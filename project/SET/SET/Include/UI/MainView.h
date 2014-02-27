@@ -82,5 +82,6 @@ public:
     //    );
     //static MainView *view;
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+    afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 

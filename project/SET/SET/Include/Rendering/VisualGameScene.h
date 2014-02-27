@@ -18,6 +18,7 @@ private:
     VisualCardRef Cards_[RowCount][ColumnCount]; // 3 * 7 = 21 visual card slots in the game scene, which can be empty.
     ref<Animation> DealCardAnimation_;
     ::std::vector<VisualCardRef> CurrentChoosedCard_;
+    ref<Animation> HintCardsAnimation_;
 public:
     VisualGameScene(ref<Game> game);
     
@@ -39,6 +40,7 @@ private:
     // return true if a empty slot is found, otherwise false.
     bool GetEmptySlot(int row_hint, int column_hint, int &row, int &column);
 
+    VisualCardRef GetVisualCard(CardRef card);
     // get the position and size for card card at slot (row, column)
     void GetSlotGeometryForCard(const VisualCardRef card, int row, int column, Point &position, Dimension &size);
 
@@ -72,14 +74,16 @@ private:
     // 3. While step 2, the card flip over, so the content of card will be seen.
     ref<Animation> DealCardAnimation(VisualCardRef card, Point position, Dimension dimension);
     void DiscardCardAnimation(VisualCardRef card);
-
+    ref<Animation> HintCardAnimation(VisualCardRef card);
 public:
     // create visual cards and add them to the scene with animations.
     void DealCards(const ::std::unordered_set<CardRef> &cards);
+
+    // ask for hint
+    void Hint();
     // game logic
     void OnCardChoosed(VisualCardRef visual_card);
     void OnCardCancleChoosed(VisualCardRef visual_card);
-
 private:
     // remove a visual card from the scene, with animation
     void DiscardCard(VisualCardRef card);

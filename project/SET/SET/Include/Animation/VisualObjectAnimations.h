@@ -66,3 +66,28 @@ public:
     }
 
 };
+
+class ShakeVisualObject
+{
+    VisualObject *Target_;
+    GLdouble AxisX_;
+    GLdouble AxisY_;
+    GLdouble AxisZ_;
+    int Period_;
+    GLdouble Swing_;
+public:
+    ShakeVisualObject(VisualObject *target, GLdouble axis_x, GLdouble axis_y, GLdouble axis_z, int period = 3, GLdouble swing = PI / 8)
+        : Target_(target), AxisX_(axis_x), AxisY_(axis_y), AxisZ_(axis_z), Period_(period), Swing_(swing) {}
+
+
+    void operator() (double ratio)
+    {
+        static const double decrease = 0.5;
+        int period = static_cast<int>(ratio * Period_);
+        double swing = Swing_ * pow(decrease, period);
+        double delta = (ratio - static_cast<double>(period) / Period_) * PI * 2 * Period_;
+        double rotation = sin(delta) * swing;
+        Target_->GetTransformation() = Transformation();
+        Target_->GetTransformation().Rotate(AxisX_, AxisY_, AxisZ_, rotation);
+    }
+};

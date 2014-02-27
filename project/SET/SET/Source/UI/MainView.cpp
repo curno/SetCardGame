@@ -28,6 +28,7 @@ BEGIN_MESSAGE_MAP(MainView, CView)
     ON_WM_MOUSEMOVE()
     ON_WM_TIMER()
     ON_WM_LBUTTONDOWN()
+    ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
 BOOL MainView::PreCreateWindow(CREATESTRUCT& cs) 
@@ -248,4 +249,10 @@ void MainView::OnDraw(CDC* pDC)
 }
 
 
+void MainView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
 
+    CView::OnKeyDown(nChar, nRepCnt, nFlags);
+    GameScene_->Hint();
+
+}
