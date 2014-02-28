@@ -25,46 +25,29 @@ void VisualCard::RenderContent()
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(Card_));
     
-    if (Card_ != nullptr)
+    int number = Card_->GetIntegerNumber();
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glTranslated(0.0, 0.0, p1.Z);
+    double symbol_width = SymbolRatio * Size.Height;
+    double margin = (Size.Height - symbol_width * number) / (number + 1);
+    // segment 1
+    glDisable(GL_TEXTURE_2D);
+    RenderFrontRectangle(p0.X, p0.Y, p1.X, p0.Y + margin);
+    double current_y = p0.Y + margin;
+    for (int i = 0; i < number; ++i)
     {
-        int number = Card_->GetIntegerNumber();
-        glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
-        glTranslated(0.0, 0.0, p1.Z);
-        double symbol_width = SymbolRatio * Size.Height;
-        double margin = (Size.Height - symbol_width * number) / (number + 1);
-        // segment 1
+        // segment 2
+        glEnable(GL_TEXTURE_2D);
+        RenderFrontRectangle(p0.X, current_y, p1.X, current_y + symbol_width);
+        current_y += symbol_width;
+        // segment 3
         glDisable(GL_TEXTURE_2D);
-        RenderFrontRectangle(p0.X, p0.Y, p1.X, p0.Y + margin);
-        double current_y = p0.Y + margin;
-        for (int i = 0; i < number; ++i)
-        {
-            // segment 2
-            glEnable(GL_TEXTURE_2D);
-            RenderFrontRectangle(p0.X, current_y, p1.X, current_y + symbol_width);
-            current_y += symbol_width;
-            // segment 3
-            glDisable(GL_TEXTURE_2D);
-            RenderFrontRectangle(p0.X, current_y, p1.X, current_y + margin);
-            current_y += margin;
-        }
-        glPopMatrix();
+        RenderFrontRectangle(p0.X, current_y, p1.X, current_y + margin);
+        current_y += margin;
     }
-    else
-    {
-        // front
-        glBegin(GL_QUADS);
-        glNormal3d(0.0, 0.0, 1.0);
-        glTexCoord2d(0.0, 0.0);
-        glVertex3d(p0.X, p0.Y, p1.Z);
-        glTexCoord2d(1.0, 0.0);
-        glVertex3d(p1.X, p0.Y, p1.Z);
-        glTexCoord2d(1.0, 1.0);
-        glVertex3d(p1.X, p1.Y, p1.Z);
-        glTexCoord2d(0.0, 1.0);
-        glVertex3d(p0.X, p1.Y, p1.Z);
-        glEnd();
-    }
+    glPopMatrix();
+    
     #pragma region Draw other five faces.
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(IDB_CARD_BACKGROUND));
@@ -167,8 +150,6 @@ VisualCard::VisualCard(const CardRef card, VisualGameScene *parent) : Card_(card
 void VisualCard::OnMouseButtonDown()
 {
     __super::OnMouseButtonDown();
-    if (Parent_ == nullptr)
-        return;
     switch (CurrentState)
     {
     case VisualCard::State::OnDesk:

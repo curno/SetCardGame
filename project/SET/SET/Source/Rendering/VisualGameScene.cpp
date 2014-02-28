@@ -207,7 +207,7 @@ void VisualGameScene::RenderContent()
 
 ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point position, Dimension dimension)
 {
-    static const double speed = 0.3; 
+    static const double speed = 1.5; 
     static const int TurnDuration = 500;
 
     // Init flip the card over in the scene
@@ -215,7 +215,9 @@ ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point posi
     this->GetTransformation(index).Rotate(0.0, 1.0, 0.0, PI); // flip card.
 
     // start from up outside the scene
-    Point start_point(position.X, static_cast<Coordinate>(Size.Height + dimension.Height / 2.0 + 100), static_cast<Coordinate>(dimension.Depth * 1.6));
+    Point start_point;
+        start_point = DealCardStartPoint_;
+    // start_point = Point(position.X, static_cast<Coordinate>(Size.Height + dimension.Height / 2.0 + 100), static_cast<Coordinate>(dimension.Depth * 1.6));
     // set start point
     card->Position = start_point;
     // set size
@@ -223,7 +225,7 @@ ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point posi
     // end point is right above the correct position
     Point end_point(position.X, position.Y, start_point.Z);
     // calc duration with speed
-    int duration = static_cast<int>(abs((end_point.Y - start_point.Y) / speed));
+    int duration = static_cast<int>((end_point - start_point).Length() / speed);
     // create move animation. Step 1
     ref<Animation> move_animation = MakeGenericAnimation(duration, MoveVisualObject(card.get(), start_point, end_point));
     // create the flip animation. Step 3
@@ -266,7 +268,7 @@ void VisualGameScene::DiscardCardAnimation(VisualCardRef card)
     Point start_point = card->Position;
     Point end_point(static_cast<Coordinate>(card->Position.X + card->Size.Width * trans), -card->Size.Height * 5, card->Position.Z * 5);
 
-    int duration = static_cast<int>(abs((end_point.Y - start_point.Y) / speed));
+    int duration = static_cast<int>((end_point - start_point).Length() / speed);
 
     // move
     ref<Animation> move_animation = MakeGenericAnimation(duration, MoveVisualObject(card.get(), end_point));
@@ -287,19 +289,6 @@ void VisualGameScene::DiscardCardAnimation(VisualCardRef card)
     animation->Start();
 
 }
-
-//void VisualGameScene::OnMouseButtonDown()
-//{
-//    if (Game_->GameState == Game::State::Initilized)
-//    {
-//        //Start();
-//    }
-//    else
-//    {
-//        Deal();
-//
-//    }
-//}
 
 bool VisualGameScene::IsAnimating()
 {
@@ -355,7 +344,7 @@ void VisualGameScene::DiscardCard(VisualCardRef card, bool animation)
         RemoveChild(card);
 }
 
-void VisualGameScene::Hint()
+bool VisualGameScene::Hint()
 {
     std::vector<CardRef> cards;
     if (Game_->Hint(cards))
@@ -363,7 +352,9 @@ void VisualGameScene::Hint()
         // animation.
         for each (CardRef card in cards)
             GetVisualCard(card)->Shake();
+        return true;
     }
+    return false;
 }
 
 VisualCardRef VisualGameScene::GetVisualCard(CardRef card)
@@ -399,11 +390,6 @@ void VisualGameScene::Clear()
     
 }
 
-CTimeSpan VisualGameScene::GetGameElapsedTime() const
-{
-    return Game_->TimeElapsed;
-}
-
 void VisualGameScene::Deal()
 {
     if (Game_->GameState == Game::State::Active)
@@ -417,15 +403,6 @@ void VisualGameScene::Deal()
     }
 }
 
-Game::ScoreType VisualGameScene::GetScore() const
-{
-    return Game_->Score;
-}
-
-int VisualGameScene::GetCardTotalCount() const
-{
-    return Deck::Total;
-}
 
 const double VisualGameScene::MaginRatio = 0.8;
 const double VisualGameScene::CellRatio = 0.8;

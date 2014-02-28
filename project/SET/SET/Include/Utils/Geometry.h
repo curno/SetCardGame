@@ -112,6 +112,11 @@ struct Point
     {
         return !operator== (right);
     }
+
+    double Length() const
+    {
+        return sqrt(X * X + Y * Y + Z * Z);
+    }
 };
 
 

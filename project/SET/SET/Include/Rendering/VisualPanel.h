@@ -38,7 +38,7 @@ protected:
         Dimension size(DigitWidth, DigitHeight, 10);
 
         // time
-        CTimeSpan span = GameScene_->GetGameElapsedTime();
+        CTimeSpan span = GameScene_->GetGame()->GetTimeElapsed();
         Point time_point(-size.Width, 0, size.Depth / 2);
         RenderNumber(span.GetMinutes(), time_point, 2);
         time_point.X = 0;
@@ -47,24 +47,14 @@ protected:
         RenderNumber(span.GetSeconds(), time_point, 2);
 
         // score
-        Point score_point(-Size.Width / 2 + Margin * 2 + Deck_->Size.Height + 2 * size.Width, 0, 10);
-        RenderNumber(GameScene_->GetScore(), score_point, 2);
+        Point score_point(-Size.Width / 2 + Margin * 2 + Deck_->Size.Width + 2 * size.Width, 0, 10);
+        RenderNumber(GameScene_->GetGame()->Score, score_point, 2);
         score_point.X += size.Width;
         RenderDigit(TextureManager::Slash, score_point, size);
         score_point.X += 2 * size.Width;
-        RenderNumber(GameScene_->GetCardTotalCount(), score_point, 2);
-
+        RenderNumber(GameScene_->GetGame()->GetCardsTotalCount(), score_point, 2);
         
         __super::RenderContent();
-
-        GLdouble mv[16];
-        GLdouble pj[16];
-        GLint vp[4];
-        glGetDoublev(GL_MODELVIEW_MATRIX, mv);
-        glGetDoublev(GL_PROJECTION_MATRIX, pj);
-        glGetIntegerv(GL_VIEWPORT, vp);
-        double x, y, z;
-        gluProject(0.0, 0.0,600, mv, pj, vp, &x, &y, &z);
 
     }
 
@@ -76,13 +66,12 @@ protected:
     virtual void OnResize(const CSize &size)
     {
         double button_height = ButtonWidth * VisualButton::HeightPerWidthRatio;
-        double deck_width = size.cy - 2 * Margin;
-        double deck_height = deck_width * VisualCard::HeightPerWidthRatio;
+        double deck_height = size.cy - 2 * Margin;
+        double deck_width = deck_height * VisualCard::HeightPerWidthRatio;
         Deck_->Size = Dimension(static_cast<Coordinate>(deck_width),
             static_cast<Coordinate>(deck_height),
-            static_cast<Coordinate>(VisualCard::DepthPerWidthRatio * deck_width));
-        Deck_->Position = Point(Margin - Size.Width / 2 + Deck_->Size.Height / 2, 0, Deck_->Size.Depth / 2);
-        GetTransformation(IndexOf(Deck_)).Rotate(0.0, 0.0, 1.0, PI / 4);
+            static_cast<Coordinate>(VisualCard::DepthPerWidthRatio * deck_height));
+        Deck_->Position = Point(Margin - Size.Width / 2 + Deck_->Size.Width / 2, 0, Deck_->Size.Depth / 2);
 
         Dimension button_size = Dimension(ButtonWidth,
             static_cast<Coordinate>(ButtonWidth * VisualButton::HeightPerWidthRatio),
@@ -110,7 +99,16 @@ public:
         Material_ = Material::GetMaterial("default");
         ButtonNewGame_ = ::std::make_shared<VisualButton>(MakeGenericOperation([this](){ GameScene_->Start(); }));
         ButtonNewGame_->SetTextureName(IDB_NEW_GAME);
-        ButtonHint_ = ::std::make_shared<VisualButton>(MakeGenericOperation([this]() { GameScene_->Hint(); }));
+        ButtonHint_ = ::std::make_shared<VisualButton>(MakeGenericOperation(
+            [this]() 
+            {
+                if (!GameScene_->Hint())
+                {
+                    if (GameScene_->GetGame()->MoreToDeal())
+                        Deck_->Blink();
+                }
+
+            }));
         ButtonHint_->SetTextureName(IDB_HINT);
         ButtonCommit_ = ::std::make_shared<VisualButton>(MakeGenericOperation([](){}));
         ButtonCommit_->SetTextureName(IDB_COMMIT);
@@ -149,14 +147,6 @@ private:
         glTexCoord2d(0.0, 0.0);
         glVertex3d(p0.X, p1.Y, p1.Z);
         glEnd();
-        GLdouble mv[16];
-        GLdouble pj[16];
-        GLint vp[4];
-        glGetDoublev(GL_MODELVIEW_MATRIX, mv);
-        glGetDoublev(GL_PROJECTION_MATRIX, pj);
-        glGetIntegerv(GL_VIEWPORT, vp);
-        double x, y, z;
-        gluProject(p0.X, p0.Y, p1.Z, mv, pj, vp, &x, &y, &z);
         glTranslated(-p.X, -p.Y, -p.Z);
         glColor4d(1.0, 1.0, 1.0, 1.0);
         glDisable(GL_BLEND);
@@ -184,5 +174,4 @@ private:
             positon.X -= DigitWidth;
         }
     }
-    
 };

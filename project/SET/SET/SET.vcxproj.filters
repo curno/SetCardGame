@@ -170,6 +170,9 @@
     <ClCompile Include="Source\Rendering\VisualButton.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Rendering\VisualDeck.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Resource\SET.ico">

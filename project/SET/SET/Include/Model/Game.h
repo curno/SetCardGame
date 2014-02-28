@@ -49,6 +49,10 @@ public:
     ::std::unordered_set<CardRef> &GetCardsOnDesk() { return CardsOnDesk_; }
     ScoreType readonly(Score);
     ScoreType GetScore() const { return Score_; }
+
+    int GetCardsInHandCount() { return static_cast<int>(CardsInHand_.size()); }
+    int GetCardsOnDeskCount() { return static_cast<int>(CardsOnDesk_.size()); }
+    int GetCardsTotalCount() { return Deck::Total; }
 private:
     void Clear();
     void Deal(int card_count, ::std::unordered_set<CardRef> &new_cards);

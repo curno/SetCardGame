@@ -194,6 +194,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Rendering\VisualDeck.cpp" />
     <ClCompile Include="Source\UI\OpenGLView.cpp" />
     <ClCompile Include="Source\Rendering\VisualButton.cpp" />
     <ClInclude Include="Dependencies\glew.h" />

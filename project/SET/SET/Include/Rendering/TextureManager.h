@@ -97,6 +97,8 @@ public:
             delete[] pair.second.Data.bmBits;
         for each (auto pair in CardTextureMap_)
             delete pair.second.Data.bmBits;
+        for each (auto pair in NumberTextureMap_)
+            delete pair.second.Data.bmBits;
     }
 
     // singleton

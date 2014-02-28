@@ -32,13 +32,17 @@ void GameView::OnSize(UINT nType, int cx, int cy)
     if (GameScene_ != nullptr)
     {
         GameScene_->Size = Dimension(cx, cy - ControlPanelHeight, LARGE_SCALE);
-        GameScene_->Position = Point(cx / 2, ControlPanelHeight + GameScene_->Size.Height / 2, 0);
+        GameScene_->Position = Point(cx / 2, GameScene_->Size.Height / 2, 0);
     }
     if (ControlPanel_ != nullptr)
     {
         ControlPanel_->Size = Dimension(static_cast<Coordinate>(cx * ControlPanelWidthRatio),
             ControlPanelHeight, ControlPanelDepth);
-        ControlPanel_->Position = Point(cx / 2, ControlPanel_->Size.Height / 2, ControlPanel_->Size.Depth);
+        ControlPanel_->Position = Point(cx / 2, ControlPanel_->Size.Height / 2 + GameScene_->Size.Height, ControlPanel_->Size.Depth);
+    }
+    if (GameScene_ != nullptr && ControlPanel_ != nullptr)
+    {
+        GameScene_->SetDealCardStartPosition(Point(-ControlPanel_->Size.Width / 2 + 20, ControlPanel_->Position.Y - GameScene_->Position.Y, 0));
     }
     Invalidate(NULL);
 }
@@ -59,7 +63,6 @@ void GameView::RenderWithOpenGL()
         GameScene_->Render();
         auto a = gluErrorString(glGetError());
         glPopMatrix();
-
 
         glPushMatrix();
         glTranslated(ControlPanel_->Position.X, ControlPanel_->Position.Y, ControlPanel_->Position.Z);
