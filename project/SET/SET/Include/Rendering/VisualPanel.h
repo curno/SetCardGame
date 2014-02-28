@@ -16,14 +16,6 @@ class VisualPanel : public VisualScene
 protected:
     virtual void RenderContent() override
     {
-       // glDisable(GL_DEPTH_TEST);
-        CTimeSpan span = GameScene_->GetGameElapsedTime();
-        char formated_time[256];
-        sprintf_s(formated_time, "%d:%d", span.GetMinutes(), span.GetSeconds());
-        glColor3d(1.0, 0.0, 0.0);
-        //TextRenderer::Instance().DrawTextMy(formated_time, Point(0, 0, 1000));
-        glColor3d(1.0, 1.0, 1.0);
-        glEnable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(IDB_PANEL_BACKGROUND));
@@ -41,6 +33,28 @@ protected:
         glVertex2d(-w / 2.0, h / 2.0);
         glEnd();
         glDisable(GL_TEXTURE_2D);
+
+        // digit size
+        Dimension size(DigitWidth, DigitHeight, 10);
+
+        // time
+        CTimeSpan span = GameScene_->GetGameElapsedTime();
+        Point time_point(-size.Width, 0, size.Depth / 2);
+        RenderNumber(span.GetMinutes(), time_point, 2);
+        time_point.X = 0;
+        RenderDigit(TextureManager::Colon, time_point, size);
+        time_point.X = size.Width * 2;
+        RenderNumber(span.GetSeconds(), time_point, 2);
+
+        // score
+        Point score_point(-Size.Width / 2 + Margin * 2 + Deck_->Size.Height + 2 * size.Width, 0, 10);
+        RenderNumber(GameScene_->GetScore(), score_point, 2);
+        score_point.X += size.Width;
+        RenderDigit(TextureManager::Slash, score_point, size);
+        score_point.X += 2 * size.Width;
+        RenderNumber(GameScene_->GetCardTotalCount(), score_point, 2);
+
+        
         __super::RenderContent();
 
         GLdouble mv[16];
@@ -111,5 +125,64 @@ public:
 private:
     static const int ButtonWidth = 80;
     static const int Margin = 15;
+    static const int DigitWidth = 20;
+    static const int DigitHeight = 40;
+    void RenderDigit(int number, const Point &p, const Dimension& size)
+    {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_TEXTURE_2D);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetNumberTexture(number));
+        glDisable(GL_LIGHTING);
+        glTranslated(p.X, p.Y, p.Z);
+        glColor4d(1.0, 0.0, 1.0, 1.0);
+        Point p0(-size.Width / 2, -size.Height / 2, -size.Depth / 2);
+        Point p1 = -p0;
+        glBegin(GL_QUADS);
+        glTexCoord2d(0.0, 1.0);
+        glVertex3d(p0.X, p0.Y, p1.Z);
+        glTexCoord2d(1.0, 1.0);
+        glVertex3d(p1.X, p0.Y, p1.Z);
+        glTexCoord2d(1.0, 0.0);
+        glVertex3d(p1.X, p1.Y, p1.Z);
+        glTexCoord2d(0.0, 0.0);
+        glVertex3d(p0.X, p1.Y, p1.Z);
+        glEnd();
+        GLdouble mv[16];
+        GLdouble pj[16];
+        GLint vp[4];
+        glGetDoublev(GL_MODELVIEW_MATRIX, mv);
+        glGetDoublev(GL_PROJECTION_MATRIX, pj);
+        glGetIntegerv(GL_VIEWPORT, vp);
+        double x, y, z;
+        gluProject(p0.X, p0.Y, p1.Z, mv, pj, vp, &x, &y, &z);
+        glTranslated(-p.X, -p.Y, -p.Z);
+        glColor4d(1.0, 1.0, 1.0, 1.0);
+        glDisable(GL_BLEND);
+
+    }
+
+    // render number, p is the position of the last number.
+    void RenderNumber(int number, const Point &p, int least_width)
+    {
+        Point positon = p;
+        int width = 0;
+        Dimension digit_size(DigitWidth, DigitHeight, 10);
+        while (number != 0)
+        {
+            int digit = number % 10;
+            number /= 10;
+            RenderDigit(digit, positon, digit_size);
+            positon.X -= DigitWidth;
+            width++;
+        }
+
+        for (int i = width; i < least_width; ++i)
+        {
+            RenderDigit(0, positon, digit_size);
+            positon.X -= DigitWidth;
+        }
+    }
     
 };

@@ -207,7 +207,7 @@ void VisualGameScene::RenderContent()
 
 ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point position, Dimension dimension)
 {
-    static const double speed = 1.7; 
+    static const double speed = 0.3; 
     static const int TurnDuration = 500;
 
     // Init flip the card over in the scene
@@ -415,6 +415,16 @@ void VisualGameScene::Deal()
             DealCards(new_cards);
         }
     }
+}
+
+Game::ScoreType VisualGameScene::GetScore() const
+{
+    return Game_->Score;
+}
+
+int VisualGameScene::GetCardTotalCount() const
+{
+    return Deck::Total;
 }
 
 const double VisualGameScene::MaginRatio = 0.8;

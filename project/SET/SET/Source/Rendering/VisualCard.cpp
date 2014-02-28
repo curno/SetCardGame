@@ -55,13 +55,13 @@ void VisualCard::RenderContent()
         // front
         glBegin(GL_QUADS);
         glNormal3d(0.0, 0.0, 1.0);
-        glTexCoord2d(factor, factor);
+        glTexCoord2d(0.0, 0.0);
         glVertex3d(p0.X, p0.Y, p1.Z);
-        glTexCoord2d(mfactor, factor);
+        glTexCoord2d(1.0, 0.0);
         glVertex3d(p1.X, p0.Y, p1.Z);
-        glTexCoord2d(mfactor, mfactor);
+        glTexCoord2d(1.0, 1.0);
         glVertex3d(p1.X, p1.Y, p1.Z);
-        glTexCoord2d(factor, mfactor);
+        glTexCoord2d(0.0, 1.0);
         glVertex3d(p0.X, p1.Y, p1.Z);
         glEnd();
     }
@@ -112,16 +112,20 @@ void VisualCard::RenderContent()
     glVertex3d(p1.X, p1.Y, -p1.Z);
     glTexCoord2d(1.0, mfactor);
     glVertex3d(p1.X, p1.Y, p1.Z);
+    glEnd();
+
 
     // back
+    glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(IDB_CARD_COVERED));
+    glBegin(GL_QUADS);
     glNormal3d(0.0, 0.0, -1.0);
-    glTexCoord2d(factor, factor);
+    glTexCoord2d(0.0, 0.0);
     glVertex3d(p0.X, p0.Y, -p1.Z);
-    glTexCoord2d(factor, mfactor);
+    glTexCoord2d(1.0, 0.0);
     glVertex3d(p0.X, p1.Y, -p1.Z);
-    glTexCoord2d(mfactor, mfactor);
+    glTexCoord2d(1.0, 1.0);
     glVertex3d(p1.X, p1.Y, -p1.Z);
-    glTexCoord2d(mfactor, factor);
+    glTexCoord2d(0.0, 1.0);
     glVertex3d(p1.X, p0.Y, -p1.Z);
     glEnd();
     #pragma endregion

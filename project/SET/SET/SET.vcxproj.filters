@@ -235,6 +235,84 @@
     <Image Include="Res\Hint.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="numbers\0.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\3.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\4.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\5.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\6.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\7.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\8.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\9.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\0.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\3.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\4.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\5.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\6.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\7.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\8.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\9.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\colon.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\colon.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\slash.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\slash.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="card_covered.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\card_covered.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Res\SET.rc">

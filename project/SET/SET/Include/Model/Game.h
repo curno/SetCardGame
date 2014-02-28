@@ -47,6 +47,8 @@ public:
     State GetGameState() const { return State_; }
 
     ::std::unordered_set<CardRef> &GetCardsOnDesk() { return CardsOnDesk_; }
+    ScoreType readonly(Score);
+    ScoreType GetScore() const { return Score_; }
 private:
     void Clear();
     void Deal(int card_count, ::std::unordered_set<CardRef> &new_cards);

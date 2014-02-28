@@ -12,6 +12,9 @@ public:
     typedef GLuint TextureName;
     typedef int ResourceID;
     typedef unsigned char ColorElement;
+
+    static const int Slash = 10;
+    static const int Colon = 11;
 private:
     struct Texture
     {
@@ -48,6 +51,7 @@ private:
     };
     ::std::unordered_map<ResourceID, Texture> TextureMap_; // the map from resource IDs to opengl texture objects
     ::std::unordered_map<CardParameter, Texture, CardParameter::Hasher> CardTextureMap_; // the map from a card parameter to a texture object.
+    ::std::unordered_map<int, Texture> NumberTextureMap_; // the map from a number(0~9) to a texture object.
 
 private:
     TextureManager() { } // private constructor.
@@ -67,13 +71,23 @@ public:
     { 
         // if card is nullptr, give background texture.
         if (card == nullptr)
-            return GetTexture(IDB_CARD_BACKGROUND);
+            return GetTexture(IDB_CARD_COVERED);
         CardParameter parameter = { card->Symbol, card->Shading, card->Color };
         auto index = CardTextureMap_.find(parameter);
         if (index != CardTextureMap_.end())
             return index->second.Name;
         Texture t = CreateTexture(parameter);
         CardTextureMap_.insert(::std::make_pair(parameter, t));
+        return t.Name;
+
+    }
+    TextureName GetNumberTexture(int number)
+    {
+        auto i = NumberTextureMap_.find(number);
+        if (i != NumberTextureMap_.end())
+            return i->second.Name;
+        Texture t = CreateTextureForNumber(number);
+        NumberTextureMap_.insert(std::make_pair(number, t));
         return t.Name;
 
     }
@@ -92,6 +106,39 @@ public:
         return Instance_;
     }
 private:
+    Texture CreateTextureForNumber(int number)
+    {
+        ColorElement TransparentKey[] = { 255, 255, 255, 0 };
+        ResourceID resource;
+        switch (number)
+        {
+            #define NUMBER_CASE(N) case N:resource = IDB_##N;break;
+            NUMBER_CASE(0)
+            NUMBER_CASE(1)
+            NUMBER_CASE(2)
+            NUMBER_CASE(3)
+            NUMBER_CASE(4)
+            NUMBER_CASE(5)
+            NUMBER_CASE(6)
+            NUMBER_CASE(7)
+            NUMBER_CASE(8)
+            NUMBER_CASE(9)
+            #undef NUMBER_CASE
+            case Slash: resource = IDB_SLASH; break;
+            case Colon: resource = IDB_COLON; break;
+        }
+        Texture retval;
+        CBitmap bitmap;
+        bitmap.LoadBitmap(resource);
+        bitmap.GetBitmap(&retval.Data);
+        retval.Data.bmBits = new byte[retval.Data.bmWidthBytes * retval.Data.bmHeight];
+
+        bitmap.GetBitmapBits(retval.Data.bmWidthBytes * retval.Data.bmHeight, retval.Data.bmBits);
+        FillAlphaElement(retval, TransparentKey);
+
+        CreateNameAndTexture(retval, true);
+        return retval;
+    }
     Texture CreateTexture(ResourceID id)
     {
         Texture retval;
@@ -195,9 +242,11 @@ private:
             for (int w = 0; w < retval.Data.bmWidth; ++w)
             {
                 if (SameColor(data_row, transparent_key))
-                    data_row[3] = 0; // set alpha to 255;
+                {
+                    data_row[3] = 0;
+                }
                 else
-                    data_row[3] = 255;
+                    data_row[3] = 255; // set alpha to 255;
                 data_row += 4;
             }
             data += retval.Data.bmWidthBytes;

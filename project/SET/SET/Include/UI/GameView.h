@@ -42,7 +42,5 @@ private:
     virtual void RenderWithOpenGL() override;
     virtual void InitOpenGL() override;
     virtual VisualObject *GetObjectByGLName(VisualObject::GLNameType name) override;
-public:
-    virtual void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 

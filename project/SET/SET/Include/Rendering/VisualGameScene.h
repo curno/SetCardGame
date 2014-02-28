@@ -88,6 +88,8 @@ public:
     void OnCardChoosed(VisualCardRef visual_card);
     void OnCardCancleChoosed(VisualCardRef visual_card);
     CTimeSpan GetGameElapsedTime() const;
+    Game::ScoreType GetScore() const;
+    int GetCardTotalCount() const;
 private:
     // remove a visual card from the scene, with animation
     void DiscardCard(VisualCardRef card, bool animation = true);

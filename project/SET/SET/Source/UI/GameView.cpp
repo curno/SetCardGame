@@ -69,12 +69,6 @@ void GameView::RenderWithOpenGL()
 }
 
 
-void GameView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-    __super::OnKeyDown(nChar, nRepCnt, nFlags);
-    GameScene_->Hint();
-}
-
 VisualObject *GameView::GetObjectByGLName(VisualObject::GLNameType name)
 {
     VisualObject *object = ControlPanel_->GetObjectByGLName(name);
