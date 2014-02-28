@@ -4,54 +4,94 @@
 #include "VisualButton.h"
 #include "VisualGameScene.h"
 #include "../../Res/resource.h"
+#include "TextRenderer.h"
 
 class VisualPanel : public VisualScene
 {
     ref<VisualButton> ButtonNewGame_;
     ref<VisualButton> ButtonCommit_;
+    ref<VisualButton> ButtonHint_;
     ref<VisualCard> Deck_;
-    VisualGameScene *GameScene_;
+    VisualGameScene *GameScene_; // the scene this panel will control.
 protected:
     virtual void RenderContent() override
     {
         glEnable(GL_TEXTURE_2D);
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
         glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(IDB_PANEL_BACKGROUND));
         double w = Size.Width;
         double h = Size.Height;
         // first render panel.
         glBegin(GL_QUADS);
         glTexCoord2d(0.0, 0.0);
-        glVertex2d(0.0, 0.0);
+        glVertex2d(-w / 2.0, -h / 2.0);
         glTexCoord2d(1.0, 0.0);
-        glVertex2d(w, 0.0);
+        glVertex2d(w / 2.0, -h / 2.0);
         glTexCoord2d(1.0, 1.0);
-        glVertex2d(w, h);
+        glVertex2d(w / 2.0, h / 2.0);
         glTexCoord2d(0.0, 1.0);
-        glVertex2d(0, h);
+        glVertex2d(-w / 2.0, h / 2.0);
         glEnd();
-
+        glDisable(GL_TEXTURE_2D);
         __super::RenderContent();
+
+        CTimeSpan span = GameScene_->GetGameElapsedTime();
+        char formated_time[256];
+        sprintf_s(formated_time, "%d:%d", span.GetMinutes(), span.GetSeconds());
+         
+        glColor3d(1.0, 0.0, 0.0);
+        auto a = gluErrorString(glGetError());
+        a = gluErrorString(glGetError());
+        
+        TextRenderer::Instance().DrawTextMy(formated_time, Point(0, 0, 1000));
+
+        glColor3d(1.0, 1.0, 1.0);
+        a = gluErrorString(glGetError());
+
+        GLdouble mv[16];
+        GLdouble pj[16];
+        GLint vp[4];
+        glGetDoublev(GL_MODELVIEW_MATRIX, mv);
+        glGetDoublev(GL_PROJECTION_MATRIX, pj);
+        glGetIntegerv(GL_VIEWPORT, vp);
+        double x, y, z;
+        gluProject(0.0, 0.0,600, mv, pj, vp, &x, &y, &z);
+
     }
 
     virtual void PrepareRendering()
     {
-
+        __super::PrepareRendering();
     }
 
     virtual void OnResize(const CSize &size)
     {
-        double margin = (size.cx - (2 * ButtonWidth)) / 3.0;
-        double button_height = ButtonWidth * VisualButton::HeightPerWidth;
+        double button_height = ButtonWidth * VisualButton::HeightPerWidthRatio;
+        double deck_height = size.cy - 2 * Margin;
+        double deck_width = deck_height / VisualCard::HeightPerWidthRatio;
+        Deck_->Size = Dimension(static_cast<Coordinate>(deck_width),
+            static_cast<Coordinate>(deck_height),
+            static_cast<Coordinate>(VisualCard::DepthPerWidthRatio * deck_width));
+        Deck_->Position = Point(Margin - Size.Width / 2 + Deck_->Size.Width / 2, 0, Deck_->Size.Depth / 2);
 
-        ButtonNewGame_->Size = Dimension(ButtonWidth, static_cast<Coordinate>(button_height), 0);
-        ButtonCommit_->Size = Dimension(ButtonWidth, static_cast<Coordinate>(button_height), 0);
+        Dimension button_size = Dimension(ButtonWidth,
+            static_cast<Coordinate>(ButtonWidth * VisualButton::HeightPerWidthRatio),
+            static_cast<Coordinate>(ButtonWidth * VisualButton::DepthPerWidthRatio)
+            );
+        ButtonNewGame_->Size = button_size;
+        ButtonHint_->Size = button_size;
+        ButtonCommit_->Size = button_size;
 
-        ButtonNewGame_->Position = Point(static_cast<Coordinate>(margin + ButtonWidth / 2.0),
-            static_cast<int>(BottomMargin + button_height / 2.0), 1);
-        ButtonCommit_->Position = Point(static_cast<Coordinate>(2 * margin + 3 * ButtonWidth / 2.0),
-            static_cast<int>(BottomMargin + button_height / 2.0), 1);
+        double margin = (Deck_->Size.Height - 3 * button_height) / 2.0;
+        ButtonNewGame_->Position = Point(static_cast<Coordinate>(size.cx / 2 - Margin * 3 - ButtonWidth * 2.5),
+            0,
+            button_size.Depth / 2);
+        ButtonCommit_->Position = Point(static_cast<Coordinate>(size.cx / 2 - Margin - ButtonWidth * 0.5),
+            0,
+            button_size.Depth / 2);
+        ButtonHint_->Position = Point(static_cast<Coordinate>(size.cx / 2 - Margin * 2 - ButtonWidth * 1.5),
+            0,
+            button_size.Depth / 2);
     }
 
 public:
@@ -60,14 +100,19 @@ public:
         Material_ = Material::GetMaterial("default");
         ButtonNewGame_ = ::std::make_shared<VisualButton>(MakeGenericOperation([this](){ GameScene_->Start(); }));
         ButtonNewGame_->SetTextureName(IDB_NEW_GAME);
-
+        ButtonHint_ = ::std::make_shared<VisualButton>(MakeGenericOperation([this]() { GameScene_->Hint(); }));
+        ButtonHint_->SetTextureName(IDB_COMMIT);
         ButtonCommit_ = ::std::make_shared<VisualButton>(MakeGenericOperation([](){}));
         ButtonCommit_->SetTextureName(IDB_COMMIT);
+        Deck_ = ::std::make_shared<VisualCard>(nullptr, nullptr);
         AddChild(ButtonNewGame_);
+        AddChild(ButtonHint_);
         AddChild(ButtonCommit_);
+        AddChild(Deck_);
     }
 
 private:
-    static const int ButtonWidth = 100;
-    static const int BottomMargin = 20;
+    static const int ButtonWidth = 80;
+    static const int Margin = 15;
+    
 };

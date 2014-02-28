@@ -10,7 +10,6 @@ Animation::Animation() : Stoped_(false), Behavior_(AnimationBehavior::LinearBeha
 Animation::~Animation()
 {
     Stop();
-    AnimationManager::Instance().RemoveAnimation(this); // remove from manager
 }
 
 void Animation::Stop()
@@ -22,6 +21,8 @@ void Animation::Stop()
             (*StopOperation_)(); // call stop operation.
         if (DeleteWhenStopped_)
             delete this;
+        AnimationManager::Instance().RemoveAnimation(this); // remove from manager
+
     }
 }
 

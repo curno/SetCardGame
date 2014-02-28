@@ -37,7 +37,8 @@ public:
 
     void SetTextureName(TextureManager::TextureName texture) { TextureName_ = texture; }
 
-    static const double HeightPerWidth;
+    static const double HeightPerWidthRatio;
+    static const double DepthPerWidthRatio;
 private:
     static const double CornerRatioX;
     static const double CornerRatioY;

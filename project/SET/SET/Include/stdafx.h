@@ -42,6 +42,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <memory>
+#include <random>
 
 // opengl header
 //#include <gl/GL.h>
@@ -57,6 +58,9 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+
+#undef min
+#undef max
 
 
 

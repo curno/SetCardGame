@@ -74,4 +74,5 @@ void VisualButton::OnMouseMove()
 
 const double VisualButton::CornerRatioX = 0.1;
 const double VisualButton::CornerRatioY = 0.1;
-const double VisualButton::HeightPerWidth = 0.42;
+const double VisualButton::HeightPerWidthRatio = 0.42;
+const double VisualButton::DepthPerWidthRatio = 0.2;

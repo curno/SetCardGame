@@ -28,8 +28,15 @@ private:
     }
 
 public:
-    long long GetElapsedMilliseconds() const
+    long long GetElapsedMilliseconds() 
     {
+        if (IsRunning_)
+        {
+            Stop();
+            auto retval = (long long)(Elapsed_ / ((double)Stopwatch::Frequency));
+            Start();
+            return retval;
+        }
         return (long long)(Elapsed_ / ((double)Stopwatch::Frequency));
     }
     void SetElapsedMilliseconds(long long milliseconds)
@@ -66,7 +73,7 @@ public:
         Start();
     }
 
-    void Stop()
+    void Stop() 
     {
         if (IsRunning_)
         {

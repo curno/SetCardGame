@@ -212,7 +212,7 @@
     <ClInclude Include="Include\Model\Deck.h" />
     <ClInclude Include="Include\Model\Game.h" />
     <ClInclude Include="Include\Model\Stopwatch.h" />
-    <ClInclude Include="Include\Rendering\Geometry.h" />
+    <ClInclude Include="Include\Utils\Geometry.h" />
     <ClInclude Include="Include\Rendering\Material.h" />
     <ClInclude Include="Include\Rendering\TextureManager.h" />
     <ClInclude Include="Include\Rendering\Transformation.h" />
@@ -223,11 +223,13 @@
     <ClInclude Include="Include\Rendering\VisualObject.h" />
     <ClInclude Include="Include\Rendering\VisualPanel.h" />
     <ClInclude Include="Include\Rendering\VisualScene.h" />
+    <ClInclude Include="Include\Rendering\TextRenderer.h" />
     <ClInclude Include="Include\SET.h" />
     <ClInclude Include="Include\Sound\SoundPlayer.h" />
     <ClInclude Include="Include\UI\MainFrame.h" />
     <ClInclude Include="Include\UI\GameView.h" />
     <ClInclude Include="Include\UI\OpenGLView.h" />
+    <ClInclude Include="Include\Utils\Random.h" />
     <ClInclude Include="Res\Resource.h" />
     <ClInclude Include="Include\stdafx.h" />
     <ClInclude Include="Include\targetver.h" />

@@ -6,6 +6,7 @@
 #pragma once
 
 #include "../Rendering/VisualGameScene.h"
+#include "../Rendering/VisualPanel.h"
 #include "../Animation/GenericAnimation.h"
 #include "../Animation/VisualObjectAnimations.h"
 #include "../Animation/LoopAnimation.h"
@@ -19,6 +20,7 @@ class GameView : public OpenGLView
 private:
     ref<Game> Game_;
     ref<VisualGameScene> GameScene_;
+    ref<VisualPanel> ControlPanel_;
 // ππ‘Ï
 public:
 	GameView();
@@ -38,6 +40,7 @@ protected:
 
 private:
     virtual void RenderWithOpenGL() override;
+    virtual void InitOpenGL() override;
     virtual VisualObject *GetObjectByGLName(VisualObject::GLNameType name) override;
 public:
     virtual void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);

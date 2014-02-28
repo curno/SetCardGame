@@ -31,7 +31,7 @@ public:
     {
         int retval = 0;
         for each (ref<Animation> animation in Animations_)
-            retval = max(retval, animation->Duration);
+            retval = ::std::max(retval, animation->Duration);
         return retval;
     }
 

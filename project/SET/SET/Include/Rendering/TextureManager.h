@@ -65,7 +65,9 @@ public:
     }
     TextureName GetTexture(CardRef card) 
     { 
-        assert(card != nullptr);
+        // if card is nullptr, give background texture.
+        if (card == nullptr)
+            return GetTexture(IDB_CARD_BACKGROUND);
         CardParameter parameter = { card->Symbol, card->Shading, card->Color };
         auto index = CardTextureMap_.find(parameter);
         if (index != CardTextureMap_.end())
@@ -157,18 +159,18 @@ private:
                 if (!SameColor(source_row, transparent_key))
                 {
                     /*double factor = 0.0;
-                    factor = max(factor, source_row[0] / 255.0);
-                    factor = max(factor, source_row[1] / 255.0);
-                    factor = max(factor, source_row[2] / 255.0);
-                    dest_row[0] = min(255, max(0, static_cast<ColorElement>(c[0] * factor)));
-                    dest_row[1] = min(255, max(0, static_cast<ColorElement>(c[1] * factor)));
-                    dest_row[2] = min(255, max(0, static_cast<ColorElement>(c[2] * factor)));
+                    factor = ::std::max(factor, source_row[0] / 255.0);
+                    factor = ::std::max(factor, source_row[1] / 255.0);
+                    factor = ::std::max(factor, source_row[2] / 255.0);
+                    dest_row[0] = ::std::min(255, ::std::max(0, static_cast<ColorElement>(c[0] * factor)));
+                    dest_row[1] = ::std::min(255, ::std::max(0, static_cast<ColorElement>(c[1] * factor)));
+                    dest_row[2] = ::std::min(255, ::std::max(0, static_cast<ColorElement>(c[2] * factor)));
                     dest_row[3] = c[3];*/
                     CopyColor(dest_row, c);
                     double factor = 0.0;
-                    factor = max(factor, source_row[0] / 255.0);
-                    factor = max(factor, source_row[1] / 255.0);
-                    factor = max(factor, source_row[2] / 255.0);
+                    factor = ::std::max(factor, source_row[0] / 255.0);
+                    factor = ::std::max(factor, source_row[1] / 255.0);
+                    factor = ::std::max(factor, source_row[2] / 255.0);
                     c[3] = static_cast<ColorElement>(factor * 255);
                 }
                 else

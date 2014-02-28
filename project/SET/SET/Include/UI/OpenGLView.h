@@ -25,7 +25,7 @@ protected:
     afx_msg virtual void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
     afx_msg virtual int OnCreate(LPCREATESTRUCT lpCreateStruct);
 
-private:
+protected:
     HGLRC GLRC_; // opengl rendering handle.
     virtual void RenderWithOpenGL();
     virtual void InitOpenGL();

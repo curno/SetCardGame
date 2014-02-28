@@ -2,7 +2,7 @@
 
 #include "../stdafx.h"
 #include "Transformation.h"
-#include "Geometry.h"
+#include "../Utils/Geometry.h"
 #include "Material.h"
 
 // this is the abstract base class of all visual object in the program, like card, button...
