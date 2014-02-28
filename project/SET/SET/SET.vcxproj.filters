@@ -105,16 +105,10 @@
     <ClInclude Include="Include\Sound\SoundPlayer.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Include\UI\PanelView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Include\UI\OpenGLView.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Include\UI\GameView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\UI\MainView.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Include\Rendering\VisualButton.h">
@@ -170,13 +164,7 @@
     <ClCompile Include="Source\UI\GameView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Include\UI\MainView.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\UI\PanelView.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\UI\VisualButton.cpp">
+    <ClCompile Include="Source\Rendering\VisualButton.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -229,19 +217,10 @@
     <Image Include="Res\SquiggleStriped.bmp">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="NewGame.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
     <Image Include="Res\NewGame.bmp">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="PanelBackground.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
     <Image Include="Res\PanelBackground.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Commit.bmp">
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="Res\Commit.bmp">

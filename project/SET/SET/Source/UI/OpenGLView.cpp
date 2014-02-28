@@ -23,6 +23,7 @@ BEGIN_MESSAGE_MAP(OpenGLView, CView)
     ON_WM_MOUSEMOVE()
     ON_WM_LBUTTONDOWN()
     ON_WM_KEYDOWN()
+    ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 int OpenGLView::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -32,7 +33,7 @@ int OpenGLView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     CClientDC thisdc(this);
     InitGLRC(thisdc);
-    SetTimer(1, 20, NULL);
+    SetTimer(5, 20, NULL);
     Invalidate(NULL);
     return 0;
 }
@@ -49,9 +50,7 @@ void OpenGLView::OnDestroy()
 void OpenGLView::OnSize(UINT nType, int cx, int cy)
 {
     __super::OnSize(nType, cx, cy);
-    MakeCurrent();
     glViewport(0, 0, cx, cy); // set view port to the whole view.
-    CancelCurrent();
     Invalidate(NULL);
 }
 
@@ -119,7 +118,6 @@ VisualObject *OpenGLView::PickObject(CPoint &point, int w, int h)
 {
     static const unsigned int NameBufferSize = 512;
     static VisualObject::GLNameType NameBuffer[NameBufferSize];
-    MakeCurrent();
     glSelectBuffer(NameBufferSize, NameBuffer);
     glRenderMode(GL_SELECT);
 
@@ -166,19 +164,16 @@ VisualObject *OpenGLView::PickObject(CPoint &point, int w, int h)
         ptr += 3 + name_count;
 
     }
-    CancelCurrent();
     return retval;
 }
 
 void OpenGLView::OnDraw(CDC* pDC)
 {
     CClientDC dc(this);
-    MakeCurrent();
 
     InitOpenGL();
     RenderWithOpenGL();
 
-    CancelCurrent();
     SwapBuffers(dc.m_hDC); // swap buffer and begin another rendering process.
 }
 
@@ -268,4 +263,12 @@ void OpenGLView::MakeCurrent()
 void OpenGLView::CancelCurrent()
 {
     wglMakeCurrent(NULL, NULL);
+}
+
+void OpenGLView::OnTimer(UINT_PTR nIDEvent)
+{
+    CView::OnTimer(nIDEvent);
+    AnimationManager::Instance().PerformAllAnimation(); // perform animation
+    Invalidate(NULL); // always repaint.
+    
 }

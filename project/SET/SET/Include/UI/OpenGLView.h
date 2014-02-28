@@ -35,4 +35,6 @@ private:
     void CancelCurrent();
     VisualObject *PickObject(CPoint &point, int w, int h);
 
+public:
+    afx_msg void OnTimer(UINT_PTR nIDEvent);
 };

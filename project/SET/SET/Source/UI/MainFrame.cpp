@@ -24,7 +24,7 @@ END_MESSAGE_MAP()
 
 MainFrame::MainFrame()
 {
-    m_wndView = new MainView;
+    m_wndView = new GameView;
     // TODO: 
 }
 

@@ -301,7 +301,7 @@ void VisualGameScene::OnMouseButtonDown()
 {
     if (Game_->GameState == Game::State::Initilized)
     {
-        // Start();
+        Start();
     }
     else
     {

@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "MainView.h"
+#include "GameView.h"
 
 class MainFrame : public CFrameWnd
 {
@@ -32,7 +32,7 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	MainView    *m_wndView;
+	GameView    *m_wndView;
 
 // 生成的消息映射函数
 protected:
