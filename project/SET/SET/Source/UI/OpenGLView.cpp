@@ -2,6 +2,7 @@
 
 #include "Include/UI/OpenGLView.h"
 #include "Include/Animation/AnimationManager.h"
+#include "PlayerNameDialog.h"
 
 
 // MainView
@@ -35,6 +36,8 @@ int OpenGLView::OnCreate(LPCREATESTRUCT lpCreateStruct)
     InitGLRC(thisdc);
     SetTimer(5, 20, NULL);
     Invalidate(NULL);
+
+    CString name = PlayerNameDialog::GetPlayName();
     return 0;
 }
 

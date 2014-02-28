@@ -123,6 +123,9 @@
     <ClInclude Include="Include\Utils\Random.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerNameDialog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\UI\MainFrame.cpp">
@@ -171,6 +174,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Source\Rendering\VisualDeck.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerNameDialog.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
