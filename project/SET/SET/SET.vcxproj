@@ -223,7 +223,6 @@
     <ClInclude Include="Include\Rendering\VisualObject.h" />
     <ClInclude Include="Include\Rendering\VisualPanel.h" />
     <ClInclude Include="Include\Rendering\VisualScene.h" />
-    <ClInclude Include="Include\Rendering\TextRenderer.h" />
     <ClInclude Include="Include\SET.h" />
     <ClInclude Include="Include\Sound\SoundPlayer.h" />
     <ClInclude Include="Include\UI\MainFrame.h" />
@@ -260,6 +259,7 @@
     <ResourceCompile Include="Res\SET.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Hint.bmp" />
     <Image Include="Resource\Resource\SET.ico" />
     <Image Include="Res\Board.bmp" />
     <Image Include="Res\card background.bmp" />
@@ -267,6 +267,7 @@
     <Image Include="Res\DiamondOutlined.bmp" />
     <Image Include="Res\DiamondSolid.bmp" />
     <Image Include="Res\DiamondStriped.bmp" />
+    <Image Include="Res\Hint.bmp" />
     <Image Include="Res\NewGame.bmp" />
     <Image Include="Res\OvalOutlined.bmp" />
     <Image Include="Res\OvalSolid.bmp" />

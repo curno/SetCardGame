@@ -27,9 +27,12 @@ protected:
     virtual void OnResize(const CSize &size) override;
     virtual void PrepareRendering() override;
     virtual void RenderContent() override;
-    virtual void OnMouseButtonDown() override;
+
 private:
     void InitializeGameScene();
+    // create visual cards and add them to the scene with animations.
+    void DealCards(const ::std::unordered_set<CardRef> &cards);
+
     // this function set the geometry of the visual cards in the game scene according to current scene size.
     void ArrangeCards(const CSize &size);
     // get count of column which has as least one card.
@@ -76,9 +79,9 @@ private:
     void DiscardCardAnimation(VisualCardRef card);
 public:
     void Start();
-    // create visual cards and add them to the scene with animations.
-    void DealCards(const ::std::unordered_set<CardRef> &cards);
-
+    // give more card to use if could.
+    void Deal();
+    
     // ask for hint
     void Hint();
     // game logic

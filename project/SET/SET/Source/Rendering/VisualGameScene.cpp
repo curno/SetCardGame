@@ -201,11 +201,8 @@ void VisualGameScene::RenderContent()
     glVertex3d(-Size.Width * (Outer + 0.5), Size.Height * (Outer + 0.5), 0);
     glEnd();
     glDisable(GL_TEXTURE_2D);
-    auto a = gluErrorString(glGetError());
 
     __super::RenderContent();
-    a = gluErrorString(glGetError());
-
 }
 
 ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point position, Dimension dimension)
@@ -291,22 +288,18 @@ void VisualGameScene::DiscardCardAnimation(VisualCardRef card)
 
 }
 
-void VisualGameScene::OnMouseButtonDown()
-{
-    if (Game_->GameState == Game::State::Initilized)
-    {
-        Start();
-    }
-    else
-    {
-        if (Game_->MoreToDeal())
-        {
-            ::std::unordered_set<CardRef> new_cards;
-            Game_->DealMore(new_cards);
-            DealCards(new_cards);
-        }
-    }
-}
+//void VisualGameScene::OnMouseButtonDown()
+//{
+//    if (Game_->GameState == Game::State::Initilized)
+//    {
+//        //Start();
+//    }
+//    else
+//    {
+//        Deal();
+//
+//    }
+//}
 
 bool VisualGameScene::IsAnimating()
 {
@@ -409,6 +402,19 @@ void VisualGameScene::Clear()
 CTimeSpan VisualGameScene::GetGameElapsedTime() const
 {
     return Game_->TimeElapsed;
+}
+
+void VisualGameScene::Deal()
+{
+    if (Game_->GameState == Game::State::Active)
+    {
+        if (Game_->MoreToDeal())
+        {
+            ::std::unordered_set<CardRef> new_cards;
+            Game_->DealMore(new_cards);
+            DealCards(new_cards);
+        }
+    }
 }
 
 const double VisualGameScene::MaginRatio = 0.8;

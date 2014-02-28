@@ -1,21 +1,29 @@
 #pragma once
 
 #include "VisualScene.h"
+#include "VisualDeck.h"
 #include "VisualButton.h"
 #include "VisualGameScene.h"
 #include "../../Res/resource.h"
-#include "TextRenderer.h"
 
 class VisualPanel : public VisualScene
 {
     ref<VisualButton> ButtonNewGame_;
     ref<VisualButton> ButtonCommit_;
     ref<VisualButton> ButtonHint_;
-    ref<VisualCard> Deck_;
+    ref<VisualDeck> Deck_;
     VisualGameScene *GameScene_; // the scene this panel will control.
 protected:
     virtual void RenderContent() override
     {
+       // glDisable(GL_DEPTH_TEST);
+        CTimeSpan span = GameScene_->GetGameElapsedTime();
+        char formated_time[256];
+        sprintf_s(formated_time, "%d:%d", span.GetMinutes(), span.GetSeconds());
+        glColor3d(1.0, 0.0, 0.0);
+        //TextRenderer::Instance().DrawTextMy(formated_time, Point(0, 0, 1000));
+        glColor3d(1.0, 1.0, 1.0);
+        glEnable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(IDB_PANEL_BACKGROUND));
@@ -34,19 +42,6 @@ protected:
         glEnd();
         glDisable(GL_TEXTURE_2D);
         __super::RenderContent();
-
-        CTimeSpan span = GameScene_->GetGameElapsedTime();
-        char formated_time[256];
-        sprintf_s(formated_time, "%d:%d", span.GetMinutes(), span.GetSeconds());
-         
-        glColor3d(1.0, 0.0, 0.0);
-        auto a = gluErrorString(glGetError());
-        a = gluErrorString(glGetError());
-        
-        TextRenderer::Instance().DrawTextMy(formated_time, Point(0, 0, 1000));
-
-        glColor3d(1.0, 1.0, 1.0);
-        a = gluErrorString(glGetError());
 
         GLdouble mv[16];
         GLdouble pj[16];
@@ -67,12 +62,13 @@ protected:
     virtual void OnResize(const CSize &size)
     {
         double button_height = ButtonWidth * VisualButton::HeightPerWidthRatio;
-        double deck_height = size.cy - 2 * Margin;
-        double deck_width = deck_height / VisualCard::HeightPerWidthRatio;
+        double deck_width = size.cy - 2 * Margin;
+        double deck_height = deck_width * VisualCard::HeightPerWidthRatio;
         Deck_->Size = Dimension(static_cast<Coordinate>(deck_width),
             static_cast<Coordinate>(deck_height),
             static_cast<Coordinate>(VisualCard::DepthPerWidthRatio * deck_width));
-        Deck_->Position = Point(Margin - Size.Width / 2 + Deck_->Size.Width / 2, 0, Deck_->Size.Depth / 2);
+        Deck_->Position = Point(Margin - Size.Width / 2 + Deck_->Size.Height / 2, 0, Deck_->Size.Depth / 2);
+        GetTransformation(IndexOf(Deck_)).Rotate(0.0, 0.0, 1.0, PI / 4);
 
         Dimension button_size = Dimension(ButtonWidth,
             static_cast<Coordinate>(ButtonWidth * VisualButton::HeightPerWidthRatio),
@@ -101,10 +97,11 @@ public:
         ButtonNewGame_ = ::std::make_shared<VisualButton>(MakeGenericOperation([this](){ GameScene_->Start(); }));
         ButtonNewGame_->SetTextureName(IDB_NEW_GAME);
         ButtonHint_ = ::std::make_shared<VisualButton>(MakeGenericOperation([this]() { GameScene_->Hint(); }));
-        ButtonHint_->SetTextureName(IDB_COMMIT);
+        ButtonHint_->SetTextureName(IDB_HINT);
         ButtonCommit_ = ::std::make_shared<VisualButton>(MakeGenericOperation([](){}));
         ButtonCommit_->SetTextureName(IDB_COMMIT);
-        Deck_ = ::std::make_shared<VisualCard>(nullptr, nullptr);
+        Deck_ = ::std::make_shared<VisualDeck>();
+        Deck_->Operation = MakeGenericOperation([this](){GameScene_->Deal(); });
         AddChild(ButtonNewGame_);
         AddChild(ButtonHint_);
         AddChild(ButtonCommit_);

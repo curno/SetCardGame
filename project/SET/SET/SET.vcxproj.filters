@@ -117,9 +117,6 @@
     <ClInclude Include="Include\Rendering\Operation.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Rendering\TextRenderer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Utils\Geometry.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -230,6 +227,12 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="Res\Commit.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Hint.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\Hint.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
