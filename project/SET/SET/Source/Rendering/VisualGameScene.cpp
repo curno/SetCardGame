@@ -6,6 +6,8 @@
 #include "Include/Animation/VisualObjectAnimations.h"
 #include "Include/Animation/GroupAnimation.h"
 #include "Include/Animation/SequentialAnimation.h"
+#include "Include/Sound/SoundPlayer.h"
+#include "Include/Utils/Random.h"
 
 
 void VisualGameScene::InitializeGameScene()
@@ -20,9 +22,9 @@ void VisualGameScene::OnResize(const CSize &size)
     ArrangeCards(size);
 
     GetTransformation().Reset();
-    GetTransformation().RotateByCenter(Size.Width / 2.0, Size.Height / 2.0, 0.0,
+    GetTransformation().RotateByCenter(0.0, 0.0, 0.0,
         1.0, 0.0, 0.0, -SlopeTheta);
-    GetTransformation().RotateByCenter(Size.Width / 2.0, Size.Height / 2.0, 0.0,
+    GetTransformation().RotateByCenter(0.0, 0.0, 0.0,
         0.0, 1.0, 0.0, -SlopeTheta / 2);
     return;
 }
@@ -91,8 +93,8 @@ void VisualGameScene::UpdateLayoutParameter()
     LayoutParameter_.CellWidth = size.Width * MaginRatio / LayoutParameter_.ColumnCount * CellRatio;
     LayoutParameter_.CellHeight = size.Height * MaginRatio / LayoutParameter_.RowCount * CellRatio;
 
-    LayoutParameter_.XBase = size.Width * (1 - MaginRatio) / 2.0 + size.Width * MaginRatio / LayoutParameter_.ColumnCount * (1 - CellRatio) / 2.0;
-    LayoutParameter_.YBase = size.Height * (1 - MaginRatio) / 2.0 + size.Height * MaginRatio / LayoutParameter_.RowCount * (1 - CellRatio) / 2.0;
+    LayoutParameter_.XBase = size.Width * (1 - MaginRatio) / 2.0 + size.Width * MaginRatio / LayoutParameter_.ColumnCount * (1 - CellRatio) / 2.0 - Size.Width / 2.0;
+    LayoutParameter_.YBase = size.Height * (1 - MaginRatio) / 2.0 + size.Height * MaginRatio / LayoutParameter_.RowCount * (1 - CellRatio) / 2.0 - size.Height / 2.0;
 
     LayoutParameter_.XSpace = size.Width * MaginRatio / LayoutParameter_.ColumnCount;
     LayoutParameter_.YSpace = size.Height * MaginRatio / LayoutParameter_.RowCount;
@@ -171,7 +173,6 @@ void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
 
 VisualGameScene::VisualGameScene(ref<Game> game) : Game_(game)
 {
-    Game_->Scene = this;
     Size = Dimension(300, 200);
     Position = Point(0, 0);
     InitializeGameScene();
@@ -180,19 +181,6 @@ VisualGameScene::VisualGameScene(ref<Game> game) : Game_(game)
 void VisualGameScene::PrepareRendering()
 {
     __super::PrepareRendering();
-    glEnable(GL_NORMALIZE);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_POINT_SMOOTH);
-    glEnable(GL_LINE_SMOOTH);
-    glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
-    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 }
 
 void VisualGameScene::RenderContent()
@@ -204,21 +192,22 @@ void VisualGameScene::RenderContent()
     glBegin(GL_QUADS);
     glNormal3d(0.0, 0.0, 1.0);
     glTexCoord2d(-Outer, -Outer);
-    glVertex3d(-Size.Width * Outer, -Size.Height * Outer, 0);
+    glVertex3d(-Size.Width * (Outer + 0.5), -Size.Height * (Outer + 0.5), 0);
     glTexCoord2d(1 + Outer, -Outer);
-    glVertex3d((1 + Outer) * Size.Width, -Size.Height * Outer, 0);
+    glVertex3d(Size.Width * (Outer + 0.5), -Size.Height * (Outer + 0.5), 0);
     glTexCoord2d(1 + Outer, 1 + Outer);
-    glVertex3d((1 + Outer) * Size.Width, (1 + Outer) * Size.Height, 0);
+    glVertex3d(Size.Width * (Outer + 0.5), Size.Height * (Outer + 0.5), 0);
     glTexCoord2d(-Outer, 1 + Outer);
-    glVertex3d(-Size.Width * Outer, (1 + Outer) * Size.Height, 0);
+    glVertex3d(-Size.Width * (Outer + 0.5), Size.Height * (Outer + 0.5), 0);
     glEnd();
+    glDisable(GL_TEXTURE_2D);
 
     __super::RenderContent();
 }
 
 ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point position, Dimension dimension)
 {
-    static const double speed = 2; 
+    static const double speed = 1.5; 
     static const int TurnDuration = 500;
 
     // Init flip the card over in the scene
@@ -226,7 +215,9 @@ ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point posi
     this->GetTransformation(index).Rotate(0.0, 1.0, 0.0, PI); // flip card.
 
     // start from up outside the scene
-    Point start_point(position.X, static_cast<Coordinate>(Size.Height + dimension.Height / 2.0 + 100), static_cast<Coordinate>(dimension.Depth * 1.6));
+    Point start_point;
+        start_point = DealCardStartPoint_;
+    // start_point = Point(position.X, static_cast<Coordinate>(Size.Height + dimension.Height / 2.0 + 100), static_cast<Coordinate>(dimension.Depth * 1.6));
     // set start point
     card->Position = start_point;
     // set size
@@ -234,17 +225,18 @@ ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point posi
     // end point is right above the correct position
     Point end_point(position.X, position.Y, start_point.Z);
     // calc duration with speed
-    int duration = static_cast<int>(abs((end_point.Y - start_point.Y) / speed));
+    int duration = static_cast<int>((end_point - start_point).Length() / speed);
     // create move animation. Step 1
     ref<Animation> move_animation = MakeGenericAnimation(duration, MoveVisualObject(card.get(), start_point, end_point));
     // create the flip animation. Step 3
     Animation *turn_animation = new GenericAnimation<::Rotate>(duration, ::Rotate(this->GetTransformation(index), 0.0, 1.0, 0.0, PI));
     turn_animation->DeleteWhenStopped = true; // the flip animation deletes itself
     // set the flip animation (Step 3) to be started when the move animation (Step 1) stops.
-    move_animation->StopOperation = MakeGenericStopOperation(
+    move_animation->StopOperation = MakeGenericOperation(
         [turn_animation]()
         {
-        turn_animation->Start();
+            SoundPlayer::Instance().Play(IDR_PUT_CARD);
+            turn_animation->Start();
         });
         
     // create the down animation. (Step 2)
@@ -262,35 +254,40 @@ ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point posi
 
 void VisualGameScene::DiscardCardAnimation(VisualCardRef card)
 {
-    static const double speed = 0.8;
-    static const double Theta = 3.3 * PI / 2;
+    static const double SpeedMax = 0.6;
+    static const double SpeedMin = 1;
+    static const double ThetaMax = 3.3 * PI / 2;
+    static const double ThetaMin = -3.3 * PI / 2;
+    static const double TransMax = 1;
+    static const double TransMin = -1;
+
+    double speed = Random::NextDouble() * (SpeedMax - SpeedMin) + SpeedMin;
+    double theta = Random::NextDouble() * (ThetaMax - ThetaMin) + ThetaMin;
+    double trans = Random::NextDouble() * (TransMax - TransMin) + TransMin;
+
     Point start_point = card->Position;
-    Point end_point(card->Position.X, -card->Size.Height * 2, card->Position.Z);
-    int duration = static_cast<int>(abs((end_point.Y - start_point.Y) / speed));
+    Point end_point(static_cast<Coordinate>(card->Position.X + card->Size.Width * trans), -card->Size.Height * 5, card->Position.Z * 5);
+
+    int duration = static_cast<int>((end_point - start_point).Length() / speed);
+
+    // move
     ref<Animation> move_animation = MakeGenericAnimation(duration, MoveVisualObject(card.get(), end_point));
     move_animation->Behavior = AnimationBehavior::WiredBehavior();
-    ref<Animation> rotate_animation = MakeGenericAnimation(duration, ::Rotate(card->GetTransformation(), 0.0, 0.0, 1.0, Theta));
+
+    // rotate
+    ref<Animation> rotate_animation = MakeGenericAnimation(duration, ::Rotate(card->GetTransformation(), 0.0, 0.0, 1.0, theta));
+
+    // create group.
     GroupAnimation *animation = new GroupAnimation;
     animation->AddAnimation(move_animation);
     animation->AddAnimation(rotate_animation);
     animation->DeleteWhenStopped = true;
-    animation->StopOperation = MakeGenericStopOperation(
+    animation->StopOperation = MakeGenericOperation(
         [card, this](){
         this->RemoveChild(card); // remove card.
     });
     animation->Start();
 
-}
-
-void VisualGameScene::OnMouseButtonDown()
-{
-    if (Game_->GameState == Game::State::Initilized)
-        Game_->Start();
-    else
-    {
-        if (Game_->MoreToDeal())
-            Game_->DealMore();
-    }
 }
 
 bool VisualGameScene::IsAnimating()
@@ -301,21 +298,22 @@ bool VisualGameScene::IsAnimating()
 void VisualGameScene::OnCardChoosed(VisualCardRef visual_card)
 {
     CurrentChoosedCard_.push_back(visual_card);
-    if (CurrentChoosedCard_.size() == Game::CardCountPerDeal)
+    if (CurrentChoosedCard_.size() == Card::CardCountInASet)
     {
-        bool success = Game_->CheckAndScore(CurrentChoosedCard_[0]->Card,
-            CurrentChoosedCard_[1]->Card,
-            CurrentChoosedCard_[2]->Card);
-        if (false)
+        ::std::vector<CardRef> cards;
+        for each(VisualCardRef visual_card in CurrentChoosedCard_)
+            cards.push_back(visual_card->Card);
+        bool success = Game_->CheckAndScore(cards);
+        if (!success)
         {
-            for each (auto card in CurrentChoosedCard_)
-                card->CancelChoosed();
+            for each (auto visual_card in CurrentChoosedCard_)
+                visual_card->CancelChoosed();
             CurrentChoosedCard_.clear();
         }
         else
         {
-            for each (auto card in CurrentChoosedCard_)
-                DiscardCard(card);
+            for each (auto visual_card in CurrentChoosedCard_)
+                DiscardCard(visual_card);
             CurrentChoosedCard_.clear();
         }
     }
@@ -336,13 +334,74 @@ void VisualGameScene::EmptySlot(VisualCardRef card)
                 return;
             }
 }
-void VisualGameScene::DiscardCard(VisualCardRef card)
+void VisualGameScene::DiscardCard(VisualCardRef card, bool animation)
 {
     card->Discarded(); // discard card
     EmptySlot(card); // empty slot
-    DiscardCardAnimation(card); // animate
+    if (animation)
+        DiscardCardAnimation(card); // animate
+    else
+        RemoveChild(card);
 }
 
+bool VisualGameScene::Hint()
+{
+    ::std::vector<CardRef> cards;
+    if (Game_->Hint(cards))
+    {
+        // animation.
+        for each (CardRef card in cards)
+            GetVisualCard(card)->Shake();
+        return true;
+    }
+    return false;
+}
+
+VisualCardRef VisualGameScene::GetVisualCard(CardRef card)
+{
+    for (int i = 0; i < RowCount; ++i)
+    {
+        for (int j = 0; j < ColumnCount; ++j)
+            if (Cards_[i][j] != nullptr && Cards_[i][j]->Card == card)
+                return Cards_[i][j];
+    }
+    return nullptr;
+}
+
+void VisualGameScene::Start()
+{
+    Clear();
+    Game_->Start();
+    DealCards(Game_->GetCardsOnDesk());
+}
+
+void VisualGameScene::Clear()
+{
+    AnimationManager::Instance().StopAllAnimation();
+    DealCardAnimation_ = nullptr;
+    CurrentChoosedCard_.clear();
+    HintCardsAnimation_ = nullptr;
+    for (int i = 0; i < RowCount; ++i)
+        for (int j = 0; j < ColumnCount; ++j)
+        {
+            if (Cards_[i][j] != nullptr)
+                DiscardCard(Cards_[i][j], false);
+        }
+    
+}
+
+void VisualGameScene::Deal()
+{
+    if (Game_->GameState == Game::State::Active)
+    {
+        if (Game_->MoreToDeal())
+        {
+            ::std::unordered_set<CardRef> new_cards;
+            Game_->DealMore(new_cards);
+            DealCards(new_cards);
+        }
+    }
+}
 
 
 const double VisualGameScene::MaginRatio = 0.8;

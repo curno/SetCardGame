@@ -5,12 +5,13 @@
 // this class represent a logic deck of 81 cards.
 class Deck
 {
-private:
+public:
     static const int Total = 
         static_cast<int>(Card::ColorType::Count) * 
         static_cast<int>(Card::SymbolType::Count) *
         static_cast<int>(Card::ShadingType::Count) *
         static_cast<int>(Card::NumberType::Count); // = 81
+private:
     CardRef Cards_[Total]; // all cards.
 
     void InitCards();

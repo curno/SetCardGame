@@ -9,6 +9,8 @@
 
 void VisualCard::RenderContent()
 {
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
     const double factor = DepthPerWidthRatio / (2 * DepthPerWidthRatio + 1);
 
     const double length = Size.Depth;
@@ -17,18 +19,16 @@ void VisualCard::RenderContent()
     Point p0(-Size.Width / 2, -Size.Height / 2, -Size.Depth / 2);
     Point p1 = -p0;
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ZERO);
-    //glEnable(GL_ALPHA_TEST);
-    //glAlphaFunc(GL_GREATER, 0.9);
-
+    glDisable(GL_BLEND);
+    
     glEnable(GL_TEXTURE_2D);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(Card_));
+    
+    int number = Card_->GetIntegerNumber();
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glTranslated(0.0, 0.0, p1.Z);
-    int number = Card_->GetIntegerNumber();
     double symbol_width = SymbolRatio * Size.Height;
     double margin = (Size.Height - symbol_width * number) / (number + 1);
     // segment 1
@@ -47,6 +47,7 @@ void VisualCard::RenderContent()
         current_y += margin;
     }
     glPopMatrix();
+    
     #pragma region Draw other five faces.
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(IDB_CARD_BACKGROUND));
@@ -94,22 +95,28 @@ void VisualCard::RenderContent()
     glVertex3d(p1.X, p1.Y, -p1.Z);
     glTexCoord2d(1.0, mfactor);
     glVertex3d(p1.X, p1.Y, p1.Z);
+    glEnd();
+
 
     // back
+    glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(IDB_CARD_COVERED));
+    glBegin(GL_QUADS);
     glNormal3d(0.0, 0.0, -1.0);
-    glTexCoord2d(factor, factor);
+    glTexCoord2d(0.0, 0.0);
     glVertex3d(p0.X, p0.Y, -p1.Z);
-    glTexCoord2d(factor, mfactor);
+    glTexCoord2d(1.0, 0.0);
     glVertex3d(p0.X, p1.Y, -p1.Z);
-    glTexCoord2d(mfactor, mfactor);
+    glTexCoord2d(1.0, 1.0);
     glVertex3d(p1.X, p1.Y, -p1.Z);
-    glTexCoord2d(mfactor, factor);
+    glTexCoord2d(0.0, 1.0);
     glVertex3d(p1.X, p0.Y, -p1.Z);
     glEnd();
     #pragma endregion
 
     glDisable(GL_BLEND);
-    glDisable(GL_ALPHA_TEST);
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_LIGHTING);
+    glDisable(GL_LIGHT0);
 }
 
 void VisualCard::OnMouseMove()
@@ -166,11 +173,8 @@ void VisualCard::CancelChoosed()
     if (this->GetIsChoosed())
     {
         CurrentState = State::OnDesk;
-        if (Animation_ != nullptr)
-            Animation_->Stop();
-        Transformation target;
-        Animation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), Transformation()));
-        Animation_->Start();
+        
+        CancelChoosedAnimate();
     }
 }
 
@@ -179,17 +183,8 @@ void VisualCard::Choosed()
     if (!this->GetIsChoosed())
     {
         CurrentState = State::Choosed;
-        if (Animation_ != nullptr)
-            Animation_->Stop();
-        double theta = VisualGameScene::SlopeTheta;
-
-        Transformation target;
-        target.Translate(0.0, Size.Height / 2.0, Size.Width / 2.0);
-        target.Scale(1.1, 1.1, 1.1);
-        target.Rotate(1.0, 0.0, 0.0, theta);
-        target.Translate(0.0, -Size.Height / 2.0, 0.0);
-        Animation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), target));
-        Animation_->Start();
+        
+        ChoosedAnimate();
     }
 }
 
@@ -212,6 +207,38 @@ void VisualCard::RenderFrontRectangle(GLdouble p0x, GLdouble p0y, GLdouble p1x, 
     glTexCoord2d(1.0, 0.0);
     glVertex2d(p0x, p1y);
     glEnd();
+}
+
+void VisualCard::PrepareRendering()
+{
+    __super::PrepareRendering();
+    glMatrixMode(GL_MODELVIEW);
+    glMultMatrixd(ShakeAnimationTransformation_.Data); // apply shake.
+}
+
+void VisualCard::Shake()
+{
+    ShakeAnimation_ = MakeGenericAnimation(1000, ::Shake(ShakeAnimationTransformation_, 0.0, 0.0, 1.0));
+    ShakeAnimation_->Start();
+}
+
+void VisualCard::ChoosedAnimate()
+{
+    double theta = VisualGameScene::SlopeTheta;
+    Transformation target;
+    target.Translate(0.0, Size.Height / 2.0, Size.Width / 2.0);
+    target.Scale(1.1, 1.1, 1.1);
+    target.Rotate(1.0, 0.0, 0.0, theta);
+    target.Translate(0.0, -Size.Height / 2.0, 0.0);
+    ChoosedAnimation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), target));
+    ChoosedAnimation_->Start();
+}
+
+void VisualCard::CancelChoosedAnimate()
+{
+    Transformation target;
+    ChoosedAnimation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), Transformation()));
+    ChoosedAnimation_->Start();
 }
 
 

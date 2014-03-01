@@ -18,6 +18,9 @@ private:
     VisualCardRef Cards_[RowCount][ColumnCount]; // 3 * 7 = 21 visual card slots in the game scene, which can be empty.
     ref<Animation> DealCardAnimation_;
     ::std::vector<VisualCardRef> CurrentChoosedCard_;
+    ref<Animation> HintCardsAnimation_;
+
+    Point DealCardStartPoint_;
 public:
     VisualGameScene(ref<Game> game);
     
@@ -26,9 +29,12 @@ protected:
     virtual void OnResize(const CSize &size) override;
     virtual void PrepareRendering() override;
     virtual void RenderContent() override;
-    virtual void OnMouseButtonDown() override;
+
 private:
     void InitializeGameScene();
+    // create visual cards and add them to the scene with animations.
+    void DealCards(const ::std::unordered_set<CardRef> &cards);
+
     // this function set the geometry of the visual cards in the game scene according to current scene size.
     void ArrangeCards(const CSize &size);
     // get count of column which has as least one card.
@@ -39,6 +45,7 @@ private:
     // return true if a empty slot is found, otherwise false.
     bool GetEmptySlot(int row_hint, int column_hint, int &row, int &column);
 
+    VisualCardRef GetVisualCard(CardRef card);
     // get the position and size for card card at slot (row, column)
     void GetSlotGeometryForCard(const VisualCardRef card, int row, int column, Point &position, Dimension &size);
 
@@ -67,22 +74,30 @@ private:
 
     // This function create a animation for the card when the card is dealed.
     // At first, the card is flipped over. The animation consists of three steps:
-    // 1. The card moving from up outside of the scene to the above of the final position. 
+    // 1. The card moving from up outside of the scene (from) to the above of the final position. 
     // 2. Then the card moves down from current position to the final position.
     // 3. While step 2, the card flip over, so the content of card will be seen.
     ref<Animation> DealCardAnimation(VisualCardRef card, Point position, Dimension dimension);
     void DiscardCardAnimation(VisualCardRef card);
-
 public:
-    // create visual cards and add them to the scene with animations.
-    void DealCards(const ::std::unordered_set<CardRef> &cards);
+    void Start();
+    // give more card to use if could. the card fly from position from.
+    void Deal();
+    
+    // ask for hint
+    bool Hint();
     // game logic
     void OnCardChoosed(VisualCardRef visual_card);
     void OnCardCancleChoosed(VisualCardRef visual_card);
 
+    ref<Game> GetGame() { return Game_; }
+    void SetDealCardStartPosition(const Point &point) { DealCardStartPoint_ = point; }
+
+
 private:
     // remove a visual card from the scene, with animation
-    void DiscardCard(VisualCardRef card);
+    void DiscardCard(VisualCardRef card, bool animation = true);
+    void Clear();
     
 public:
     static const double SlopeTheta;

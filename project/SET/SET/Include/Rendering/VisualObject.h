@@ -2,7 +2,7 @@
 
 #include "../stdafx.h"
 #include "Transformation.h"
-#include "Geometry.h"
+#include "../Utils/Geometry.h"
 #include "Material.h"
 
 // this is the abstract base class of all visual object in the program, like card, button...
@@ -67,6 +67,7 @@ public:
     virtual void OnMouseLeave() { }
     virtual void OnMouseMove() { }
     virtual void OnMouseButtonDown() { } // visual object handle mouse button down.
+    virtual void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) { }
 private:
     void SetMaterial();
 };

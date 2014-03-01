@@ -3,14 +3,14 @@
 #include "stdafx.h"
 #include "../Model/Stopwatch.h"
 #include "AnimationBehaviors.h"
-#include "StopOperation.h"
+#include "../Rendering/Operation.h"
 
 // this is a base animation class for VisualObject
 class Animation abstract
 {
 protected:
     ref<AnimationBehavior> Behavior_; // animation behavior
-    ref<::StopOperation> StopOperation_; // stop operation
+    ref<::Operation> StopOperation_; // stop operation
     Stopwatch Watch_; // the stopwatch to control the animation.
     bool Stoped_;
     bool DeleteWhenStopped_;
@@ -31,9 +31,9 @@ public:
     ref<AnimationBehavior> GetBehavior() { return Behavior_; }
     void SetBehavior(const ref<AnimationBehavior> behavior) { Behavior_ = behavior; }
 
-    ref<::StopOperation> readwrite(StopOperation);
-    ref<::StopOperation> GetStopOperation() { return StopOperation_; }
-    void SetStopOperation(const ref<::StopOperation> operation) { StopOperation_ = operation; }
+    ref<::Operation> readwrite(StopOperation);
+    ref<::Operation> GetStopOperation() { return StopOperation_; }
+    void SetStopOperation(const ref<::Operation> operation) { StopOperation_ = operation; }
 
     bool readwrite(DeleteWhenStopped);
     bool GetDeleteWhenStopped() const { return DeleteWhenStopped_; }
@@ -50,7 +50,7 @@ public:
         // animation over
         if (process > 1.0 || process < 0.0)
         {
-            process = min(1.0, max(0.0, process));
+            process = ::std::min(1.0, ::std::max(0.0, process));
             OnAnimation(process);
             Stop();
             return;
@@ -65,7 +65,7 @@ public:
     virtual void OnAnimation(double process)
     {
         // put process in the right area.
-        process = min(1.0, max(0.0, process));
+        process = ::std::min(1.0, ::std::max(0.0, process));
         // get ratio from process using Behavior_;
         double ratio = Behavior_->GetRatio(process);
 
@@ -96,6 +96,6 @@ public:
 public:
     // utils
     static bool ValidProgress(double progress) { return progress >= 0.0 && progress <= 1.0; }
-    static void AdjustProgress(double &progress) { progress = max(0.0, min(1.0, progress)); }
+    static void AdjustProgress(double &progress) { progress = ::std::max(0.0, ::std::min(1.0, progress)); }
     
 };

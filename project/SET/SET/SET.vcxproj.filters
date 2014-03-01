@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Include\stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -60,9 +57,6 @@
     <ClInclude Include="Res\Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Include\UI\MainView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Include\SET.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -93,24 +87,51 @@
     <ClInclude Include="Include\Animation\AnimationBehaviors.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Rendering\Geometry.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Animation\AnimationManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Animation\StopOperation.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Include\Rendering\TextureManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Sound\SoundPlayer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UI\OpenGLView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Rendering\VisualButton.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Rendering\VisualPanel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Rendering\Operation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utils\Geometry.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utils\Random.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerNameDialog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Rendering\MainScene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\glew.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\wglew.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UI\MainView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\UI\MainFrame.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\UI\MainView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Source\SET.cpp">
@@ -146,6 +167,24 @@
     <ClCompile Include="Source\Animation\Animation.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UI\OpenGLView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Rendering\VisualButton.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Rendering\VisualDeck.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerNameDialog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Rendering\MainScene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\MainView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Resource\SET.ico">
@@ -169,15 +208,6 @@
     <Image Include="Res\Board.bmp">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="DiamondOutlined.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="DiamondSolid.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="DiamondStriped.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
     <Image Include="Res\DiamondOutlined.bmp">
       <Filter>资源文件</Filter>
     </Image>
@@ -187,10 +217,131 @@
     <Image Include="Res\DiamondStriped.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="Res\OvalOutlined.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\OvalSolid.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\OvalStriped.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\SquiggleOutlined.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\SquiggleSolid.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\SquiggleStriped.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\NewGame.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\PanelBackground.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\Commit.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Hint.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\Hint.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\0.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\3.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\4.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\5.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\6.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\7.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\8.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\9.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\0.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\3.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\4.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\5.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\6.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\7.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\8.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\9.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\colon.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\colon.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="numbers\slash.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\numbers\slash.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="card_covered.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Res\card_covered.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Res\SET.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\res\sound1.bin">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Res\PutCardSound.wav">
+      <Filter>资源文件</Filter>
+    </Media>
   </ItemGroup>
 </Project>

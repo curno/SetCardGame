@@ -48,6 +48,15 @@ public:
                 (*i)->OnTimer();
         }
     }
+
+    void StopAllAnimation()
+    {
+        auto copy = Animations_;
+        for (auto i = copy.begin(); i != copy.end(); ++i)
+            (*i)->Stop();
+        Animations_.clear();
+
+    }
     ~AnimationManager()
     {
 

@@ -80,7 +80,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\Output\$(Configuration) $(Platform)\</OutDir>
     <IntDir>$(ProjectDir)Immediate\$(Configuration) $(Platform)\</IntDir>
-    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(ProjectDir)Dependencies\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -193,14 +194,19 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="PlayerNameDialog.cpp" />
+    <ClCompile Include="Source\Rendering\MainScene.cpp" />
+    <ClCompile Include="Source\Rendering\VisualDeck.cpp" />
+    <ClCompile Include="Source\UI\OpenGLView.cpp" />
+    <ClCompile Include="Source\Rendering\VisualButton.cpp" />
+    <ClInclude Include="Dependencies\glew.h" />
+    <ClInclude Include="Dependencies\wglew.h" />
     <ClInclude Include="Include\Animation\Animation.h" />
     <ClInclude Include="Include\Animation\AnimationBehaviors.h" />
     <ClInclude Include="Include\Animation\AnimationManager.h" />
     <ClInclude Include="Include\Animation\LoopAnimation.h" />
-    <ClInclude Include="Include\Animation\StopOperation.h" />
+    <ClInclude Include="Include\Rendering\MainScene.h" />
+    <ClInclude Include="Include\Rendering\Operation.h" />
     <ClInclude Include="Include\Animation\VisualObjectAnimations.h" />
     <ClInclude Include="Include\Animation\GenericAnimation.h" />
     <ClInclude Include="Include\Animation\GroupAnimation.h" />
@@ -210,18 +216,24 @@
     <ClInclude Include="Include\Model\Deck.h" />
     <ClInclude Include="Include\Model\Game.h" />
     <ClInclude Include="Include\Model\Stopwatch.h" />
-    <ClInclude Include="Include\Rendering\Geometry.h" />
+    <ClInclude Include="Include\Utils\Geometry.h" />
     <ClInclude Include="Include\Rendering\Material.h" />
     <ClInclude Include="Include\Rendering\TextureManager.h" />
     <ClInclude Include="Include\Rendering\Transformation.h" />
+    <ClInclude Include="Include\Rendering\VisualButton.h" />
     <ClInclude Include="Include\Rendering\VisualCard.h" />
     <ClInclude Include="Include\Rendering\VisualDeck.h" />
     <ClInclude Include="Include\Rendering\VisualGameScene.h" />
     <ClInclude Include="Include\Rendering\VisualObject.h" />
+    <ClInclude Include="Include\Rendering\VisualPanel.h" />
     <ClInclude Include="Include\Rendering\VisualScene.h" />
     <ClInclude Include="Include\SET.h" />
+    <ClInclude Include="Include\Sound\SoundPlayer.h" />
     <ClInclude Include="Include\UI\MainFrame.h" />
     <ClInclude Include="Include\UI\MainView.h" />
+    <ClInclude Include="Include\UI\OpenGLView.h" />
+    <ClInclude Include="Include\Utils\Random.h" />
+    <ClInclude Include="PlayerNameDialog.h" />
     <ClInclude Include="Res\Resource.h" />
     <ClInclude Include="Include\stdafx.h" />
     <ClInclude Include="Include\targetver.h" />
@@ -252,19 +264,59 @@
     <ResourceCompile Include="Res\SET.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="DiamondOutlined.bmp" />
-    <Image Include="DiamondSolid.bmp" />
-    <Image Include="DiamondStriped.bmp" />
+    <Image Include="card_covered.bmp" />
+    <Image Include="Hint.bmp" />
+    <Image Include="numbers\0.bmp" />
+    <Image Include="numbers\1.bmp" />
+    <Image Include="numbers\2.bmp" />
+    <Image Include="numbers\3.bmp" />
+    <Image Include="numbers\4.bmp" />
+    <Image Include="numbers\5.bmp" />
+    <Image Include="numbers\6.bmp" />
+    <Image Include="numbers\7.bmp" />
+    <Image Include="numbers\8.bmp" />
+    <Image Include="numbers\9.bmp" />
+    <Image Include="numbers\colon.bmp" />
+    <Image Include="numbers\slash.bmp" />
     <Image Include="Resource\Resource\SET.ico" />
     <Image Include="Res\Board.bmp" />
     <Image Include="Res\card background.bmp" />
+    <Image Include="Res\card_covered.bmp" />
+    <Image Include="Res\Commit.bmp" />
     <Image Include="Res\DiamondOutlined.bmp" />
     <Image Include="Res\DiamondSolid.bmp" />
     <Image Include="Res\DiamondStriped.bmp" />
+    <Image Include="Res\Hint.bmp" />
+    <Image Include="Res\NewGame.bmp" />
+    <Image Include="Res\numbers\0.bmp" />
+    <Image Include="Res\numbers\1.bmp" />
+    <Image Include="Res\numbers\2.bmp" />
+    <Image Include="Res\numbers\3.bmp" />
+    <Image Include="Res\numbers\4.bmp" />
+    <Image Include="Res\numbers\5.bmp" />
+    <Image Include="Res\numbers\6.bmp" />
+    <Image Include="Res\numbers\7.bmp" />
+    <Image Include="Res\numbers\8.bmp" />
+    <Image Include="Res\numbers\9.bmp" />
+    <Image Include="Res\numbers\colon.bmp" />
+    <Image Include="Res\numbers\slash.bmp" />
+    <Image Include="Res\OvalOutlined.bmp" />
+    <Image Include="Res\OvalSolid.bmp" />
+    <Image Include="Res\OvalStriped.bmp" />
+    <Image Include="Res\PanelBackground.bmp" />
     <Image Include="Res\res\bitmap1.bmp" />
     <Image Include="Res\res\Set.ico" />
     <Image Include="Res\SET.ico" />
+    <Image Include="Res\SquiggleOutlined.bmp" />
+    <Image Include="Res\SquiggleSolid.bmp" />
+    <Image Include="Res\SquiggleStriped.bmp" />
     <Image Include="Res\test.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\res\sound1.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Res\PutCardSound.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

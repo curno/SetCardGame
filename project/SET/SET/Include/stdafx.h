@@ -32,6 +32,8 @@
 
 #include <afxcontrolbars.h>     // MFC support for ribbons and control bars
 
+#include "Mmsystem.h"
+#pragma comment(lib, "Winmm.lib")
 // stl header
 #include <algorithm>
 #include <iterator>
@@ -40,10 +42,14 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <memory>
+#include <random>
 
 // opengl header
-#include <gl/GL.h>
-#include <gl/GLU.h>
+//#include <gl/GL.h>
+//#include <gl/GLU.h>
+
+#include "glew.h"
+#include "wglew.h"
 #pragma comment(lib, "OpenGL32.lib")
 #pragma comment(lib, "GLu32.lib")
 
@@ -52,6 +58,9 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+
+#undef min
+#undef max
 
 
 
