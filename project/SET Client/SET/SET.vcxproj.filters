@@ -1,406 +1,121 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="资源文件">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="Source\UI\PlayerNameDialog.cpp" />
+    <ClCompile Include="Source\Rendering\MainScene.cpp" />
+    <ClCompile Include="Source\Rendering\VisualDeck.cpp" />
+    <ClCompile Include="Source\UI\OpenGLView.cpp" />
+    <ClCompile Include="Source\Rendering\VisualButton.cpp" />
+    <ClCompile Include="Source\Web\HttpServer.cpp" />
+    <ClCompile Include="Source\Animation\Animation.cpp" />
+    <ClCompile Include="Source\Animation\AnimationBehaviors.cpp" />
+    <ClCompile Include="Source\Model\Stopwatch.cpp" />
+    <ClCompile Include="Source\Rendering\VisualScene.cpp" />
+    <ClCompile Include="Source\Model\Deck.cpp" />
+    <ClCompile Include="Source\Model\Game.cpp" />
+    <ClCompile Include="Source\Rendering\VisualCard.cpp" />
+    <ClCompile Include="Source\Rendering\VisualGameScene.cpp" />
+    <ClCompile Include="Source\Rendering\VisualObject.cpp" />
+    <ClCompile Include="Source\SET.cpp" />
+    <ClCompile Include="Source\stdafx.cpp" />
+    <ClCompile Include="Source\UI\MainFrame.cpp" />
+    <ClCompile Include="Source\UI\MainView.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\stdafx.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Model\Card.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Keyword.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Model\Deck.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Model\Game.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Model\Stopwatch.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\VisualCard.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\VisualDeck.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\VisualGameScene.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\VisualObject.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\VisualScene.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\UI\MainFrame.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Res\Resource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\SET.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\Transformation.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\Material.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Animation\Animation.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Animation\GroupAnimation.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Animation\SequentialAnimation.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Animation\GenericAnimation.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Animation\VisualObjectAnimations.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Animation\LoopAnimation.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Animation\AnimationBehaviors.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Animation\AnimationManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\TextureManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-<<<<<<< HEAD:project/SET Client/SET/SET.vcxproj.filters
-    <ClInclude Include="Include\Sound\SoundPlayer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\UI\OpenGLView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\VisualButton.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\VisualPanel.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\Operation.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Utils\Geometry.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Utils\Random.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\MainScene.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Dependencies\glew.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Dependencies\wglew.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\UI\MainView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Web\HttpServer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\UI\PlayerNameDialog.h">
-=======
-    <ClInclude Include="Dependencies\glew.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Dependencies\wglew.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Sound\SoundPlayer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\UI\OpenGLView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\UI\GameView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\VisualButton.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\VisualPanel.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\Operation.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Utils\Geometry.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Utils\Random.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerNameDialog.h">
->>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/SET.vcxproj.filters
-      <Filter>头文件</Filter>
-    </ClInclude>
+    <ClInclude Include="Dependencies\glew.h" />
+    <ClInclude Include="Dependencies\wglew.h" />
+    <ClInclude Include="Include\Animation\Animation.h" />
+    <ClInclude Include="Include\Animation\AnimationBehaviors.h" />
+    <ClInclude Include="Include\Animation\AnimationManager.h" />
+    <ClInclude Include="Include\Animation\LoopAnimation.h" />
+    <ClInclude Include="Include\Rendering\MainScene.h" />
+    <ClInclude Include="Include\Rendering\Operation.h" />
+    <ClInclude Include="Include\Animation\VisualObjectAnimations.h" />
+    <ClInclude Include="Include\Animation\GenericAnimation.h" />
+    <ClInclude Include="Include\Animation\GroupAnimation.h" />
+    <ClInclude Include="Include\Animation\SequentialAnimation.h" />
+    <ClInclude Include="Include\Keyword.h" />
+    <ClInclude Include="Include\Model\Card.h" />
+    <ClInclude Include="Include\Model\Deck.h" />
+    <ClInclude Include="Include\Model\Game.h" />
+    <ClInclude Include="Include\Model\Stopwatch.h" />
+    <ClInclude Include="Include\Utils\Geometry.h" />
+    <ClInclude Include="Include\Rendering\Material.h" />
+    <ClInclude Include="Include\Rendering\TextureManager.h" />
+    <ClInclude Include="Include\Rendering\Transformation.h" />
+    <ClInclude Include="Include\Rendering\VisualButton.h" />
+    <ClInclude Include="Include\Rendering\VisualCard.h" />
+    <ClInclude Include="Include\Rendering\VisualDeck.h" />
+    <ClInclude Include="Include\Rendering\VisualGameScene.h" />
+    <ClInclude Include="Include\Rendering\VisualObject.h" />
+    <ClInclude Include="Include\Rendering\VisualPanel.h" />
+    <ClInclude Include="Include\Rendering\VisualScene.h" />
+    <ClInclude Include="Include\SET.h" />
+    <ClInclude Include="Include\Sound\SoundPlayer.h" />
+    <ClInclude Include="Include\UI\MainFrame.h" />
+    <ClInclude Include="Include\UI\MainView.h" />
+    <ClInclude Include="Include\UI\OpenGLView.h" />
+    <ClInclude Include="Include\Utils\Random.h" />
+    <ClInclude Include="Include\Web\HttpServer.h" />
+    <ClInclude Include="Include\UI\PlayerNameDialog.h" />
+    <ClInclude Include="Res\Resource.h" />
+    <ClInclude Include="Include\stdafx.h" />
+    <ClInclude Include="Include\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\UI\MainFrame.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SET.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\stdafx.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Rendering\VisualCard.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Rendering\VisualObject.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Rendering\VisualGameScene.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Model\Deck.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Model\Game.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Rendering\VisualScene.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Model\Stopwatch.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Animation\AnimationBehaviors.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Animation\Animation.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\UI\OpenGLView.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-<<<<<<< HEAD:project/SET Client/SET/SET.vcxproj.filters
-    <ClCompile Include="Source\Rendering\VisualButton.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Rendering\VisualDeck.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Rendering\MainScene.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\UI\MainView.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\UI\PlayerNameDialog.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Web\HttpServer.cpp">
-=======
-    <ClCompile Include="Source\UI\GameView.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Rendering\VisualButton.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Rendering\VisualDeck.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerNameDialog.cpp">
->>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/SET.vcxproj.filters
-      <Filter>源文件</Filter>
-    </ClCompile>
+    <ResourceCompile Include="Res\SET.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resource\Resource\SET.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\SET.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\res\bitmap1.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\res\Set.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\card background.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\test.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\Board.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\DiamondOutlined.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\DiamondSolid.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\DiamondStriped.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\OvalOutlined.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\OvalSolid.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\OvalStriped.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\SquiggleOutlined.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\SquiggleSolid.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\SquiggleStriped.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\NewGame.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\PanelBackground.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\Commit.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-<<<<<<< HEAD:project/SET Client/SET/SET.vcxproj.filters
-=======
-    <Image Include="Hint.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
->>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/SET.vcxproj.filters
-    <Image Include="Res\Hint.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="numbers\0.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="numbers\1.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="numbers\2.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="numbers\3.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="numbers\4.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="numbers\5.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="numbers\6.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="numbers\7.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="numbers\8.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="numbers\9.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\numbers\0.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\numbers\1.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\numbers\2.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\numbers\3.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\numbers\4.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\numbers\5.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\numbers\6.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\numbers\7.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\numbers\8.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\numbers\9.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="numbers\colon.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\numbers\colon.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="numbers\slash.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Res\numbers\slash.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-<<<<<<< HEAD:project/SET Client/SET/SET.vcxproj.filters
-=======
-    <Image Include="card_covered.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
->>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/SET.vcxproj.filters
-    <Image Include="Res\card_covered.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
+    <Media Include="Res\PutCardSound.wav" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Res\SET.rc">
-      <Filter>资源文件</Filter>
-    </ResourceCompile>
+    <Image Include="numbers\0.bmp" />
+    <Image Include="numbers\1.bmp" />
+    <Image Include="numbers\2.bmp" />
+    <Image Include="numbers\3.bmp" />
+    <Image Include="numbers\4.bmp" />
+    <Image Include="numbers\5.bmp" />
+    <Image Include="numbers\6.bmp" />
+    <Image Include="numbers\7.bmp" />
+    <Image Include="numbers\8.bmp" />
+    <Image Include="numbers\9.bmp" />
+    <Image Include="numbers\colon.bmp" />
+    <Image Include="numbers\slash.bmp" />
+    <Image Include="Resource\Resource\SET.ico" />
+    <Image Include="Res\Board.bmp" />
+    <Image Include="Res\card background.bmp" />
+    <Image Include="Res\card_covered.bmp" />
+    <Image Include="Res\Commit.bmp" />
+    <Image Include="Res\DiamondOutlined.bmp" />
+    <Image Include="Res\DiamondSolid.bmp" />
+    <Image Include="Res\DiamondStriped.bmp" />
+    <Image Include="Res\Hint.bmp" />
+    <Image Include="Res\NewGame.bmp" />
+    <Image Include="Res\numbers\0.bmp" />
+    <Image Include="Res\numbers\1.bmp" />
+    <Image Include="Res\numbers\2.bmp" />
+    <Image Include="Res\numbers\3.bmp" />
+    <Image Include="Res\numbers\4.bmp" />
+    <Image Include="Res\numbers\5.bmp" />
+    <Image Include="Res\numbers\6.bmp" />
+    <Image Include="Res\numbers\7.bmp" />
+    <Image Include="Res\numbers\8.bmp" />
+    <Image Include="Res\numbers\9.bmp" />
+    <Image Include="Res\numbers\colon.bmp" />
+    <Image Include="Res\numbers\slash.bmp" />
+    <Image Include="Res\OvalOutlined.bmp" />
+    <Image Include="Res\OvalSolid.bmp" />
+    <Image Include="Res\OvalStriped.bmp" />
+    <Image Include="Res\PanelBackground.bmp" />
+    <Image Include="Res\res\bitmap1.bmp" />
+    <Image Include="Res\res\Set.ico" />
+    <Image Include="Res\SET.ico" />
+    <Image Include="Res\SquiggleOutlined.bmp" />
+    <Image Include="Res\SquiggleSolid.bmp" />
+    <Image Include="Res\SquiggleStriped.bmp" />
+    <Image Include="Res\test.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Res\res\sound1.bin">
-      <Filter>资源文件</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="Res\PutCardSound.wav">
-      <Filter>资源文件</Filter>
-    </Media>
+    <None Include="Res\res\sound1.bin" />
   </ItemGroup>
 </Project>
