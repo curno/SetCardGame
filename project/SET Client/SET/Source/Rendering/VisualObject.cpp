@@ -9,6 +9,8 @@ void VisualObject::Render()
     glMatrixMode(GL_MODELVIEW); // Select ModelView matrix.
     glPushMatrix(); // save current matrix
     glMultMatrixd(Transformation_.Data); // add current transform to current matrix
+    GLdouble mv[16];
+    glGetDoublev(GL_MODELVIEW_MATRIX, mv);
     PrepareRendering(); // prepare to render.
     RenderContent(); // render
     glPopMatrix(); // restore the saved matrix.

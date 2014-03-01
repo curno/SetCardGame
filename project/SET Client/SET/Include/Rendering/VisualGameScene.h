@@ -81,9 +81,12 @@ private:
     void DiscardCardAnimation(VisualCardRef card);
 public:
     void Start();
+<<<<<<< HEAD:project/SET Client/SET/Include/Rendering/VisualGameScene.h
     void Stop();
 
 
+=======
+>>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/Include/Rendering/VisualGameScene.h
     // give more card to use if could. the card fly from position from.
     void Deal();
     
@@ -101,8 +104,12 @@ private:
     // remove a visual card from the scene, with animation
     void DiscardCard(VisualCardRef card, bool animation = true);
     void Clear();
+<<<<<<< HEAD:project/SET Client/SET/Include/Rendering/VisualGameScene.h
     void DisableAllCards();
 
+=======
+    
+>>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/Include/Rendering/VisualGameScene.h
 public:
     static const double SlopeTheta;
 };

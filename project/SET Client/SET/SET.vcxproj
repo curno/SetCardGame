@@ -194,19 +194,29 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+<<<<<<< HEAD:project/SET Client/SET/SET.vcxproj
     <ClCompile Include="Source\UI\PlayerNameDialog.cpp" />
     <ClCompile Include="Source\Rendering\MainScene.cpp" />
     <ClCompile Include="Source\Rendering\VisualDeck.cpp" />
     <ClCompile Include="Source\UI\OpenGLView.cpp" />
     <ClCompile Include="Source\Rendering\VisualButton.cpp" />
     <ClCompile Include="Source\Web\HttpServer.cpp" />
+=======
+    <ClCompile Include="PlayerNameDialog.cpp" />
+    <ClCompile Include="Source\Rendering\VisualDeck.cpp" />
+    <ClCompile Include="Source\UI\OpenGLView.cpp" />
+    <ClCompile Include="Source\Rendering\VisualButton.cpp" />
+>>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/SET.vcxproj
     <ClInclude Include="Dependencies\glew.h" />
     <ClInclude Include="Dependencies\wglew.h" />
     <ClInclude Include="Include\Animation\Animation.h" />
     <ClInclude Include="Include\Animation\AnimationBehaviors.h" />
     <ClInclude Include="Include\Animation\AnimationManager.h" />
     <ClInclude Include="Include\Animation\LoopAnimation.h" />
+<<<<<<< HEAD:project/SET Client/SET/SET.vcxproj
     <ClInclude Include="Include\Rendering\MainScene.h" />
+=======
+>>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/SET.vcxproj
     <ClInclude Include="Include\Rendering\Operation.h" />
     <ClInclude Include="Include\Animation\VisualObjectAnimations.h" />
     <ClInclude Include="Include\Animation\GenericAnimation.h" />
@@ -231,11 +241,18 @@
     <ClInclude Include="Include\SET.h" />
     <ClInclude Include="Include\Sound\SoundPlayer.h" />
     <ClInclude Include="Include\UI\MainFrame.h" />
+<<<<<<< HEAD:project/SET Client/SET/SET.vcxproj
     <ClInclude Include="Include\UI\MainView.h" />
     <ClInclude Include="Include\UI\OpenGLView.h" />
     <ClInclude Include="Include\Utils\Random.h" />
     <ClInclude Include="Include\Web\HttpServer.h" />
     <ClInclude Include="Include\UI\PlayerNameDialog.h" />
+=======
+    <ClInclude Include="Include\UI\GameView.h" />
+    <ClInclude Include="Include\UI\OpenGLView.h" />
+    <ClInclude Include="Include\Utils\Random.h" />
+    <ClInclude Include="PlayerNameDialog.h" />
+>>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/SET.vcxproj
     <ClInclude Include="Res\Resource.h" />
     <ClInclude Include="Include\stdafx.h" />
     <ClInclude Include="Include\targetver.h" />
@@ -255,7 +272,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\UI\MainFrame.cpp" />
-    <ClCompile Include="Source\UI\MainView.cpp">
+    <ClCompile Include="Source\UI\GameView.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -266,6 +283,11 @@
     <ResourceCompile Include="Res\SET.rc" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD:project/SET Client/SET/SET.vcxproj
+=======
+    <Image Include="card_covered.bmp" />
+    <Image Include="Hint.bmp" />
+>>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/SET.vcxproj
     <Image Include="numbers\0.bmp" />
     <Image Include="numbers\1.bmp" />
     <Image Include="numbers\2.bmp" />

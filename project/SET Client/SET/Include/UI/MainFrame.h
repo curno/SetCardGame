@@ -1,5 +1,5 @@
 #pragma once
-#include "MainView.h"
+#include "GameView.h"
 
 class MainFrame : public CFrameWnd
 {
@@ -20,7 +20,7 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	MainView    *m_wndView;
+	GameView    *m_wndView;
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

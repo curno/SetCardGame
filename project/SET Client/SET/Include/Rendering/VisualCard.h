@@ -42,7 +42,10 @@ public:
     void CancelChoosedAnimate();
 
     void Discarded();
+<<<<<<< HEAD:project/SET Client/SET/Include/Rendering/VisualCard.h
 
+=======
+>>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/Include/Rendering/VisualCard.h
     void Shake();
 protected:
     virtual void RenderContent() override;

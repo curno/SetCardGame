@@ -93,6 +93,7 @@
     <ClInclude Include="Include\Rendering\TextureManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+<<<<<<< HEAD:project/SET Client/SET/SET.vcxproj.filters
     <ClInclude Include="Include\Sound\SoundPlayer.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -130,6 +131,39 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Include\UI\PlayerNameDialog.h">
+=======
+    <ClInclude Include="Dependencies\glew.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\wglew.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Sound\SoundPlayer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UI\OpenGLView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UI\GameView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Rendering\VisualButton.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Rendering\VisualPanel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Rendering\Operation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utils\Geometry.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utils\Random.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerNameDialog.h">
+>>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/SET.vcxproj.filters
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -173,6 +207,7 @@
     <ClCompile Include="Source\UI\OpenGLView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+<<<<<<< HEAD:project/SET Client/SET/SET.vcxproj.filters
     <ClCompile Include="Source\Rendering\VisualButton.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -189,6 +224,18 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Source\Web\HttpServer.cpp">
+=======
+    <ClCompile Include="Source\UI\GameView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Rendering\VisualButton.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Rendering\VisualDeck.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerNameDialog.cpp">
+>>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/SET.vcxproj.filters
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -250,6 +297,12 @@
     <Image Include="Res\Commit.bmp">
       <Filter>资源文件</Filter>
     </Image>
+<<<<<<< HEAD:project/SET Client/SET/SET.vcxproj.filters
+=======
+    <Image Include="Hint.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+>>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/SET.vcxproj.filters
     <Image Include="Res\Hint.bmp">
       <Filter>资源文件</Filter>
     </Image>
@@ -325,6 +378,12 @@
     <Image Include="Res\numbers\slash.bmp">
       <Filter>资源文件</Filter>
     </Image>
+<<<<<<< HEAD:project/SET Client/SET/SET.vcxproj.filters
+=======
+    <Image Include="card_covered.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+>>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/SET.vcxproj.filters
     <Image Include="Res\card_covered.bmp">
       <Filter>资源文件</Filter>
     </Image>

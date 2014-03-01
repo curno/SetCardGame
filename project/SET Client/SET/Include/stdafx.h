@@ -34,8 +34,11 @@
 
 #include "Mmsystem.h"
 #pragma comment(lib, "Winmm.lib")
+<<<<<<< HEAD:project/SET Client/SET/Include/stdafx.h
 #include "winhttp.h"
 #pragma comment(lib, "Winhttp.lib")
+=======
+>>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/Include/stdafx.h
 // stl header
 #include <algorithm>
 #include <iterator>
@@ -45,7 +48,10 @@
 #include <unordered_map>
 #include <memory>
 #include <random>
+<<<<<<< HEAD:project/SET Client/SET/Include/stdafx.h
 #include <sstream>
+=======
+>>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/Include/stdafx.h
 
 // opengl header
 //#include <gl/GL.h>
