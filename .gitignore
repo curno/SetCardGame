@@ -15,10 +15,10 @@ local.properties
 .classpath
 .settings/
 .loadpath
-project/SET/Output/
-project/SET/ipch/
-project/SET/SET.opensdf
-project/SET/SET/Immediate
+project/SET Client/Output/
+project/SET Client/ipch/
+project/SET Client/SET.opensdf
+project/SET Client/SET/Immediate
 
 # External tool builders
 .externalToolBuilders/

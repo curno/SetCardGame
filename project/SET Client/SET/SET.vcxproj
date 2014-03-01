@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{13D3F059-DCCA-4150-B377-A33FFE40D367}</ProjectGuid>
+    <RootNamespace>SET</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\$(Configuration) $(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)Immediate\$(Configuration) $(Platform)\</IntDir>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\Output\$(Configuration) $(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)Immediate\$(Configuration) $(Platform)\</IntDir>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(ProjectDir)Dependencies\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\$(Configuration) $(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)Immediate\$(Configuration) $(Platform)\</IntDir>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\$(Configuration) $(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)Immediate\$(Configuration) $(Platform)\</IntDir>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Include\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>Include/stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>Include/stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>Include/stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>Include/stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\UI\PlayerNameDialog.cpp" />
+    <ClCompile Include="Source\Rendering\MainScene.cpp" />
+    <ClCompile Include="Source\Rendering\VisualDeck.cpp" />
+    <ClCompile Include="Source\UI\OpenGLView.cpp" />
+    <ClCompile Include="Source\Rendering\VisualButton.cpp" />
+    <ClCompile Include="Source\Web\HttpServer.cpp" />
+    <ClInclude Include="Dependencies\glew.h" />
+    <ClInclude Include="Dependencies\wglew.h" />
+    <ClInclude Include="Include\Animation\Animation.h" />
+    <ClInclude Include="Include\Animation\AnimationBehaviors.h" />
+    <ClInclude Include="Include\Animation\AnimationManager.h" />
+    <ClInclude Include="Include\Animation\LoopAnimation.h" />
+    <ClInclude Include="Include\Rendering\MainScene.h" />
+    <ClInclude Include="Include\Rendering\Operation.h" />
+    <ClInclude Include="Include\Animation\VisualObjectAnimations.h" />
+    <ClInclude Include="Include\Animation\GenericAnimation.h" />
+    <ClInclude Include="Include\Animation\GroupAnimation.h" />
+    <ClInclude Include="Include\Animation\SequentialAnimation.h" />
+    <ClInclude Include="Include\Keyword.h" />
+    <ClInclude Include="Include\Model\Card.h" />
+    <ClInclude Include="Include\Model\Deck.h" />
+    <ClInclude Include="Include\Model\Game.h" />
+    <ClInclude Include="Include\Model\Stopwatch.h" />
+    <ClInclude Include="Include\Utils\Geometry.h" />
+    <ClInclude Include="Include\Rendering\Material.h" />
+    <ClInclude Include="Include\Rendering\TextureManager.h" />
+    <ClInclude Include="Include\Rendering\Transformation.h" />
+    <ClInclude Include="Include\Rendering\VisualButton.h" />
+    <ClInclude Include="Include\Rendering\VisualCard.h" />
+    <ClInclude Include="Include\Rendering\VisualDeck.h" />
+    <ClInclude Include="Include\Rendering\VisualGameScene.h" />
+    <ClInclude Include="Include\Rendering\VisualObject.h" />
+    <ClInclude Include="Include\Rendering\VisualPanel.h" />
+    <ClInclude Include="Include\Rendering\VisualScene.h" />
+    <ClInclude Include="Include\SET.h" />
+    <ClInclude Include="Include\Sound\SoundPlayer.h" />
+    <ClInclude Include="Include\UI\MainFrame.h" />
+    <ClInclude Include="Include\UI\MainView.h" />
+    <ClInclude Include="Include\UI\OpenGLView.h" />
+    <ClInclude Include="Include\Utils\Random.h" />
+    <ClInclude Include="Include\Web\HttpServer.h" />
+    <ClInclude Include="Include\UI\PlayerNameDialog.h" />
+    <ClInclude Include="Res\Resource.h" />
+    <ClInclude Include="Include\stdafx.h" />
+    <ClInclude Include="Include\targetver.h" />
+    <ClCompile Include="Source\Animation\Animation.cpp" />
+    <ClCompile Include="Source\Animation\AnimationBehaviors.cpp" />
+    <ClCompile Include="Source\Model\Stopwatch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Rendering\VisualScene.cpp" />
+    <ClCompile Include="Source\Model\Deck.cpp" />
+    <ClCompile Include="Source\Model\Game.cpp" />
+    <ClCompile Include="Source\Rendering\VisualCard.cpp" />
+    <ClCompile Include="Source\Rendering\VisualGameScene.cpp" />
+    <ClCompile Include="Source\Rendering\VisualObject.cpp" />
+    <ClCompile Include="Source\SET.cpp" />
+    <ClCompile Include="Source\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\UI\MainFrame.cpp" />
+    <ClCompile Include="Source\UI\MainView.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Res\SET.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="numbers\0.bmp" />
+    <Image Include="numbers\1.bmp" />
+    <Image Include="numbers\2.bmp" />
+    <Image Include="numbers\3.bmp" />
+    <Image Include="numbers\4.bmp" />
+    <Image Include="numbers\5.bmp" />
+    <Image Include="numbers\6.bmp" />
+    <Image Include="numbers\7.bmp" />
+    <Image Include="numbers\8.bmp" />
+    <Image Include="numbers\9.bmp" />
+    <Image Include="numbers\colon.bmp" />
+    <Image Include="numbers\slash.bmp" />
+    <Image Include="Resource\Resource\SET.ico" />
+    <Image Include="Res\Board.bmp" />
+    <Image Include="Res\card background.bmp" />
+    <Image Include="Res\card_covered.bmp" />
+    <Image Include="Res\Commit.bmp" />
+    <Image Include="Res\DiamondOutlined.bmp" />
+    <Image Include="Res\DiamondSolid.bmp" />
+    <Image Include="Res\DiamondStriped.bmp" />
+    <Image Include="Res\Hint.bmp" />
+    <Image Include="Res\NewGame.bmp" />
+    <Image Include="Res\numbers\0.bmp" />
+    <Image Include="Res\numbers\1.bmp" />
+    <Image Include="Res\numbers\2.bmp" />
+    <Image Include="Res\numbers\3.bmp" />
+    <Image Include="Res\numbers\4.bmp" />
+    <Image Include="Res\numbers\5.bmp" />
+    <Image Include="Res\numbers\6.bmp" />
+    <Image Include="Res\numbers\7.bmp" />
+    <Image Include="Res\numbers\8.bmp" />
+    <Image Include="Res\numbers\9.bmp" />
+    <Image Include="Res\numbers\colon.bmp" />
+    <Image Include="Res\numbers\slash.bmp" />
+    <Image Include="Res\OvalOutlined.bmp" />
+    <Image Include="Res\OvalSolid.bmp" />
+    <Image Include="Res\OvalStriped.bmp" />
+    <Image Include="Res\PanelBackground.bmp" />
+    <Image Include="Res\res\bitmap1.bmp" />
+    <Image Include="Res\res\Set.ico" />
+    <Image Include="Res\SET.ico" />
+    <Image Include="Res\SquiggleOutlined.bmp" />
+    <Image Include="Res\SquiggleSolid.bmp" />
+    <Image Include="Res\SquiggleStriped.bmp" />
+    <Image Include="Res\test.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\res\sound1.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Res\PutCardSound.wav" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
