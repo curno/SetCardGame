@@ -346,11 +346,7 @@ void VisualGameScene::DiscardCard(VisualCardRef card, bool animation)
 
 bool VisualGameScene::Hint()
 {
-<<<<<<< HEAD:project/SET Client/SET/Source/Rendering/VisualGameScene.cpp
     ::std::vector<CardRef> cards;
-=======
-    std::vector<CardRef> cards;
->>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/Source/Rendering/VisualGameScene.cpp
     if (Game_->Hint(cards))
     {
         // animation.
@@ -379,7 +375,6 @@ void VisualGameScene::Start()
     DealCards(Game_->GetCardsOnDesk());
 }
 
-<<<<<<< HEAD:project/SET Client/SET/Source/Rendering/VisualGameScene.cpp
 void VisualGameScene::Stop()
 {
     Game_->Stop();
@@ -387,8 +382,6 @@ void VisualGameScene::Stop()
 }
 
 
-=======
->>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/Source/Rendering/VisualGameScene.cpp
 void VisualGameScene::Clear()
 {
     AnimationManager::Instance().StopAllAnimation();
@@ -402,7 +395,6 @@ void VisualGameScene::Clear()
                 DiscardCard(Cards_[i][j], false);
         }
     
-<<<<<<< HEAD:project/SET Client/SET/Source/Rendering/VisualGameScene.cpp
 }
 
 void VisualGameScene::Deal()
@@ -425,21 +417,6 @@ void VisualGameScene::DisableAllCards()
         for (int column = 0; column < ColumnCount; ++column)
             if (Cards_[row][column] != nullptr)
                 Cards_[row][column]->Enabled = false;
-    }
-=======
->>>>>>> e5015f7ea8d62124b330cd85b669868caac403ea:project/SET/SET/Source/Rendering/VisualGameScene.cpp
-}
-
-void VisualGameScene::Deal()
-{
-    if (Game_->GameState == Game::State::Active)
-    {
-        if (Game_->MoreToDeal())
-        {
-            ::std::unordered_set<CardRef> new_cards;
-            Game_->DealMore(new_cards);
-            DealCards(new_cards);
-        }
     }
 }
 
