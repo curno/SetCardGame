@@ -47,6 +47,7 @@
 #include <random>
 #include <sstream>
 #include <cassert>
+#include <fstream>
 
 // opengl header
 //#include <gl/GL.h>

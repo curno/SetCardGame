@@ -38,7 +38,6 @@
     <ClInclude Include="Include\Model\Card.h" />
     <ClInclude Include="Include\Model\Deck.h" />
     <ClInclude Include="Include\Model\Game.h" />
-    <ClInclude Include="Include\Model\Stopwatch.h" />
     <ClInclude Include="Include\Utils\Geometry.h" />
     <ClInclude Include="Include\Rendering\Material.h" />
     <ClInclude Include="Include\Rendering\TextureManager.h" />
@@ -61,6 +60,8 @@
     <ClInclude Include="Res\Resource.h" />
     <ClInclude Include="Include\stdafx.h" />
     <ClInclude Include="Include\targetver.h" />
+    <ClInclude Include="Include\Utils\Stopwatch.h" />
+    <ClInclude Include="Include\Utils\GlobalConfiguration.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Res\SET.rc" />

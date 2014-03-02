@@ -1,7 +1,7 @@
 #pragma once
 
 #include "stdafx.h"
-#include "../Model/Stopwatch.h"
+#include "../Utils/Stopwatch.h"
 #include "AnimationBehaviors.h"
 #include "../Rendering/Operation.h"
 

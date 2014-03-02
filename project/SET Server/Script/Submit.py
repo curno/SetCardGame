@@ -5,9 +5,12 @@ import cgi
 import base64
 
 #connect to database and get cursor.
-db_user = 'public'
-db_host = 'localhost'
-database = MySQLdb.connect(host = db_host, user = db_user, db = 'SETGAME')
+db_user = 'public'     #please modify this to correct user name.
+db_host = 'localhost'  #please modify this to correct host name.
+db_password = ''
+
+database = MySQLdb.connect(host = db_host, user = db_user,
+                           passwd = db_password, db = 'SETGAME')
 cursor = database.cursor()
 
 #get parameter

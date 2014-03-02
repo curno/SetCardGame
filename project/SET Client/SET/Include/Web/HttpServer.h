@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stdafx.h"
+#include "../Utils/GlobalConfiguration.h"
 
 // this is a static class contains web functions used in this game.
 class HttpServer
@@ -23,11 +24,11 @@ public:
     
     static void Post(const CString &name, int score, long long elapsed_time)
     {
-        CString tmp = name;
         static InternetHandle Handle_;
+        CString tmp = name;
         ::std::wstring name_wstring = tmp.GetBuffer(0);
         ::std::wostringstream woss;
-        woss << HostName << TEXT("?") 
+        woss << GlobalConfiguration::Instance().HostName << TEXT("?") 
             << Name << TEXT("=") << name_wstring
             << TEXT("&") << Score << TEXT("=") << score 
             << TEXT("&") << ElapsedTime << TEXT("=") << elapsed_time;
@@ -35,7 +36,6 @@ public:
     }
 
 private:
-    static const ::std::wstring HostName;
     static const ::std::wstring Name;
     static const ::std::wstring Score;
     static const ::std::wstring ElapsedTime;

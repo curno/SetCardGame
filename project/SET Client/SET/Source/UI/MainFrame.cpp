@@ -2,6 +2,7 @@
 #include "Include/Set.h"
 
 #include "Include/UI/MainFrame.h"
+#include "Include/Utils/GlobalConfiguration.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -14,6 +15,7 @@ IMPLEMENT_DYNCREATE(MainFrame, CFrameWnd)
 BEGIN_MESSAGE_MAP(MainFrame, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_SETFOCUS()
+    ON_WM_GETMINMAXINFO()
 END_MESSAGE_MAP()
 
 // MainFrame
@@ -83,3 +85,11 @@ BOOL MainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* 
 	return CFrameWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 }
 
+
+void MainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
+{
+    CFrameWnd::OnGetMinMaxInfo(lpMMI);
+    lpMMI->ptMinTrackSize = CPoint(GlobalConfiguration::Instance().WindowMinimumWidth,
+        GlobalConfiguration::Instance().WindowMinimumHeight);
+
+}

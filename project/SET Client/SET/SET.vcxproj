@@ -171,7 +171,8 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>XCOPY "$(OutDir)$(TargetFileName)" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y /E</Command>
+      <Command>XCOPY "$(OutDir)$(TargetFileName)" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y /E
+XCOPY "$(ProjectDir)Data\conf.ini" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y /E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -204,7 +205,8 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>XCOPY "$(OutDir)$(TargetFileName)" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y /E</Command>
+      <Command>XCOPY "$(OutDir)$(TargetFileName)" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y /E
+XCOPY "$(ProjectDir)Data\conf.ini" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y /E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -231,7 +233,7 @@
     <ClInclude Include="Include\Model\Card.h" />
     <ClInclude Include="Include\Model\Deck.h" />
     <ClInclude Include="Include\Model\Game.h" />
-    <ClInclude Include="Include\Model\Stopwatch.h" />
+    <ClInclude Include="Include\Utils\Stopwatch.h" />
     <ClInclude Include="Include\Utils\Geometry.h" />
     <ClInclude Include="Include\Rendering\Material.h" />
     <ClInclude Include="Include\Rendering\TextureManager.h" />
@@ -249,6 +251,7 @@
     <ClInclude Include="Include\UI\MainView.h" />
     <ClInclude Include="Include\UI\OpenGLView.h" />
     <ClInclude Include="Include\Utils\Random.h" />
+    <ClInclude Include="Include\Utils\GlobalConfiguration.h" />
     <ClInclude Include="Include\Web\HttpServer.h" />
     <ClInclude Include="Include\UI\PlayerNameDialog.h" />
     <ClInclude Include="Res\Resource.h" />
