@@ -28,7 +28,10 @@ public:
 
     bool readwrite(Enabled);
     bool GetEnabled() const { return Enabled_; }
-    void SetEnabled(bool enable) { Enabled_ = enable; }
+    virtual void SetEnabled(bool enable) { Enabled_ = enable; }
+    bool readwrite(Visible);
+    bool GetVisible() const { return Visible_; }
+    void SetVisible(bool visible) { Visible_ = visible; }
 
     Point readwrite(Position);
     Point GetPosition() const { return Position_; }
@@ -64,7 +67,11 @@ public:
             axis_x, axis_y, axis_z, theta);
     }
 
-    VisualObject() : Name_(CreateName()), Enabled_(true) { }
+    VisualObject(const char *meterial = nullptr) : Name_(CreateName()), Enabled_(true), Visible_(true) 
+    {
+        if (meterial != nullptr)
+            Material_ = Material::GetMaterial(meterial);
+    }
     virtual ~VisualObject() { } // virtual destructor
     virtual VisualObject *GetObjectByGLName(GLNameType name);
 
@@ -77,4 +84,7 @@ private:
     void SetMaterial();
 
     bool Enabled_;
+    bool Visible_;
+
+
 };

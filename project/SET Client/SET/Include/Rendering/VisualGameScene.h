@@ -5,8 +5,6 @@
 #include "VisualCard.h"
 #include "../Model/Game.h"
 
-
-
 class VisualGameScene : public VisualScene
 {
     static const int RowCount = 3;

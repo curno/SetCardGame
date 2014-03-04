@@ -7,6 +7,8 @@
 #include "../../Res/resource.h"
 #include "../Web/HttpServer.h"
 #include "SET.h"
+#include "../UI/ScoreDialog.h"
+
 class VisualPanel : public VisualScene
 {
     ref<VisualButton> ButtonNewGame_;
@@ -102,26 +104,37 @@ public:
     VisualPanel(VisualGameScene *scene) : GameScene_(scene)
     {
         Material_ = Material::GetMaterial("default");
-        ButtonNewGame_ = ::std::make_shared<VisualButton>(MakeGenericOperation([this](){ ButtonNewGameClicked();}));
+        ButtonNewGame_ = ::std::make_shared<VisualButton>(MakeGenericOperation([this](){ ButtonNewGameClicked(); }));
         ButtonNewGame_->SetTextureName(IDB_NEW_GAME);
         ButtonHint_ = ::std::make_shared<VisualButton>(MakeGenericOperation([this](){ ButtonHintClicked(); }));
         ButtonHint_->SetTextureName(IDB_HINT);
         ButtonHint_->Enabled = false;
         ButtonCommit_ = ::std::make_shared<VisualButton>(MakeGenericOperation([this](){ ButtonSubmitClicked(); }));
         ButtonCommit_->SetTextureName(IDB_COMMIT);
+        ButtonCommit_->Enabled = false;
         Deck_ = ::std::make_shared<VisualDeck>();
-        Deck_->Operation = MakeGenericOperation([this](){GameScene_->Deal(); });
+        Deck_->Operation = MakeGenericOperation([this](){DeckClicked();});
+        Deck_->Visible = false;
         AddChild(ButtonNewGame_);
         AddChild(ButtonHint_);
         AddChild(ButtonCommit_);
         AddChild(Deck_);
     }
 
+    void DeckClicked()
+    {
+        GameScene_->Deal();
+        if (GameScene_->GetGame()->GetCardsInHandCount() == 0)
+            Deck_->Visible = false;
+    }
+
     void ButtonNewGameClicked()
     {
         GameScene_->Start(); 
         Deck_->Enabled = true; 
+        Deck_->Visible = true;
         ButtonHint_->Enabled = true;
+        ButtonCommit_->Enabled = true;
     }
 
     void ButtonHintClicked()
@@ -148,6 +161,9 @@ public:
         GameScene_->Stop();
         ButtonHint_->Enabled = false;
         Deck_->Enabled = false;
+        ButtonCommit_->Enabled = false;
+       
+        HttpServer::DataCallBackFunction = ScoreDialog::AnalysisAndShowScoreDialog;
         HttpServer::Post(theApp.PlayerName, GameScene_->GetGame()->Score, GameScene_->GetGame()->TimeElapsed.GetTotalSeconds());
     }
 

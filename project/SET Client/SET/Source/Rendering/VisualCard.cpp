@@ -130,21 +130,23 @@ void VisualCard::OnMouseMove()
 
 void VisualCard::OnMouseEnter()
 {
-    GLfloat emission[] = { 0.9f, 0.9f, 0.9f, 1.0f };
-    Material_.SetData(Material::Parameter::Emission, emission);
+    __super::OnMouseEnter();
+    /*GLfloat emission[] = { 0.9f, 0.9f, 0.9f, 1.0f };
+    Material_.SetData(Material::Parameter::Emission, emission);*/
     
 }
 
 void VisualCard::OnMouseLeave()
 {
-    GLfloat emission[] = { 0.0, 0.0, 0.0, 0.0 };
-    Material_.SetData(Material::Parameter::Emission, emission);
-    
+    /*GLfloat emission[] = { 0.0, 0.0, 0.0, 0.0 };
+    Material_.SetData(Material::Parameter::Emission, emission);*/
+    __super::OnMouseLeave();
 }
 
-VisualCard::VisualCard(const CardRef card, VisualGameScene *parent) : Card_(card), State_(State::OnDesk), Parent_(parent)
+VisualCard::VisualCard(const CardRef card, VisualGameScene *parent) : VisualWidget("default"), Card_(card), State_(State::OnDesk), Parent_(parent) 
 {
-    Material_ = (Material::GetMaterial("default"));
+    EmissionNormal_ = 0.0;
+    UpdateMaterialEmission();
 }
 
 void VisualCard::OnMouseButtonDown()

@@ -29,14 +29,14 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -44,7 +44,7 @@
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -52,7 +52,7 @@
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -210,10 +210,12 @@ XCOPY "$(ProjectDir)Data\conf.ini" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y 
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\UI\ScoreDialog.cpp" />
+    <ClCompile Include="Source\Rendering\VisualCard.cpp" />
+    <ClCompile Include="Source\Rendering\VisualWidget.cpp" />
     <ClCompile Include="Source\UI\MainView.cpp" />
     <ClCompile Include="Source\UI\PlayerNameDialog.cpp" />
     <ClCompile Include="Source\Rendering\MainScene.cpp" />
-    <ClCompile Include="Source\Rendering\VisualDeck.cpp" />
     <ClCompile Include="Source\UI\OpenGLView.cpp" />
     <ClCompile Include="Source\Rendering\VisualButton.cpp" />
     <ClCompile Include="Source\Web\HttpServer.cpp" />
@@ -233,6 +235,7 @@ XCOPY "$(ProjectDir)Data\conf.ini" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y 
     <ClInclude Include="Include\Model\Card.h" />
     <ClInclude Include="Include\Model\Deck.h" />
     <ClInclude Include="Include\Model\Game.h" />
+    <ClInclude Include="Include\Rendering\VisualWidget.h" />
     <ClInclude Include="Include\Utils\Stopwatch.h" />
     <ClInclude Include="Include\Utils\Geometry.h" />
     <ClInclude Include="Include\Rendering\Material.h" />
@@ -260,12 +263,12 @@ XCOPY "$(ProjectDir)Data\conf.ini" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y 
     <ClCompile Include="Source\Animation\Animation.cpp" />
     <ClCompile Include="Source\Animation\AnimationBehaviors.cpp" />
     <ClCompile Include="Source\Model\Stopwatch.cpp" />
+    <ClInclude Include="Include\UI\ScoreDialog.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Rendering\VisualScene.cpp" />
     <ClCompile Include="Source\Model\Deck.cpp" />
     <ClCompile Include="Source\Model\Game.cpp" />
-    <ClCompile Include="Source\Rendering\VisualCard.cpp" />
     <ClCompile Include="Source\Rendering\VisualGameScene.cpp" />
     <ClCompile Include="Source\Rendering\VisualObject.cpp" />
     <ClCompile Include="Source\SET.cpp" />

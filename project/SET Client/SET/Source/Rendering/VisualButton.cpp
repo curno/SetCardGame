@@ -38,6 +38,7 @@ void VisualButton::RenderContent()
 void VisualButton::PrepareRendering()
 {
     __super::PrepareRendering();
+
     // enable light
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
@@ -51,25 +52,6 @@ void VisualButton::PrepareRendering()
     glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
     glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-}
-
-void VisualButton::OnMouseEnter()
-{
-    __super::OnMouseEnter();
-    GLfloat emission[] = { 0.5f, 0.5f, 0.5f, 1.0f };
-    Material_.SetData(Material::Parameter::Emission, emission);
-}
-
-void VisualButton::OnMouseLeave()
-{
-    __super::OnMouseLeave();
-    GLfloat emission[] = { 0.3f, 0.3f, 0.3f, 1.0f };
-    Material_.SetData(Material::Parameter::Emission, emission);
-}
-
-void VisualButton::OnMouseMove()
-{
-    __super::OnMouseMove();
 }
 
 const double VisualButton::CornerRatioX = 0.1;

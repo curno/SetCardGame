@@ -1,23 +1,23 @@
 #pragma once
 
+#include "VisualWidget.h"
 #include "VisualCard.h"
 #include "Operation.h"
 #include "TextureManager.h"
 #include "../Animation/VisualObjectAnimations.h"
-class VisualDeck : public VisualObject
+class VisualDeck : public VisualWidget
 {
-    static const GLfloat NormalEmission;
-    static const GLfloat HighlightEmission;
     ref<Operation> Operation_;
     ref<Animation> HoverAnimation_;
     ref<Animation> BlinkAnimation_;
 public:
-    VisualDeck() { Material_ = Material::GetMaterial("default"); SetNormalEmission(Material_); }
+    VisualDeck() : VisualWidget("default") { SetNormalEmission(Material_); }
     ref<::Operation> readwrite(Operation);
     ref<::Operation> GetOperation() { return Operation_; }
     void SetOperation(ref<::Operation> operation) { Operation_ = operation; }
     virtual void OnMouseButtonDown() override
     {
+        __super::OnMouseButtonDown();
         if (!Enabled)
             return;
         if (Operation_ != nullptr)
@@ -129,8 +129,6 @@ protected:
         static const int HoverAnimationDuration = 500;
         static const double RotateTheta = -0.5;
         BlinkAnimation_ = nullptr;
-        Highlight(Material_);
-
 
         Transformation transformation;
         transformation.RotateByCenter(-Size.Width / 2, Size.Height / 2, 0.0, 0.0, 0.0, 1.0, RotateTheta);
@@ -140,7 +138,7 @@ protected:
 
     void Highlight(Material &m)
     {
-        GLfloat emission[] = { HighlightEmission, HighlightEmission, HighlightEmission, 1.0f };
+        GLfloat emission[] = { EmissionHighlight_, EmissionHighlight_, EmissionHighlight_, 1.0f };
         m.SetData(Material::Parameter::Emission, emission);
     }
 
@@ -148,7 +146,6 @@ protected:
     {
         static const int HoverAnimationDuration = 500;
         BlinkAnimation_ = nullptr;
-        SetNormalEmission(Material_);
         
         HoverAnimation_ = MakeGenericAnimation(HoverAnimationDuration, ::Transform(GetTransformation(), Transformation()));
         HoverAnimation_->Start();
@@ -156,7 +153,7 @@ protected:
 
     void SetNormalEmission(Material &m)
     {
-        GLfloat emission[] = { NormalEmission, NormalEmission, NormalEmission, 1.0f };
+        GLfloat emission[] = { EmissionNormal_, EmissionNormal_, EmissionNormal_, 1.0f };
         m.SetData(Material::Parameter::Emission, emission);
     }
 public:

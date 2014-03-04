@@ -1,13 +1,13 @@
 #pragma once
 
-#include "VisualObject.h"
+#include "VisualWidget.h"
 #include "../Model/Card.h"
 #include "../Animation/Animation.h"
 
 class VisualGameScene;
 class VisualCard;
 typedef ref<VisualCard> VisualCardRef;
-class VisualCard : public VisualObject
+class VisualCard : public VisualWidget
 {
 public:
     enum class State

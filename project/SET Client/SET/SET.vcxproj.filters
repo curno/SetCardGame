@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="Source\UI\PlayerNameDialog.cpp" />
     <ClCompile Include="Source\Rendering\MainScene.cpp" />
-    <ClCompile Include="Source\Rendering\VisualDeck.cpp" />
     <ClCompile Include="Source\UI\OpenGLView.cpp" />
     <ClCompile Include="Source\Rendering\VisualButton.cpp" />
     <ClCompile Include="Source\Web\HttpServer.cpp" />
@@ -13,13 +12,15 @@
     <ClCompile Include="Source\Rendering\VisualScene.cpp" />
     <ClCompile Include="Source\Model\Deck.cpp" />
     <ClCompile Include="Source\Model\Game.cpp" />
-    <ClCompile Include="Source\Rendering\VisualCard.cpp" />
     <ClCompile Include="Source\Rendering\VisualGameScene.cpp" />
     <ClCompile Include="Source\Rendering\VisualObject.cpp" />
     <ClCompile Include="Source\SET.cpp" />
     <ClCompile Include="Source\stdafx.cpp" />
     <ClCompile Include="Source\UI\MainFrame.cpp" />
     <ClCompile Include="Source\UI\MainView.cpp" />
+    <ClCompile Include="Source\Rendering\VisualWidget.cpp" />
+    <ClCompile Include="Source\Rendering\VisualCard.cpp" />
+    <ClCompile Include="Source\UI\ScoreDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\glew.h" />
@@ -62,6 +63,8 @@
     <ClInclude Include="Include\targetver.h" />
     <ClInclude Include="Include\Utils\Stopwatch.h" />
     <ClInclude Include="Include\Utils\GlobalConfiguration.h" />
+    <ClInclude Include="Include\Rendering\VisualWidget.h" />
+    <ClInclude Include="Include\UI\ScoreDialog.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Res\SET.rc" />

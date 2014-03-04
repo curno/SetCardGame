@@ -2,6 +2,7 @@
 
 #include "Include/UI/OpenGLView.h"
 #include "Include/Animation/AnimationManager.h"
+#include "Include/Utils/GlobalConfiguration.h"
 
 
 // MainView
@@ -186,9 +187,6 @@ void OpenGLView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 BOOL OpenGLView::InitGLRC(HDC hdc)
 {
-    HWND dummy_window = CreateWindow(TEXT("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
-    HDC dummy_dc = ::GetDC(dummy_window);
-
     // dummy pixel format
     PIXELFORMATDESCRIPTOR pfd;
     memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
@@ -200,52 +198,63 @@ BOOL OpenGLView::InitGLRC(HDC hdc)
     pfd.iPixelType = PFD_TYPE_RGBA; // rgba format
     pfd.cColorBits = 24;
     pfd.cDepthBits = 32;
-    int pixel_format = ChoosePixelFormat(dummy_dc, &pfd); // create pixel format
-    SetPixelFormat(dummy_dc, pixel_format, &pfd);
-    auto dummy_glrc = wglCreateContext(dummy_dc); // create gl rendering content.
-    wglMakeCurrent(dummy_dc, dummy_glrc); // make current
 
-    bool success = true;
-    // get function address.
-    PROC wglChoosePixelFormatARB_ = wglGetProcAddress("wglChoosePixelFormatARB");
+    bool success = false;
+    if (GlobalConfiguration::Instance().MultiSample)
+    {
+        HWND dummy_window = CreateWindow(TEXT("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+        HDC dummy_dc = ::GetDC(dummy_window);
 
-    wglMakeCurrent(nullptr, nullptr);
-    wglDeleteContext(dummy_glrc);
 
-    float fAttributes[] = { 0, 0 };
-    int pixelFormat;
-    UINT numFormats;
-    int attributes[] = {
-        WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
-        WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
-        WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
-        WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
-        WGL_COLOR_BITS_ARB, 32,
-        WGL_DEPTH_BITS_ARB, 24,
-        WGL_STENCIL_BITS_ARB, 8,
-        WGL_SAMPLE_BUFFERS_ARB, 1, //Number of buffers (must be 1 at time of writing)
-        WGL_SAMPLES_ARB, 4,        //Number of samples
-        0
-    };
-    success &= ((PFNWGLCHOOSEPIXELFORMATARBPROC)wglChoosePixelFormatARB_)(hdc, attributes, fAttributes,
-        1, &pixelFormat, &numFormats) == TRUE;
+        int pixel_format = ChoosePixelFormat(dummy_dc, &pfd); // create pixel format
+        SetPixelFormat(dummy_dc, pixel_format, &pfd);
+        auto dummy_glrc = wglCreateContext(dummy_dc); // create gl rendering content.
+        wglMakeCurrent(dummy_dc, dummy_glrc); // make current
 
-    success &= SetPixelFormat(hdc, pixelFormat, NULL) == TRUE;
-    GLRC_ = wglCreateContext(hdc); // create gl rendering content.
-    success &= GLRC_ != nullptr;
-    // if failed, same as dummy dc.
+        success = true;
+        // get function address.
+        PROC wglChoosePixelFormatARB_ = wglGetProcAddress("wglChoosePixelFormatARB");
+
+        wglMakeCurrent(nullptr, nullptr);
+        wglDeleteContext(dummy_glrc);
+
+        float fAttributes[] = { 0, 0 };
+        int pixelFormat;
+        UINT numFormats;
+        int attributes[] = {
+            WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
+            WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
+            WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
+            WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+            WGL_COLOR_BITS_ARB, 32,
+            WGL_DEPTH_BITS_ARB, 24,
+            WGL_STENCIL_BITS_ARB, 8,
+            WGL_SAMPLE_BUFFERS_ARB, 1, //Number of buffers (must be 1 at time of writing)
+            WGL_SAMPLES_ARB, 4,        //Number of samples
+            0
+        };
+        success &= ((PFNWGLCHOOSEPIXELFORMATARBPROC)wglChoosePixelFormatARB_)(hdc, attributes, fAttributes,
+            1, &pixelFormat, &numFormats) == TRUE;
+
+        success &= SetPixelFormat(hdc, pixelFormat, NULL) == TRUE;
+        GLRC_ = wglCreateContext(hdc); // create gl rendering content.
+        success &= GLRC_ != nullptr;
+        // if failed, same as dummy dc.
+
+        if (success)
+            glEnable(GL_MULTISAMPLE);
+
+    }
+
     if (!success)
     {
         int pixel_format = ChoosePixelFormat(hdc, &pfd); // create pixel format
         SetPixelFormat(hdc, pixel_format, &pfd);
         GLRC_ = wglCreateContext(hdc); // create gl rendering content.
     }
-    else
-        glEnable(GL_MULTISAMPLE);
-
     wglMakeCurrent(hdc, GLRC_); // make current
 
-    return success;
+    return true;
 }
 
 VisualObject * OpenGLView::GetObjectByGLName(VisualObject::GLNameType name)
