@@ -126,6 +126,7 @@ protected:
 
     virtual void OnMouseEnter() override
     {
+        __super::OnMouseEnter();
         static const int HoverAnimationDuration = 500;
         static const double RotateTheta = -0.5;
         BlinkAnimation_ = nullptr;
@@ -144,6 +145,7 @@ protected:
 
     virtual void OnMouseLeave() override
     {
+        __super::OnMouseLeave();
         static const int HoverAnimationDuration = 500;
         BlinkAnimation_ = nullptr;
         

@@ -210,6 +210,7 @@ XCOPY "$(ProjectDir)Data\conf.ini" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y 
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Rendering\VisualPanel.cpp" />
     <ClCompile Include="Source\UI\ScoreDialog.cpp" />
     <ClCompile Include="Source\Rendering\VisualCard.cpp" />
     <ClCompile Include="Source\Rendering\VisualWidget.cpp" />

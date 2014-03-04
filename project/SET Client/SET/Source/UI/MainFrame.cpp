@@ -3,6 +3,7 @@
 
 #include "Include/UI/MainFrame.h"
 #include "Include/Utils/GlobalConfiguration.h"
+#include "Include/UI/PlayerNameDialog.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -92,4 +93,19 @@ void MainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
     lpMMI->ptMinTrackSize = CPoint(GlobalConfiguration::Instance().WindowMinimumWidth,
         GlobalConfiguration::Instance().WindowMinimumHeight);
 
+}
+
+void MainFrame::SubmissionFailed()
+{
+    ::MessageBox(NULL, TEXT("Can not connect to Server."), TEXT("Oh.."), NULL);
+}
+
+void MainFrame::SubmissionSuccess(const ::std::string &data)
+{
+    ScoreDialog::AnalysisAndShowScoreDialog(data);
+}
+
+void MainFrame::AskForUserName()
+{
+    theApp.PlayerName = PlayerNameDialog::GetPlayerName();
 }

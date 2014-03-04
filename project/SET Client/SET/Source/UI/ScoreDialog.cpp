@@ -43,8 +43,8 @@ void ScoreDialog::UpdateScore(const ::std::vector<int> &scores, const ::std::vec
         woss << scores[i];
         List.SetItemText(i, 1, woss.str().c_str());
         woss = ::std::wostringstream();
-        woss << elapsed_times[i];
-        List.SetItemText(i, 2, woss.str().c_str());
+        CTimeSpan elapsed(elapsed_times[i]);
+        List.SetItemText(i, 2, elapsed.Format(TEXT("%M:%S")));
         woss = ::std::wostringstream();
         woss << (elapsed_times[i] != 0 ? static_cast<double>(scores[i]) / elapsed_times[i] * 60.0 : 0);
         List.SetItemText(i, 3, woss.str().c_str());

@@ -21,6 +21,7 @@
     <ClCompile Include="Source\Rendering\VisualWidget.cpp" />
     <ClCompile Include="Source\Rendering\VisualCard.cpp" />
     <ClCompile Include="Source\UI\ScoreDialog.cpp" />
+    <ClCompile Include="Source\Rendering\VisualPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\glew.h" />

@@ -25,5 +25,6 @@ protected:
 private:
     virtual void RenderWithOpenGL() override;
     virtual VisualObject *GetObjectByGLName(VisualObject::GLNameType name) override;
+
 };
 

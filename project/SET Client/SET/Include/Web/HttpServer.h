@@ -50,7 +50,9 @@ public:
     }
 
     typedef void (*DataCallBack)(const ::std::string &data);
+    typedef void(*ErrorCallBack)();
     static DataCallBack DataCallBackFunction;
+    static ErrorCallBack ErrorCallBackFunction;
 
 private:
     static const ::std::wstring Name;
@@ -239,21 +241,22 @@ private:
                     Cleanup(cpContext);
             break;
         case WINHTTP_CALLBACK_STATUS_READ_COMPLETE:
-            // Copy the data and delete the buffers.
             if (dwStatusInformationLength != 0)
             {
-                //TransferAndDeleteBuffers(cpContext, (LPSTR)lpvStatusInformation, dwStatusInformationLength);
                 if (DataCallBackFunction != nullptr)
                     DataCallBackFunction(std::string(cpContext->lpBuffer));
                 // Check for more data.
                 if (QueryData(cpContext) == FALSE)
                 {
                     Cleanup(cpContext);
-                    delete cpContext;
                 }
             }
             break;
-
+        case WINHTTP_CALLBACK_STATUS_REQUEST_ERROR:
+            if (ErrorCallBackFunction != nullptr)
+                ErrorCallBackFunction();
+            Cleanup(cpContext);
+            break;
         }
 
     }
@@ -310,6 +313,8 @@ private:
 
         delete[] cpContext->lpBuffer;
         cpContext->lpBuffer = NULL;
+
+        delete cpContext;
     }
 
     static BOOL QueryData(REQUEST_CONTEXT *cpContext)

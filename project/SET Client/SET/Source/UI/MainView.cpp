@@ -63,3 +63,4 @@ VisualObject *MainView::GetObjectByGLName(VisualObject::GLNameType name)
 }
 
 
+

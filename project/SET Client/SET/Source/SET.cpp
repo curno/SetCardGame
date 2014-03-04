@@ -44,7 +44,7 @@ BOOL SetApp::InitInstance()
 	pFrame->UpdateWindow();
 
 
-    PlayerName = PlayerNameDialog::GetPlayName();
+    MainFrame::AskForUserName();
 
     if (PlayerName.GetLength() > 0)
         pFrame->SetWindowText(CString("Welcome ") + PlayerName + ", Let's SET!");

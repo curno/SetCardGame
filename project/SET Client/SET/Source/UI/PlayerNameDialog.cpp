@@ -29,4 +29,13 @@ void PlayerNameDialog::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(PlayerNameDialog, CDialogEx)
 END_MESSAGE_MAP()
 
+CString PlayerNameDialog::GetPlayerName()
+{
+    PlayerNameDialog dialog;
+    if (dialog.DoModal() == IDOK)
+        return dialog.PlayerName;
+    else
+        return CString("");
+}
+
 

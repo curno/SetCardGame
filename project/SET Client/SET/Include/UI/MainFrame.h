@@ -29,6 +29,10 @@ protected:
 
 public:
     afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
+
+    static void SubmissionFailed();
+    static void AskForUserName();
+    static void SubmissionSuccess(const ::std::string &data);
 };
 
 

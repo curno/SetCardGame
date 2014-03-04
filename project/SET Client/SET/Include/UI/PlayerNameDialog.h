@@ -19,12 +19,5 @@ protected:
 public:
     CString PlayerName;
 
-    static CString GetPlayName()
-    {
-        PlayerNameDialog dialog;
-        if (dialog.DoModal() == IDOK)
-            return dialog.PlayerName;
-        else
-            return CString("");
-    }
+    static CString GetPlayerName();
 };
