@@ -34,4 +34,12 @@ user_id = result[0];
 cursor.execute("INSERT INTO SCORE VALUES (NULL, %s, %s, %s);",
 		(user_id, score, elapsed_time))
 database.commit();
-print('done')
+
+result_count = cursor.execute("SELECT  score, elapsed_time from score where user = %s", (user_id))
+
+for i in range(0, result_count):
+    result = cursor.fetchone()
+    print result[0]
+    print ' '
+    print result[1]
+    print '\n'
