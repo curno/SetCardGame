@@ -1,9 +1,0 @@
-#################
-## Eclipse
-#################
-
-project/SET Client/Output/
-project/SET Client/ipch/
-project/SET Client/SET.opensdf
-project/SET Client/SET/Immediate
-documents/*.docx
