@@ -15,6 +15,7 @@ class HttpServer
         LPSTR       lpBuffer;       // Buffer for storing read data
         WCHAR       szMemo[256];    // String providing state information
 
+        ~REQUEST_CONTEXT() { delete lpBuffer; }
     };
     class InternetHandle
     {
@@ -23,7 +24,7 @@ class HttpServer
         InternetHandle()
         {
             Handle = WinHttpOpen(TEXT("SETGAME"), WINHTTP_ACCESS_TYPE_NO_PROXY,
-                WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, WINHTTP_FLAG_ASYNC);
+                WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, NULL/*WINHTTP_FLAG_ASYNC*/);
         }
         ~InternetHandle()
         {
@@ -43,10 +44,10 @@ public:
             << TEXT("&") << Score << TEXT("=") << score
             << TEXT("&") << ElapsedTime << TEXT("=") << elapsed_time;
 
-        REQUEST_CONTEXT *context = new REQUEST_CONTEXT;
-        ZeroMemory(context, sizeof(REQUEST_CONTEXT));
+        REQUEST_CONTEXT context;
+        ZeroMemory(&context, sizeof(REQUEST_CONTEXT));
 
-        SendRequest(context, woss.str().c_str(), Handle_.Handle);
+        SendRequest(&context, woss.str().c_str(), Handle_.Handle);
     }
 
     typedef void (*DataCallBack)(const ::std::string &data);
@@ -116,6 +117,7 @@ private:
 
     static BOOL SendRequest(REQUEST_CONTEXT *cpContext, LPCWSTR szURL, HINTERNET session)
     {
+        ::std::string data;
         WCHAR szHost[256];
         DWORD dwOpenRequestFlag = 0;
         URL_COMPONENTS urlComp;
@@ -189,16 +191,34 @@ private:
         {
             goto cleanup;
         }
-
+        WinHttpReceiveResponse(cpContext->hRequest, NULL);
+        DWORD size;
+        while(WinHttpQueryDataAvailable(cpContext->hRequest, &size))
+        {
+            if (size == 0)
+                break;
+            DWORD size2;
+            char *buffer = new char[size + 1];
+            ZeroMemory(buffer, size + 1);
+            WinHttpReadData(cpContext->hRequest, buffer, size, &size2);
+            data += buffer;
+            delete[] buffer;
+            
+        }
+        if (data.length() > 0)
+        {
+            if (DataCallBackFunction != nullptr)
+                DataCallBackFunction(data);
+        }
         fRet = TRUE;
 
     cleanup:
-
-        if (fRet == FALSE)
+        if (!fRet)
         {
-            // Cleanup handles.
-            Cleanup(cpContext);
+            if (ErrorCallBackFunction != nullptr)
+                ErrorCallBackFunction();
         }
+        Cleanup(cpContext);
 
         return fRet;
     }
@@ -246,10 +266,8 @@ private:
                 if (DataCallBackFunction != nullptr)
                     DataCallBackFunction(std::string(cpContext->lpBuffer));
                 // Check for more data.
-                if (QueryData(cpContext) == FALSE)
-                {
-                    Cleanup(cpContext);
-                }
+                QueryData(cpContext);
+                Cleanup(cpContext);
             }
             break;
         case WINHTTP_CALLBACK_STATUS_REQUEST_ERROR:
@@ -314,7 +332,6 @@ private:
         delete[] cpContext->lpBuffer;
         cpContext->lpBuffer = NULL;
 
-        delete cpContext;
     }
 
     static BOOL QueryData(REQUEST_CONTEXT *cpContext)

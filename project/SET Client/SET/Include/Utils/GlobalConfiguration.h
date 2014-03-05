@@ -27,7 +27,7 @@ private:
     {
         WindowMinimumHeight = 600;
         WindowMinimumWidth = 900;
-        HostName = TEXT("http://localhost:80/python/submit.py");
+        HostName = TEXT("http://localhsfdost:80/python/submit.py");
         MultiSample = true;
 
         WIN32_FIND_DATA FindFileData;
