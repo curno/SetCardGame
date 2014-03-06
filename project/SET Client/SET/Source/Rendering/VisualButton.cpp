@@ -5,6 +5,8 @@
 
 void VisualButton::RenderContent()
 {
+    __super::RenderContent();
+
     Dimension size = Size;
     glDisable(GL_BLEND);
 

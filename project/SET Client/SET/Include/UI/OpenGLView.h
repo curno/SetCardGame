@@ -1,13 +1,13 @@
 #pragma once
 
 #include "stdafx.h"
-#include "../Rendering/VisualObject.h"
+#include "../Rendering/VisualWidget.h"
 
 class OpenGLView : public CView
 {
     DECLARE_DYNCREATE(OpenGLView)
 private:
-    ref<VisualObject> CurrentObject_;
+    ref<VisualWidget> CurrentObject_;
 
 public:
     OpenGLView();
@@ -28,12 +28,14 @@ protected:
 protected:
     HGLRC GLRC_; // opengl rendering handle.
     virtual void RenderWithOpenGL();
+    virtual void PickingWithOpenGL();
     virtual void InitOpenGL();
-    virtual VisualObject *GetObjectByGLName(VisualObject::GLNameType name);
+    virtual VisualWidget *GetWidgetByGLName(VisualObject::GLNameType name);
+    virtual VisualWidget *GetWidgetByViewportPosition(CPoint position);
     BOOL InitGLRC(HDC hdc);
     void MakeCurrent();
     void CancelCurrent();
-    VisualObject *PickObject(CPoint &point, int w, int h);
+    VisualWidget *PickWidget(CPoint &point);
 
 public:
     afx_msg void OnTimer(UINT_PTR nIDEvent);

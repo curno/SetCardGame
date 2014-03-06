@@ -54,13 +54,37 @@ void MainView::RenderWithOpenGL()
     }
 }
 
-
-VisualObject *MainView::GetObjectByGLName(VisualObject::GLNameType name)
+void MainView::PickingWithOpenGL()
 {
     if (UI_ != nullptr)
-        return UI_->GetObjectByGLName(name);
+    {
+        RECT rect;
+        CWnd::GetClientRect(&rect);
+        glMatrixMode(GL_PROJECTION);
+        glOrtho(0, rect.right - rect.left, 0, rect.bottom - rect.top, -LARGE_SCALE, LARGE_SCALE);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+
+        // render ui
+        UI_->RenderForPicking();
+    }
+}
+
+
+VisualWidget *MainView::GetWidgetByGLName(VisualObject::GLNameType name)
+{
+    if (UI_ != nullptr)
+        return UI_->GetWidgetByGLName(name);
     return nullptr;
 }
+
+VisualWidget *MainView::GetWidgetByViewportPosition(CPoint position)
+{
+    if (UI_ != nullptr)
+        return UI_->GetWidgetByViewportPosition(position);
+    return nullptr;
+}
+
 
 
 

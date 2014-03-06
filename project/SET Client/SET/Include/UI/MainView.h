@@ -22,9 +22,9 @@ public:
 protected:
     virtual void OnSize(UINT nType, int cx, int cy) override;
 
-private:
     virtual void RenderWithOpenGL() override;
-    virtual VisualObject *GetObjectByGLName(VisualObject::GLNameType name) override;
-
+    virtual void PickingWithOpenGL() override;
+    virtual VisualWidget *GetWidgetByGLName(VisualObject::GLNameType name) override;
+    virtual VisualWidget *GetWidgetByViewportPosition(CPoint position) override;
 };
 

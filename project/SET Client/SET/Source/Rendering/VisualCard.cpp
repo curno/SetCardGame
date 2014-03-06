@@ -9,6 +9,8 @@
 
 void VisualCard::RenderContent()
 {
+    __super::RenderContent();
+
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     const double factor = DepthPerWidthRatio / (2 * DepthPerWidthRatio + 1);
@@ -117,30 +119,6 @@ void VisualCard::RenderContent()
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_LIGHTING);
     glDisable(GL_LIGHT0);
-}
-
-void VisualCard::OnMouseMove()
-{
-    __super::OnMouseMove();
-    if (true)
-    {
-       // Rotate(0.0, 1.0, 0.0, -0.3);
-    }
-}
-
-void VisualCard::OnMouseEnter()
-{
-    __super::OnMouseEnter();
-    /*GLfloat emission[] = { 0.9f, 0.9f, 0.9f, 1.0f };
-    Material_.SetData(Material::Parameter::Emission, emission);*/
-    
-}
-
-void VisualCard::OnMouseLeave()
-{
-    /*GLfloat emission[] = { 0.0, 0.0, 0.0, 0.0 };
-    Material_.SetData(Material::Parameter::Emission, emission);*/
-    __super::OnMouseLeave();
 }
 
 VisualCard::VisualCard(const CardRef card, VisualGameScene *parent) : VisualWidget("default"), Card_(card), State_(State::OnDesk), Parent_(parent) 

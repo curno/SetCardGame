@@ -22,6 +22,7 @@
     <ClCompile Include="Source\Rendering\VisualCard.cpp" />
     <ClCompile Include="Source\UI\ScoreDialog.cpp" />
     <ClCompile Include="Source\Rendering\VisualPanel.cpp" />
+    <ClCompile Include="Source\Rendering\VisualDeck.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\glew.h" />
@@ -72,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="Res\PutCardSound.wav" />
+    <Media Include="Res\ScoreSound.wav" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="numbers\0.bmp" />
@@ -122,5 +124,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Res\res\sound1.bin" />
+    <None Include="Res\res\wave2.bin" />
   </ItemGroup>
 </Project>

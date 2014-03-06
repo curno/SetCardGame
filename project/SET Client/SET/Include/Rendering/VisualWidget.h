@@ -2,49 +2,38 @@
 
 #include "VisualObject.h"
 
+// this is a mouse-clickable object with hover effect.
 class VisualWidget : public VisualObject
 {
+    GLNameType Name_; // The opengl name of the widget object.
+    CRect ViewportRect_;
 public:
-    VisualWidget(const char *meterial) : VisualObject(meterial), EmissionHighlight_(0.7f), EmissionNormal_(0.3f), EmissionDisabled_(0.0f) { UpdateMaterialEmission(); }
-    
+    VisualWidget(const char *meterial);
 
-    void OnMouseEnter() override
-    {
-        __super::OnMouseEnter();
-        if (Enabled)
-            SetMaterialEmission(EmissionHighlight_);
-    }
+    void SetMaterialEmission(GLfloat emission_value);
+    void SetEnabled(bool enable) override;
 
-    void OnMouseLeave() override
-    {
-        __super::OnMouseLeave();
-        if (Enabled)
-            SetMaterialEmission(EmissionNormal_);
-    }
+    virtual VisualWidget *GetWidgetByGLName(GLNameType name) override;
+    virtual VisualWidget *GetWidgetByViewportPosition(const CPoint &point) override;
 
-    void SetMaterialEmission(GLfloat emission_value)
-    {
-        GLfloat emission[] = { emission_value, emission_value, emission_value, 1.0f };
-        Material_.SetData(Material::Parameter::Emission, emission);
-    }
-
-    void SetEnabled(bool enable) override
-    {
-        __super::SetEnabled(enable);
-        UpdateMaterialEmission();
-    }
-
+    virtual void OnMouseEnter();
+    virtual void OnMouseLeave();
+    virtual void OnMouseMove() { }
+    virtual void OnMouseButtonDown() { } // visual widget handle mouse button down.
+    virtual void RenderForPicking() override; 
 protected:
-    void UpdateMaterialEmission()
-    {
-        if (Enabled)
-            SetMaterialEmission(EmissionNormal_);
-        else
-            SetMaterialEmission(EmissionDisabled_);
-    }
+    void UpdateMaterialEmission();
+    virtual void RenderPickingContent();
+    virtual void RenderContent() override;
 
 protected:
     GLfloat EmissionHighlight_;
     GLfloat EmissionNormal_;
     GLfloat EmissionDisabled_;
+
+private:
+    void UpdateViewportRect();
+
+    static GLNameType CreateName();
+
 };

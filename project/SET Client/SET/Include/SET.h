@@ -16,7 +16,6 @@ public:
 	virtual int ExitInstance();
 
 public:
-	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
 public:
     CString PlayerName;

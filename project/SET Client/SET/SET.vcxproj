@@ -210,6 +210,7 @@ XCOPY "$(ProjectDir)Data\conf.ini" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y 
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Rendering\VisualDeck.cpp" />
     <ClCompile Include="Source\Rendering\VisualPanel.cpp" />
     <ClCompile Include="Source\UI\ScoreDialog.cpp" />
     <ClCompile Include="Source\Rendering\VisualCard.cpp" />
@@ -333,9 +334,11 @@ XCOPY "$(ProjectDir)Data\conf.ini" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y 
   </ItemGroup>
   <ItemGroup>
     <None Include="Res\res\sound1.bin" />
+    <None Include="Res\res\wave2.bin" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Res\PutCardSound.wav" />
+    <Media Include="Res\ScoreSound.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

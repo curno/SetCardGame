@@ -14,13 +14,12 @@
 
 
 BEGIN_MESSAGE_MAP(SetApp, CWinApp)
-	ON_COMMAND(ID_APP_ABOUT, &SetApp::OnAppAbout)
 END_MESSAGE_MAP()
 
 
 SetApp::SetApp()
 {
-	SetAppID(_T("MFCApplication6.AppID.NoVersion"));
+	SetAppID(_T("SETGAME.NoVersion"));
 }
 
 SetApp theApp;
@@ -60,37 +59,7 @@ int SetApp::ExitInstance()
 
 
 
-class CAboutDlg : public CDialogEx
-{
-public:
-	CAboutDlg();
 
-	enum { IDD = IDD_ABOUTBOX };
-
-protected:
-	virtual void DoDataExchange(CDataExchange* pDX); 
-
-protected:
-	DECLARE_MESSAGE_MAP()
-};
-
-CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
-{
-}
-
-void CAboutDlg::DoDataExchange(CDataExchange* pDX)
-{
-	CDialogEx::DoDataExchange(pDX);
-}
-
-BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
-END_MESSAGE_MAP()
-
-void SetApp::OnAppAbout()
-{
-	CAboutDlg aboutDlg;
-	aboutDlg.DoModal();
-}
 
 
 

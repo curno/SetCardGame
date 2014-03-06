@@ -29,10 +29,7 @@ public:
     ~VisualCard() { }
 
     bool GetIsChoosed() const { return CurrentState == State::Choosed; }
-    
-    virtual void OnMouseMove() override;
-    virtual void OnMouseEnter() override;
-    virtual void OnMouseLeave() override;
+
     virtual void OnMouseButtonDown() override;
 
     void Choosed();
@@ -46,6 +43,7 @@ public:
 protected:
     virtual void RenderContent() override;
     virtual void PrepareRendering() override;
+
 public:
     CardRef readonly(Card);
     CardRef GetCard() { return Card_; }

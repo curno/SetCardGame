@@ -315,6 +315,9 @@ void VisualGameScene::OnCardChoosed(VisualCardRef visual_card)
             for each (auto visual_card in CurrentChoosedCard_)
                 DiscardCard(visual_card);
             CurrentChoosedCard_.clear();
+
+            // play sound
+            SoundPlayer::Instance().Play(IDR_SCORE);
         }
     }
 }

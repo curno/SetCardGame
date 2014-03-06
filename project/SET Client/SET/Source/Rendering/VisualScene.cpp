@@ -5,7 +5,6 @@
 
 void VisualScene::RenderContent()
 {
-    glPushName(0); // add a name to the name stack, the new position is used by all children.
     // render each child
     glMatrixMode(GL_MODELVIEW);
     for each (auto pair in Children_)
@@ -17,22 +16,6 @@ void VisualScene::RenderContent()
         pair.first->Render(); // render child
         glPopMatrix(); // restore
     }
-    glPopName();
-}
-
-VisualObject *VisualScene::GetObjectByGLName(GLNameType name)
-{
-    auto *retval = __super::GetObjectByGLName(name); 
-    if (retval)
-        return retval;
-    // if not found, search in children
-    for each (auto pair in Children_)
-    {
-        auto *found = pair.first->GetObjectByGLName(name);
-        if (found != nullptr)
-            return found;
-    }
-    return nullptr;
 }
 
 void VisualScene::AddChild(ref<VisualObject> child)
@@ -75,4 +58,49 @@ void VisualScene::RemoveChild(ref<VisualObject> child)
             return;
         }
     }
+}
+
+void VisualScene::RenderForPicking()
+{
+    // render each child
+    glMatrixMode(GL_MODELVIEW);
+    for each (auto pair in Children_)
+    {
+        glPushMatrix(); // save current matrix
+        Point position = pair.first->Position;
+        glTranslated(position.X, position.Y, position.Z); // move child to its position
+        glMultMatrixd(pair.second->Data); // add the child transformation
+        pair.first->RenderForPicking(); // render child
+        glPopMatrix(); // restore
+    }
+}
+
+VisualWidget *VisualScene::GetWidgetByGLName(GLNameType name)
+{
+    auto *retval = __super::GetWidgetByGLName(name);
+    if (retval)
+        return retval;
+    // if not found, search in children
+    for each (auto pair in Children_)
+    {
+        auto *found = pair.first->GetWidgetByGLName(name);
+        if (found != nullptr)
+            return found;
+    }
+    return nullptr;
+}
+
+VisualWidget * VisualScene::GetWidgetByViewportPosition(const CPoint &position)
+{
+    auto *retval = __super::GetWidgetByViewportPosition(position);
+    if (retval)
+        return retval;
+    // if not found, search in children
+    for each (auto pair in Children_)
+    {
+        auto *found = pair.first->GetWidgetByViewportPosition(position);
+        if (found != nullptr)
+            return found;
+    }
+    return nullptr;
 }

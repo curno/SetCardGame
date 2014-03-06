@@ -64,11 +64,10 @@ BOOL OpenGLView::OnEraseBkgnd(CDC* pDC)
 
 void OpenGLView::OnMouseMove(UINT nFlags, CPoint point)
 {
-    static const int MouseRadius = 3;
     __super::OnMouseMove(nFlags, point);
 
     // pick object.
-    VisualObject *object = PickObject(point, MouseRadius, MouseRadius);
+    VisualWidget *object = PickWidget(point);
 
     if (object != CurrentObject_.get())
     {
@@ -85,10 +84,11 @@ void OpenGLView::OnMouseMove(UINT nFlags, CPoint point)
     if (object != nullptr)
         object->OnMouseMove(); // move mouse.
 
+    // update current hovered objects.
     if (object != nullptr)
-        CurrentObject_ = object->shared_from_this(); // update current hovered objects.
-
-    Invalidate(NULL);
+        CurrentObject_ = ::std::static_pointer_cast<VisualWidget>(object->shared_from_this());
+    else
+        CurrentObject_ = nullptr;
 }
 
 void OpenGLView::OnLButtonDown(UINT nFlags, CPoint point)
@@ -105,6 +105,8 @@ void OpenGLView::OnLButtonDown(UINT nFlags, CPoint point)
 
 void OpenGLView::RenderWithOpenGL() { }
 
+void OpenGLView::PickingWithOpenGL() { }
+
 void OpenGLView::InitOpenGL() 
 {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -116,57 +118,69 @@ void OpenGLView::InitOpenGL()
     glLoadIdentity();
 }
 
-VisualObject *OpenGLView::PickObject(CPoint &point, int w, int h)
+VisualWidget *OpenGLView::PickWidget(CPoint &point)
 {
-    static const unsigned int NameBufferSize = 512;
-    static VisualObject::GLNameType NameBuffer[NameBufferSize];
-    glSelectBuffer(NameBufferSize, NameBuffer);
-    glRenderMode(GL_SELECT);
-
-    // init view 
-    glInitNames();
-    glPushName(0);
-
-    // get view port
-    GLint viewport[4];
-    glGetIntegerv(GL_VIEWPORT, viewport);
-
-    // set pick projection
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix(); // save
-    glLoadIdentity();
-    gluPickMatrix(point.x, viewport[3] - point.y, w, h, viewport);
-
-    RenderWithOpenGL(); // render
-    glFlush();
-
-    glMatrixMode(GL_PROJECTION); // restore
-    glPopMatrix();
-
-    // get selected object.
-    int hits = glRenderMode(GL_RENDER);
-
-    // process hits.
-    VisualObject::GLNameType *ptr = NameBuffer;
-    VisualObject *retval = nullptr;
-
-    // for every hits, found least deep hit.
-    VisualObject::GLNameType min_depth = 0xffffffff;
-    for (int i = 0; i < hits; ++i)
+    // use opengl picking.
+    if (GlobalConfiguration::Instance().OpenGLPicking)
     {
-        int name_count = *ptr;
-        if (*(ptr + 1) < min_depth)
-        {
-            min_depth = *(ptr + 2);
-            // get the object
-            auto *object = GetObjectByGLName(*(ptr + 2 + name_count));
-            if (object != nullptr)
-                retval = object;
-        }
-        ptr += 3 + name_count;
+        static const int MouseRadius = 3;
+        static const unsigned int NameBufferSize = 512;
+        static VisualObject::GLNameType NameBuffer[NameBufferSize];
+        glSelectBuffer(NameBufferSize, NameBuffer);
+        glRenderMode(GL_SELECT);
 
+        // init view 
+        glInitNames();
+        glPushName(0);
+
+        // get view port
+        GLint viewport[4];
+        glGetIntegerv(GL_VIEWPORT, viewport);
+
+        // set pick projection
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix(); // save
+        glLoadIdentity();
+        gluPickMatrix(point.x, viewport[3] - point.y, MouseRadius, MouseRadius, viewport);
+
+        PickingWithOpenGL(); // render
+        glFlush();
+
+        glMatrixMode(GL_PROJECTION); // restore
+        glPopMatrix();
+
+        // get selected object.
+        int hits = glRenderMode(GL_RENDER);
+
+        // process hits.
+        VisualObject::GLNameType *ptr = NameBuffer;
+        VisualWidget *retval = nullptr;
+
+        // for every hits, found least deep hit.
+        VisualObject::GLNameType min_depth = 0xffffffff;
+        for (int i = 0; i < hits; ++i)
+        {
+            int name_count = *ptr;
+            if (*(ptr + 1) < min_depth)
+            {
+                min_depth = *(ptr + 2);
+                // get the object
+                auto *object = GetWidgetByGLName(*(ptr + 2 + name_count));
+                if (object != nullptr)
+                    retval = object;
+            }
+            ptr += 3 + name_count;
+
+        }
+        return retval;
     }
-    return retval;
+    else
+    {
+        // use CPU picking.
+        CRect rect;
+        this->GetClientRect(&rect);
+        return GetWidgetByViewportPosition(CPoint(point.x, rect.Height() - point.y));
+    }
 }
 
 void OpenGLView::OnDraw(CDC* pDC)
@@ -196,7 +210,7 @@ BOOL OpenGLView::InitGLRC(HDC hdc)
         PFD_SUPPORT_OPENGL |
         PFD_DOUBLEBUFFER; // use double buffer.
     pfd.iPixelType = PFD_TYPE_RGBA; // rgba format
-    pfd.cColorBits = 24;
+    pfd.cColorBits = 32;
     pfd.cDepthBits = 32;
 
     bool success = false;
@@ -214,31 +228,36 @@ BOOL OpenGLView::InitGLRC(HDC hdc)
         success = true;
         // get function address.
         PROC wglChoosePixelFormatARB_ = wglGetProcAddress("wglChoosePixelFormatARB");
-
+        
         wglMakeCurrent(nullptr, nullptr);
         wglDeleteContext(dummy_glrc);
 
-        float fAttributes[] = { 0, 0 };
-        int pixelFormat;
-        UINT numFormats;
-        int attributes[] = {
-            WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
-            WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
-            WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
-            WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
-            WGL_COLOR_BITS_ARB, 32,
-            WGL_DEPTH_BITS_ARB, 24,
-            WGL_STENCIL_BITS_ARB, 8,
-            WGL_SAMPLE_BUFFERS_ARB, 1, //Number of buffers (must be 1 at time of writing)
-            WGL_SAMPLES_ARB, 4,        //Number of samples
-            0
-        };
-        success &= ((PFNWGLCHOOSEPIXELFORMATARBPROC)wglChoosePixelFormatARB_)(hdc, attributes, fAttributes,
-            1, &pixelFormat, &numFormats) == TRUE;
+        if (wglChoosePixelFormatARB_ != nullptr)
+        {
+            float fAttributes[] = { 0, 0 };
+            int pixelFormat;
+            UINT numFormats;
+            int attributes[] = {
+                WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
+                WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
+                WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
+                WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+                WGL_COLOR_BITS_ARB, 32,
+                WGL_DEPTH_BITS_ARB, 24,
+                WGL_STENCIL_BITS_ARB, 8,
+                WGL_SAMPLE_BUFFERS_ARB, 1, //Number of buffers (must be 1 at time of writing)
+                WGL_SAMPLES_ARB, 4,        //Number of samples
+                0
+            };
+            success &= ((PFNWGLCHOOSEPIXELFORMATARBPROC)wglChoosePixelFormatARB_)(hdc, attributes, fAttributes,
+                1, &pixelFormat, &numFormats) == TRUE;
 
-        success &= SetPixelFormat(hdc, pixelFormat, NULL) == TRUE;
-        GLRC_ = wglCreateContext(hdc); // create gl rendering content.
-        success &= GLRC_ != nullptr;
+            success &= SetPixelFormat(hdc, pixelFormat, NULL) == TRUE;
+            GLRC_ = wglCreateContext(hdc); // create gl rendering content.
+            success &= GLRC_ != nullptr;
+        }
+        else
+            success = false;
         // if failed, same as dummy dc.
 
         if (success)
@@ -257,10 +276,9 @@ BOOL OpenGLView::InitGLRC(HDC hdc)
     return true;
 }
 
-VisualObject * OpenGLView::GetObjectByGLName(VisualObject::GLNameType name)
-{
-    return nullptr;
-}
+VisualWidget *OpenGLView::GetWidgetByGLName(VisualObject::GLNameType name) { return nullptr; }
+
+VisualWidget * OpenGLView::GetWidgetByViewportPosition(CPoint position) { return nullptr; }
 
 void OpenGLView::MakeCurrent()
 {
@@ -282,3 +300,5 @@ void OpenGLView::OnTimer(UINT_PTR nIDEvent)
     Invalidate(NULL); // always repaint.
     
 }
+
+

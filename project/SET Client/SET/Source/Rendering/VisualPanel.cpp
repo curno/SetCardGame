@@ -4,22 +4,31 @@
 #include "Include/UI/MainFrame.h"
 
 
-void VisualPanel::StopAndCommit()
+void VisualPanel::StopAndSubmit()
 {
     GameScene_->Stop();
     ButtonHint_->Enabled = false;
     Deck_->Enabled = false;
     ButtonCommit_->Enabled = false;
 
-    HttpServer::DataCallBackFunction = MainFrame::SubmissionSuccess;
-    HttpServer::ErrorCallBackFunction = MainFrame::SubmissionFailed;
-    HttpServer::Post(theApp.PlayerName, GameScene_->GetGame()->Score, GameScene_->GetGame()->TimeElapsed.GetTotalSeconds());
+    // if user has a name, submit the score to server.
+    if (!theApp.PlayerName.IsEmpty()) 
+    {
+        HttpServer::DataCallBackFunction = MainFrame::SubmissionSuccess;
+        HttpServer::ErrorCallBackFunction = MainFrame::SubmissionFailed;
+        HttpServer::Post(theApp.PlayerName, GameScene_->GetGame()->Score, GameScene_->GetGame()->TimeElapsed.GetTotalSeconds());
+    }
+    else
+    {
+        // show a message box.
+        ::MessageBox(AfxGetMainWnd()->m_hWnd, TEXT("Current game is stopped.\nClick the New Game button to start a new one."), TEXT("SET Game"), NULL);
+    }
 }
 
 void VisualPanel::ButtonSubmitClicked()
 {
     if (GameScene_->GetGame()->GameState == Game::State::Active)
-        StopAndCommit();
+        StopAndSubmit();
     else if (GameScene_->GetGame()->GameState == Game::State::Initilized)
         MessageBox(theApp.m_pMainWnd->m_hWnd, TEXT("You have no score yet, please start a game first."), TEXT("Uh.."), NULL);
     else if (GameScene_->GetGame()->GameState == Game::State::Stopped)

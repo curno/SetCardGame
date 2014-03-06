@@ -97,7 +97,10 @@ void MainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 
 void MainFrame::SubmissionFailed()
 {
-    ::MessageBox(NULL, TEXT("Can not connect to Server."), TEXT("Oh.."), NULL);
+    ::std::wstring content = TEXT("Can not connect to Server: \n");
+    content += ::std::wstring(TEXT("    ")) +  GlobalConfiguration::Instance().HostName;
+    
+    ::MessageBox(AfxGetMainWnd()->m_hWnd, content.c_str(), TEXT("Oh.."), NULL);
 }
 
 void MainFrame::SubmissionSuccess(const ::std::string &data)
@@ -108,4 +111,13 @@ void MainFrame::SubmissionSuccess(const ::std::string &data)
 void MainFrame::AskForUserName()
 {
     theApp.PlayerName = PlayerNameDialog::GetPlayerName();
+    if (theApp.PlayerName.IsEmpty())
+        ::MessageBox(AfxGetMainWnd()->m_hWnd, TEXT("You didn't enter any name. \nYou will play the game in offline mode. \nHave fun!"), TEXT("Let's Play!"), NULL);
+    else
+    {
+        CString text = TEXT("Welcome To Set Game, ");
+        text += theApp.PlayerName + TEXT("\nHave fun!");
+        ::MessageBox(AfxGetMainWnd()->m_hWnd, text, TEXT("Let's Play!"), NULL);
+    }
+
 }

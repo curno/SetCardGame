@@ -90,10 +90,10 @@ BOOL ScoreDialog::OnInitDialog()
 {
     BOOL retval = __super::OnInitDialog();
     UpdateData();
-    List.InsertColumn(0, TEXT(""));
-    List.InsertColumn(1, TEXT("SCORE"));
+    List.InsertColumn(0, TEXT("ID"));
+    List.InsertColumn(1, TEXT("Score"));
     List.InsertColumn(2, TEXT("Elapsed Time"));
-    List.InsertColumn(3, TEXT("Score per Minute"));
+    List.InsertColumn(3, TEXT("Score Per Minute"));
 
     UpdateScore(Scores, ElapsedTimes);
     return retval;

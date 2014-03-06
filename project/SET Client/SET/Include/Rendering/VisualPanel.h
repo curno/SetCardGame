@@ -27,7 +27,7 @@ public:
     void ButtonNewGameClicked();
     void ButtonHintClicked();
     void ButtonSubmitClicked();
-    void StopAndCommit();
+    void StopAndSubmit();
 private:
     static const int ButtonWidth = 80;
     static const int Margin = 15;

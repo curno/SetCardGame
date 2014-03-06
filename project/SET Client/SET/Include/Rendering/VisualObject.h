@@ -5,6 +5,7 @@
 #include "../Utils/Geometry.h"
 #include "Material.h"
 
+class VisualWidget;
 // this is the abstract base class of all visual object in the program, like card, button...
 class VisualObject abstract : public ::std::enable_shared_from_this<VisualObject>
 {
@@ -14,7 +15,6 @@ protected:
     Transformation Transformation_; // the transformation of the object.
     Point Position_; // The location of the object in its parent object. 
     Dimension Size_; // The size of the object in its parent object.
-    GLNameType Name_; // The name of the opengl display object.
     Material Material_; // The opengl material of the object
     
 protected:
@@ -22,10 +22,11 @@ protected:
     virtual void PrepareRendering(); // prepare to render.
     virtual void OnResize(const CSize &size) { }
 
-    static GLNameType CreateName();
 public:
+    // render for picking, generally do nothing, 
+    // if a object want to be picked, or it has a child which want to be picked, override this method.
+    virtual void RenderForPicking() { } 
     void Render(); // This is the Template method of rendering.
-
     bool readwrite(Enabled);
     bool GetEnabled() const { return Enabled_; }
     virtual void SetEnabled(bool enable) { Enabled_ = enable; }
@@ -67,24 +68,19 @@ public:
             axis_x, axis_y, axis_z, theta);
     }
 
-    VisualObject(const char *meterial = nullptr) : Name_(CreateName()), Enabled_(true), Visible_(true) 
+    VisualObject(const char *meterial = nullptr) : Enabled_(true), Visible_(true) 
     {
         if (meterial != nullptr)
             Material_ = Material::GetMaterial(meterial);
     }
     virtual ~VisualObject() { } // virtual destructor
-    virtual VisualObject *GetObjectByGLName(GLNameType name);
 
-    virtual void OnMouseEnter() { }
-    virtual void OnMouseLeave() { }
-    virtual void OnMouseMove() { }
-    virtual void OnMouseButtonDown() { } // visual object handle mouse button down.
-    virtual void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) { }
+    virtual VisualWidget *GetWidgetByGLName(GLNameType name) { return nullptr; }
+    virtual VisualWidget *GetWidgetByViewportPosition(const CPoint &point) { return nullptr; }
+    
 private:
     void SetMaterial();
 
     bool Enabled_;
     bool Visible_;
-
-
 };
