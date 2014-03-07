@@ -3,7 +3,6 @@
 #include "Include/Rendering/VisualPanel.h"
 #include "Include/UI/MainFrame.h"
 
-
 void VisualPanel::StopAndSubmit()
 {
     GameScene_->Stop();
@@ -14,9 +13,9 @@ void VisualPanel::StopAndSubmit()
     // if user has a name, submit the score to server.
     if (!theApp.PlayerName.IsEmpty()) 
     {
-        HttpServer::DataCallBackFunction = MainFrame::SubmissionSuccess;
-        HttpServer::ErrorCallBackFunction = MainFrame::SubmissionFailed;
-        HttpServer::Post(theApp.PlayerName, GameScene_->GetGame()->Score, GameScene_->GetGame()->TimeElapsed.GetTotalSeconds());
+        HttpServer::Instance().DataCallBackFunction = MainFrame::SubmissionSuccess;
+        HttpServer::Instance().ErrorCallBackFunction = MainFrame::SubmissionFailed;
+        HttpServer::Instance().Post(theApp.PlayerName, GameScene_->GetGame()->Score, GameScene_->GetGame()->TimeElapsed.GetTotalSeconds());
     }
     else
     {
@@ -163,7 +162,7 @@ void VisualPanel::RenderDigit(int number, const Point &p, const Dimension& size)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_TEXTURE_2D);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetNumberTexture(number));
+    glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetDigitTexture(number));
     glDisable(GL_LIGHTING);
     glTranslated(p.X, p.Y, p.Z);
     glColor4d(1.0, 0.0, 1.0, 1.0);

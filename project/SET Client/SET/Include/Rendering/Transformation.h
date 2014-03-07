@@ -1,10 +1,10 @@
 #pragma once
 
 #include "stdafx.h"
+
 // this class represents a transformation in opengl rendering process.
 // It uses a GLdouble array of 16 size to represent a transformation.
-// It contains some useful transformations.
-
+// It contains some useful transformations and operators.
 class Transformation
 {
 private:
@@ -38,6 +38,7 @@ public:
             d30, d31, d32, d33);
     }
 
+    // identity transformation for default.
     Transformation()
     {
         SetData(

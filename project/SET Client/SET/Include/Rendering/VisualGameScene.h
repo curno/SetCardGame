@@ -12,17 +12,16 @@ class VisualGameScene : public VisualScene
     static const double MaginRatio;
     static const double CellRatio;
 private:
-    ref<Game> Game_;
+    ref<Game> Game_; // game object
     VisualCardRef Cards_[RowCount][ColumnCount]; // 3 * 7 = 21 visual card slots in the game scene, which can be empty.
     ref<Animation> DealCardAnimation_;
     ::std::vector<VisualCardRef> CurrentChoosedCard_;
     ref<Animation> HintCardsAnimation_;
 
-    Point DealCardStartPoint_;
+    Point DealCardStartPoint_; // from which point the card flying into the scene.
 public:
     VisualGameScene(ref<Game> game);
     
-    bool IsAnimating();
 protected:
     virtual void OnResize(const CSize &size) override;
     virtual void PrepareRendering() override;
@@ -89,9 +88,8 @@ public:
     void OnCardChoosed(VisualCardRef visual_card);
     void OnCardCancleChoosed(VisualCardRef visual_card);
 
-    ref<Game> GetGame() { return Game_; }
-    void SetDealCardStartPosition(const Point &point) { DealCardStartPoint_ = point; }
-
+    ref<Game> GetGame();
+    void SetDealCardStartPosition(const Point &point);
 
 private:
     // remove a visual card from the scene, with animation

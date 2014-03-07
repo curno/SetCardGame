@@ -35,4 +35,3 @@ public:
     static void SubmissionSuccess(const ::std::string &data);
 };
 
-

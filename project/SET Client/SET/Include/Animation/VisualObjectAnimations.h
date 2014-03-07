@@ -79,7 +79,6 @@ public:
     Shake(Transformation &target, GLdouble axis_x, GLdouble axis_y, GLdouble axis_z, int period = 3, GLdouble swing = PI / 8)
         : Target_(target), AxisX_(axis_x), AxisY_(axis_y), AxisZ_(axis_z), Period_(period), Swing_(swing) {}
 
-
     void operator() (double ratio)
     {
         static const double decrease = 0.5;

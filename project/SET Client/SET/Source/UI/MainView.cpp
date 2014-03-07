@@ -8,8 +8,10 @@
 #include "Include/Rendering/VisualPanel.h"
 #include "Include/Animation/GenericAnimation.h"
 #include "Include/Animation/VisualObjectAnimations.h"
-#include "Include/Animation/LoopAnimation.h"
 
+// This is the z direction length of OPENGL projection cube.
+// It should be as large as possible that the cube can hold any object inside it.
+// For now, 2000 is OK.
 #define LARGE_SCALE 2000
 
 // MainView
@@ -23,7 +25,6 @@ MainView::~MainView()
 }
 
 IMPLEMENT_DYNCREATE(MainView, OpenGLView)
-
 
 void MainView::OnSize(UINT nType, int cx, int cy)
 {
@@ -70,7 +71,6 @@ void MainView::PickingWithOpenGL()
     }
 }
 
-
 VisualWidget *MainView::GetWidgetByGLName(VisualObject::GLNameType name)
 {
     if (UI_ != nullptr)
@@ -84,7 +84,4 @@ VisualWidget *MainView::GetWidgetByViewportPosition(CPoint position)
         return UI_->GetWidgetByViewportPosition(position);
     return nullptr;
 }
-
-
-
 

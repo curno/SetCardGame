@@ -97,7 +97,6 @@ public:
         }
     }
 
-
 private:
     bool IsRunning_;
     long long StartTimeStamp_;

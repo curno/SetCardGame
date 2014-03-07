@@ -5,10 +5,6 @@
 #include "Include/Utils/GlobalConfiguration.h"
 #include "Include/UI/PlayerNameDialog.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#endif
-
 // MainFrame
 
 IMPLEMENT_DYNCREATE(MainFrame, CFrameWnd)
@@ -69,8 +65,6 @@ void MainFrame::Dump(CDumpContext& dc) const
 }
 #endif //_DEBUG
 
-
-
 void MainFrame::OnSetFocus(CWnd* /*pOldWnd*/)
 {
 	m_wndView->SetFocus();
@@ -85,7 +79,6 @@ BOOL MainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* 
 	// go default
 	return CFrameWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 }
-
 
 void MainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 {

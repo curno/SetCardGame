@@ -1,7 +1,7 @@
 #pragma once
 
-// this file contains several geometry structure for VisualObject
-
+// This file contains several geometry structure for VisualObject
+// Both Dimension and Point are 3-D.
 typedef int Coordinate;
 struct Point;
 struct Dimension
@@ -118,6 +118,4 @@ struct Point
         return sqrt(X * X + Y * Y + Z * Z);
     }
 };
-
-
 

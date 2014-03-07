@@ -4,7 +4,6 @@
 #include "Include/UI/PlayerNameDialog.h"
 #include "afxdialogex.h"
 
-
 IMPLEMENT_DYNAMIC(PlayerNameDialog, CDialogEx)
 
 PlayerNameDialog::PlayerNameDialog(CWnd* pParent /*=NULL*/)
@@ -25,7 +24,6 @@ void PlayerNameDialog::DoDataExchange(CDataExchange* pDX)
 	DDV_MaxChars(pDX, PlayerName, 20);
 }
 
-
 BEGIN_MESSAGE_MAP(PlayerNameDialog, CDialogEx)
 END_MESSAGE_MAP()
 
@@ -37,5 +35,4 @@ CString PlayerNameDialog::GetPlayerName()
     else
         return CString("");
 }
-
 

@@ -10,14 +10,13 @@
 // it also has the game object.
 class MainScene : public VisualScene
 {
-    ref<Game> Game_;
-    ref<VisualGameScene> GameScene_;
-    ref<VisualPanel> ControlPanel_;
+    ref<Game> Game_; // Game object
+    ref<VisualGameScene> GameScene_; // Game table
+    ref<VisualPanel> ControlPanel_; // Game control panel.
 public:
     MainScene();
 
 protected:
     virtual void OnResize(const CSize &size) override;
     virtual void PrepareRendering();
-
 };

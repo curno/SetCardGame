@@ -210,6 +210,12 @@ XCOPY "$(ProjectDir)Data\conf.ini" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y 
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Animation\AnimationManager.cpp" />
+    <ClCompile Include="Source\Animation\GroupAnimation.cpp" />
+    <ClCompile Include="Source\Animation\SequentialAnimation.cpp" />
+    <ClCompile Include="Source\Model\Card.cpp" />
+    <ClCompile Include="Source\Rendering\Material.cpp" />
+    <ClCompile Include="Source\Rendering\TextureManager.cpp" />
     <ClCompile Include="Source\Rendering\VisualDeck.cpp" />
     <ClCompile Include="Source\Rendering\VisualPanel.cpp" />
     <ClCompile Include="Source\UI\ScoreDialog.cpp" />
@@ -226,7 +232,6 @@ XCOPY "$(ProjectDir)Data\conf.ini" "$(SolutionDir)..\..\deploy\$(Platform)\" /Y 
     <ClInclude Include="Include\Animation\Animation.h" />
     <ClInclude Include="Include\Animation\AnimationBehaviors.h" />
     <ClInclude Include="Include\Animation\AnimationManager.h" />
-    <ClInclude Include="Include\Animation\LoopAnimation.h" />
     <ClInclude Include="Include\Rendering\MainScene.h" />
     <ClInclude Include="Include\Rendering\Operation.h" />
     <ClInclude Include="Include\Animation\VisualObjectAnimations.h" />

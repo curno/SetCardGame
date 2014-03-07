@@ -9,7 +9,6 @@
 #include "Include/Sound/SoundPlayer.h"
 #include "Include/Utils/Random.h"
 
-
 void VisualGameScene::InitializeGameScene()
 {
     // init no cards.
@@ -21,6 +20,7 @@ void VisualGameScene::OnResize(const CSize &size)
     __super::OnResize(size);
     ArrangeCards(size);
 
+    // slightly lean the desk to gain a 3D visual effect.
     GetTransformation().Reset();
     GetTransformation().RotateByCenter(0.0, 0.0, 0.0,
         1.0, 0.0, 0.0, -SlopeTheta);
@@ -32,7 +32,7 @@ void VisualGameScene::OnResize(const CSize &size)
 int VisualGameScene::GetColumnCount() const
 {
     int retval = 0;
-    
+
     for (int column = 0; column < ColumnCount; ++column)
         for (int row = 0; row < RowCount; ++row)
             if (Cards_[row][column] != nullptr)
@@ -61,7 +61,6 @@ void VisualGameScene::ArrangeCards(const CSize &)
                 card->Position = position;
             }
 }
-
 
 bool VisualGameScene::GetEmptySlot(int row_hint, int column_hint, int &row_result, int &column_result)
 {
@@ -126,7 +125,7 @@ void VisualGameScene::GetSlotGeometryForCard(const VisualCardRef card, int row, 
 void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
 {
     // create visual cards for every new card.
-    int row = 0; 
+    int row = 0;
     int column = 0;
     ::std::vector<VisualCardRef> new_cards;
     for (auto i = cards.begin(); i != cards.end(); ++i)
@@ -156,7 +155,7 @@ void VisualGameScene::DealCards(const ::std::unordered_set<CardRef> &cards)
                 Dimension size;
                 GetSlotGeometryForCard(Cards_[row][column], row, column, position, size); // get visual card geometry
                 if (::std::find(new_cards.begin(), new_cards.end(), Cards_[row][column])
-                     != new_cards.end())
+                    != new_cards.end())
                 {
                     animation->AddAnimation(DealCardAnimation(Cards_[row][column], position, size));
                 }
@@ -207,7 +206,7 @@ void VisualGameScene::RenderContent()
 
 ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point position, Dimension dimension)
 {
-    static const double speed = 1.5; 
+    static const double speed = 1.5;
     static const int TurnDuration = 500;
 
     // Init flip the card over in the scene
@@ -216,7 +215,7 @@ ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point posi
 
     // start from up outside the scene
     Point start_point;
-        start_point = DealCardStartPoint_;
+    start_point = DealCardStartPoint_;
     // start_point = Point(position.X, static_cast<Coordinate>(Size.Height + dimension.Height / 2.0 + 100), static_cast<Coordinate>(dimension.Depth * 1.6));
     // set start point
     card->Position = start_point;
@@ -234,16 +233,16 @@ ref<Animation> VisualGameScene::DealCardAnimation(VisualCardRef card, Point posi
     // set the flip animation (Step 3) to be started when the move animation (Step 1) stops.
     move_animation->StopOperation = MakeGenericOperation(
         [turn_animation]()
-        {
-            SoundPlayer::Instance().Play(IDR_PUT_CARD);
-            turn_animation->Start();
-        });
-        
+    {
+        SoundPlayer::Instance().Play(IDR_PUT_CARD);
+        turn_animation->Start();
+    });
+
     // create the down animation. (Step 2)
     Point start_point_down = end_point;
     Point end_point_down = position;
     ref<Animation> move_animation_down = MakeGenericAnimation(TurnDuration, MoveVisualObject(card.get(), start_point_down, end_point_down));
-    
+
     // create a sequential animation for step 1 and step 2
     auto sequential_animation = ::std::make_shared<SequentialAnimation>();
     sequential_animation->AddAnimation(move_animation);
@@ -290,20 +289,16 @@ void VisualGameScene::DiscardCardAnimation(VisualCardRef card)
 
 }
 
-bool VisualGameScene::IsAnimating()
-{
-    return false;
-}
-
 void VisualGameScene::OnCardChoosed(VisualCardRef visual_card)
 {
     CurrentChoosedCard_.push_back(visual_card);
-    if (CurrentChoosedCard_.size() == Card::CardCountInASet)
+    if (CurrentChoosedCard_.size() == Card::CardCountInASet) 
     {
         ::std::vector<CardRef> cards;
         for each(VisualCardRef visual_card in CurrentChoosedCard_)
             cards.push_back(visual_card->Card);
         bool success = Game_->CheckAndScore(cards);
+        // If not a SET
         if (!success)
         {
             for each (auto visual_card in CurrentChoosedCard_)
@@ -312,6 +307,7 @@ void VisualGameScene::OnCardChoosed(VisualCardRef visual_card)
         }
         else
         {
+            // is a set, discard the selected cards.           
             for each (auto visual_card in CurrentChoosedCard_)
                 DiscardCard(visual_card);
             CurrentChoosedCard_.clear();
@@ -384,7 +380,6 @@ void VisualGameScene::Stop()
     DisableAllCards();
 }
 
-
 void VisualGameScene::Clear()
 {
     AnimationManager::Instance().StopAllAnimation();
@@ -397,7 +392,7 @@ void VisualGameScene::Clear()
             if (Cards_[i][j] != nullptr)
                 DiscardCard(Cards_[i][j], false);
         }
-    
+
 }
 
 void VisualGameScene::Deal()
@@ -423,6 +418,15 @@ void VisualGameScene::DisableAllCards()
     }
 }
 
+void VisualGameScene::SetDealCardStartPosition(const Point &point)
+{
+    DealCardStartPoint_ = point;
+}
+
+ref<Game> VisualGameScene::GetGame()
+{
+    return Game_;
+}
 
 const double VisualGameScene::MaginRatio = 0.8;
 const double VisualGameScene::CellRatio = 0.8;

@@ -16,10 +16,12 @@ public:
     virtual VisualWidget *GetWidgetByGLName(GLNameType name) override;
     virtual VisualWidget *GetWidgetByViewportPosition(const CPoint &point) override;
 
+    // events
     virtual void OnMouseEnter();
     virtual void OnMouseLeave();
     virtual void OnMouseMove() { }
     virtual void OnMouseButtonDown() { } // visual widget handle mouse button down.
+
     virtual void RenderForPicking() override; 
 protected:
     void UpdateMaterialEmission();

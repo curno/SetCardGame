@@ -56,6 +56,20 @@ void VisualButton::PrepareRendering()
     glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 }
 
+void VisualButton::OnMouseButtonDown()
+{
+    __super::OnMouseButtonDown();
+    if (!Enabled)
+        return;
+    if (Operation_ != nullptr)
+        (*Operation_)();
+}
+
+VisualButton::VisualButton(ref<Operation> operation) : VisualWidget("ruby"), Operation_(operation), TextureName_(0)
+{
+
+}
+
 const double VisualButton::CornerRatioX = 0.1;
 const double VisualButton::CornerRatioY = 0.1;
 const double VisualButton::HeightPerWidthRatio = 0.42;

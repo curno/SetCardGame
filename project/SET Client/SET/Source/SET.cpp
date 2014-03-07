@@ -7,15 +7,8 @@
 #include "Include/Web/HttpServer.h"
 #include "Include/UI/PlayerNameDialog.h"
 
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#endif
-
-
 BEGIN_MESSAGE_MAP(SetApp, CWinApp)
 END_MESSAGE_MAP()
-
 
 SetApp::SetApp()
 {
@@ -42,7 +35,6 @@ BOOL SetApp::InitInstance()
 	pFrame->ShowWindow(SW_SHOW);
 	pFrame->UpdateWindow();
 
-
     MainFrame::AskForUserName();
 
     if (PlayerName.GetLength() > 0)
@@ -56,10 +48,4 @@ int SetApp::ExitInstance()
 {
 	return CWinApp::ExitInstance();
 }
-
-
-
-
-
-
 

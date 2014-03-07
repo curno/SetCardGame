@@ -2,6 +2,8 @@
 
 #include "Animation.h"
 
+// AnimationCallable concept
+// The AnimationCallable types are defined in VisualObjectAnimations.h
 struct AnimationCallable abstract
 {
     double operator ()(double ratio);

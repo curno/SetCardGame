@@ -6,7 +6,6 @@
 #include "Include/UI/ScoreDialog.h"
 #include "afxdialogex.h"
 
-
 // ScoreDialog 对话框
 
 IMPLEMENT_DYNAMIC(ScoreDialog, CDialogEx)
@@ -25,7 +24,6 @@ void ScoreDialog::DoDataExchange(CDataExchange* pDX)
     CDialogEx::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_LIST, List);
 }
-
 
 BEGIN_MESSAGE_MAP(ScoreDialog, CDialogEx)
 END_MESSAGE_MAP()
@@ -83,7 +81,6 @@ void ScoreDialog::AnalysisAndShowScoreDialog(const ::std::string &data)
     }
     ShowScoreDialog(scores, elapsed_times);
 
-    
 }
 
 BOOL ScoreDialog::OnInitDialog()
@@ -98,8 +95,5 @@ BOOL ScoreDialog::OnInitDialog()
     UpdateScore(Scores, ElapsedTimes);
     return retval;
 }
-
-
-
 
 // ScoreDialog 消息处理程序

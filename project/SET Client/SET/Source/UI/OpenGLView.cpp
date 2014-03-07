@@ -4,15 +4,10 @@
 #include "Include/Animation/AnimationManager.h"
 #include "Include/Utils/GlobalConfiguration.h"
 
-
 // MainView
-OpenGLView::OpenGLView()
-{
-}
+OpenGLView::OpenGLView() { }
 
-OpenGLView::~OpenGLView()
-{
-}
+OpenGLView::~OpenGLView() { }
 
 IMPLEMENT_DYNCREATE(OpenGLView, CView)
 
@@ -32,9 +27,8 @@ int OpenGLView::OnCreate(LPCREATESTRUCT lpCreateStruct)
     if (__super::OnCreate(lpCreateStruct) == -1)
         return -1;
 
-    CClientDC thisdc(this);
-    InitGLRC(thisdc);
-    SetTimer(5, 20, NULL);
+    InitGLRC(); // init opengl.
+    SetTimer(5, 20, NULL); // set timer
     Invalidate(NULL);
 
     return 0;
@@ -55,7 +49,6 @@ void OpenGLView::OnSize(UINT nType, int cx, int cy)
     glViewport(0, 0, cx, cy); // set view port to the whole view.
     Invalidate(NULL);
 }
-
 
 BOOL OpenGLView::OnEraseBkgnd(CDC* pDC)
 {
@@ -79,7 +72,6 @@ void OpenGLView::OnMouseMove(UINT nFlags, CPoint point)
             object->OnMouseEnter();
     }
 
-
     // send message to hover objects.
     if (object != nullptr)
         object->OnMouseMove(); // move mouse.
@@ -101,7 +93,6 @@ void OpenGLView::OnLButtonDown(UINT nFlags, CPoint point)
     CurrentObject_->OnMouseButtonDown(); // send message.
 
 }
-
 
 void OpenGLView::RenderWithOpenGL() { }
 
@@ -190,17 +181,13 @@ void OpenGLView::OnDraw(CDC* pDC)
     InitOpenGL();
     RenderWithOpenGL();
 
-    SwapBuffers(dc.m_hDC); // swap buffer and begin another rendering process.
+    SwapBuffers(dc.m_hDC); // swap buffer 
 }
 
-
-void OpenGLView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+BOOL OpenGLView::InitGLRC()
 {
-    __super::OnKeyDown(nChar, nRepCnt, nFlags);
-}
-
-BOOL OpenGLView::InitGLRC(HDC hdc)
-{
+    CClientDC cdc(this);
+    HDC hdc = cdc.m_hDC;
     // dummy pixel format
     PIXELFORMATDESCRIPTOR pfd;
     memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
@@ -218,7 +205,6 @@ BOOL OpenGLView::InitGLRC(HDC hdc)
     {
         HWND dummy_window = CreateWindow(TEXT("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
         HDC dummy_dc = ::GetDC(dummy_window);
-
 
         int pixel_format = ChoosePixelFormat(dummy_dc, &pfd); // create pixel format
         SetPixelFormat(dummy_dc, pixel_format, &pfd);
@@ -300,5 +286,4 @@ void OpenGLView::OnTimer(UINT_PTR nIDEvent)
     Invalidate(NULL); // always repaint.
     
 }
-
 

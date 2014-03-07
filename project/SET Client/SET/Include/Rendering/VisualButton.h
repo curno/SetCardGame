@@ -10,22 +10,13 @@ class VisualButton : public VisualWidget
     TextureManager::TextureName TextureName_;
 
 public:
-    VisualButton(ref<Operation> operation) : VisualWidget("ruby"), Operation_(operation), TextureName_(0)
-    {
-    }
+    VisualButton(ref<Operation> operation);
 protected:
 
     virtual void RenderContent();
 
 public:
-    virtual void OnMouseButtonDown()
-    {
-        __super::OnMouseButtonDown();
-        if (!Enabled)
-            return;
-        if (Operation_ != nullptr)
-            (*Operation_)();
-    }
+    virtual void OnMouseButtonDown();
 
     virtual void PrepareRendering();
 
@@ -34,8 +25,8 @@ public:
     static const double HeightPerWidthRatio;
     static const double DepthPerWidthRatio;
 private:
+    // display parameters.
     static const double CornerRatioX;
     static const double CornerRatioY;
 
-   
 };

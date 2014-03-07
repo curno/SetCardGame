@@ -8,7 +8,7 @@
 class AnimationBehavior abstract
 {
 public:
-    ~AnimationBehavior() { }
+    virtual ~AnimationBehavior() { }
     virtual double GetRatio(double process) = 0;
 
 public:
@@ -18,8 +18,6 @@ public:
 
     static ref<AnimationBehavior> WiredBehavior(); // for test and fun.:)
 };
-
-
 
 // this is the generic class of a AnimationBehavior which takes a callable object as its behavior.
 // Design Pattern: strategy

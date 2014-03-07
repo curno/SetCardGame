@@ -28,7 +28,6 @@ private:
     mutable Stopwatch Watch_; // the stop watch to get the elapsed time.
     
     State State_; // game state
-   
 
 public:
     Game();
@@ -58,5 +57,4 @@ private:
     void Deal(int card_count, ::std::unordered_set<CardRef> &new_cards);
     void InitDeal(::std::unordered_set<CardRef> &new_cards);
 };
-
 

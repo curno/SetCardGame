@@ -32,4 +32,3 @@ void VisualObject::PrepareRendering()
     SetMaterial();
 }
 
-

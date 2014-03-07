@@ -15,9 +15,11 @@ public:
     virtual void RenderForPicking() override;
     void AddChild(ref<VisualObject> child);
     void RemoveChild(ref<VisualObject> child);
+
     using VisualObject::GetTransformation;
-    Transformation &GetTransformation(int index);
+    Transformation &GetTransformation(int index); // Get transformation for child at index.
     int IndexOf(ref<VisualObject> child);
+
     virtual VisualWidget *GetWidgetByGLName(GLNameType name) override;
     virtual VisualWidget *GetWidgetByViewportPosition(const CPoint &position) override;
 protected:

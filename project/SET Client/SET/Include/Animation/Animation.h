@@ -22,80 +22,44 @@ public:
     
     // Duration in milliseconds.
     int readonly(Duration);
-    virtual int GetDuration() { return 0; }
+    virtual int GetDuration();
     
     bool readonly(IsStopped);
-    bool GetIsStopped() const { return Stoped_; }
+    bool GetIsStopped() const;
 
     ref<AnimationBehavior> readwrite(Behavior);
-    ref<AnimationBehavior> GetBehavior() { return Behavior_; }
-    void SetBehavior(const ref<AnimationBehavior> behavior) { Behavior_ = behavior; }
+    ref<AnimationBehavior> GetBehavior();
+    void SetBehavior(const ref<AnimationBehavior> behavior);
 
     ref<::Operation> readwrite(StopOperation);
-    ref<::Operation> GetStopOperation() { return StopOperation_; }
-    void SetStopOperation(const ref<::Operation> operation) { StopOperation_ = operation; }
+    ref<::Operation> GetStopOperation();
+    void SetStopOperation(const ref<::Operation> operation);
 
     bool readwrite(DeleteWhenStopped);
-    bool GetDeleteWhenStopped() const { return DeleteWhenStopped_; }
-    void SetDeleteWhenStopped(bool delete_when_stop) { DeleteWhenStopped_ = delete_when_stop; }
+    bool GetDeleteWhenStopped() const;
+    void SetDeleteWhenStopped(bool delete_when_stop);
 
     // called when WM_TIMER occurs.
-    void OnTimer()
-    {
-        if (IsStopped)
-            return;
-
-        double process = GetCurrentProcess();
-
-        // animation over
-        if (process > 1.0 || process < 0.0)
-        {
-            process = ::std::min(1.0, ::std::max(0.0, process));
-            OnAnimation(process);
-            Stop();
-            return;
-        }
-
-        OnAnimation(process);
-        return;
-    }
+    void OnTimer();
 
 public:
     // this method perform the animation with process.
-    virtual void OnAnimation(double process)
-    {
-        // put process in the right area.
-        process = ::std::min(1.0, ::std::max(0.0, process));
-        // get ratio from process using Behavior_;
-        double ratio = Behavior_->GetRatio(process);
-
-        // animate, virtual function
-        OnRatio(ratio);
-    }
+    virtual void OnAnimation(double process);
 
     // this function is called to perform a snapshot of the animation
     // ratio is the progress of the animation
-    virtual void OnRatio(const double ratio) { }
+    virtual void OnRatio(const double ratio);
 
     // get current process according to current elapsed time.
     // this method can be rewrite to perform different effect like looping, etc.
     // if this method return a process not in [0.0, 1.0], the animation will stop.
-    virtual double GetCurrentProcess()
-    {
-        //elapsed time
-        Watch_.Stop();
-        auto passed = Watch_.ElapsedMilliseconds;
-        Watch_.Start();
-
-        // get duration
-        int duration = Duration;
-
-        return static_cast<double>(passed) / duration;
-    }
+    virtual double GetCurrentProcess();
 
 public:
     // utils
-    static bool ValidProgress(double progress) { return progress >= 0.0 && progress <= 1.0; }
-    static void AdjustProgress(double &progress) { progress = ::std::max(0.0, ::std::min(1.0, progress)); }
+    // check if the progress is in [0.0, 1.0]
+    static bool ValidProgress(double progress);
+    // adjuct the progress to be in [0.0, 1.0]
+    static void AdjustProgress(double &progress);
     
 };

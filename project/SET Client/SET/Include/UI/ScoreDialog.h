@@ -2,15 +2,14 @@
 #include "Res/resource.h"
 #include "afxcmn.h"
 
-
-// ScoreDialog 对话框
+// ScoreDialog
 
 class ScoreDialog : public CDialogEx
 {
 	DECLARE_DYNAMIC(ScoreDialog)
 
 public:
-	ScoreDialog(CWnd* pParent = NULL);   // 标准构造函数
+	ScoreDialog(CWnd* pParent = NULL);   
 	virtual ~ScoreDialog();
 
     virtual BOOL OnInitDialog() override;
@@ -18,7 +17,7 @@ public:
 
     void UpdateScore(const ::std::vector<int> &scores, const ::std::vector<int> &elapsed_times);
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+	virtual void DoDataExchange(CDataExchange* pDX);    
 
 	DECLARE_MESSAGE_MAP()
 public:

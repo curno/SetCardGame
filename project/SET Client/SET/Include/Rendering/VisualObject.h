@@ -51,17 +51,16 @@ public:
         }
     }
 
+    // transformations.
     void Translate(double x, double y)
     {
         Transformation_.Translate(x, y, 0.0);
     }
-
     void Scale(double f)
     {
         Transformation_.ScaleByCenter(0, 0, 0,
             f, f, f);
     }
-
     void Rotate(double axis_x, double axis_y, double axis_z, double theta)
     {
         Transformation_.RotateByCenter(0, 0, 0,
@@ -75,12 +74,12 @@ public:
     }
     virtual ~VisualObject() { } // virtual destructor
 
+    // for picking using Opengl or CPU
     virtual VisualWidget *GetWidgetByGLName(GLNameType name) { return nullptr; }
     virtual VisualWidget *GetWidgetByViewportPosition(const CPoint &point) { return nullptr; }
     
 private:
     void SetMaterial();
-
     bool Enabled_;
     bool Visible_;
 };

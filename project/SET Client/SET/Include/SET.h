@@ -1,15 +1,11 @@
 #pragma once
 
-
 #include "Res/resource.h"    
-
-
 
 class SetApp : public CWinApp
 {
 public:
 	SetApp();
-
 
 public:
 	virtual BOOL InitInstance();

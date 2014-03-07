@@ -99,7 +99,6 @@ void VisualCard::RenderContent()
     glVertex3d(p1.X, p1.Y, p1.Z);
     glEnd();
 
-
     // back
     glBindTexture(GL_TEXTURE_2D, TextureManager::Instance().GetTexture(IDB_CARD_COVERED));
     glBegin(GL_QUADS);
@@ -220,8 +219,6 @@ void VisualCard::CancelChoosedAnimate()
     ChoosedAnimation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), Transformation()));
     ChoosedAnimation_->Start();
 }
-
-
 
 double VisualCard::HeightPerWidthRatio = 1.618; // 1 : 0.618
 double VisualCard::DepthPerWidthRatio = 0.25; // 1 : 3
