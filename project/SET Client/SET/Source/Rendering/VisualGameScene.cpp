@@ -289,28 +289,28 @@ void VisualGameScene::DiscardCardAnimation(VisualCardRef card)
 
 }
 
-void VisualGameScene::OnCardChoosed(VisualCardRef visual_card)
+void VisualGameScene::OnCardChosen(VisualCardRef visual_card)
 {
-    CurrentChoosedCard_.push_back(visual_card);
-    if (CurrentChoosedCard_.size() == Card::CardCountInASet) 
+    CurrentChosenCard_.push_back(visual_card);
+    if (CurrentChosenCard_.size() == Card::CardCountInASet) 
     {
         ::std::vector<CardRef> cards;
-        for each(VisualCardRef visual_card in CurrentChoosedCard_)
+        for each(VisualCardRef visual_card in CurrentChosenCard_)
             cards.push_back(visual_card->Card);
         bool success = Game_->CheckAndScore(cards);
         // If not a SET
         if (!success)
         {
-            for each (auto visual_card in CurrentChoosedCard_)
-                visual_card->CancelChoosed();
-            CurrentChoosedCard_.clear();
+            for each (auto visual_card in CurrentChosenCard_)
+                visual_card->CancelChosen();
+            CurrentChosenCard_.clear();
         }
         else
         {
             // is a set, discard the selected cards.           
-            for each (auto visual_card in CurrentChoosedCard_)
+            for each (auto visual_card in CurrentChosenCard_)
                 DiscardCard(visual_card);
-            CurrentChoosedCard_.clear();
+            CurrentChosenCard_.clear();
 
             // play sound
             SoundPlayer::Instance().Play(IDR_SCORE);
@@ -318,9 +318,9 @@ void VisualGameScene::OnCardChoosed(VisualCardRef visual_card)
     }
 }
 
-void VisualGameScene::OnCardCancleChoosed(VisualCardRef visual_card)
+void VisualGameScene::OnCardCancleChosen(VisualCardRef visual_card)
 {
-    CurrentChoosedCard_.erase(::std::find(CurrentChoosedCard_.begin(), CurrentChoosedCard_.end(), visual_card));
+    CurrentChosenCard_.erase(::std::find(CurrentChosenCard_.begin(), CurrentChosenCard_.end(), visual_card));
 }
 
 void VisualGameScene::EmptySlot(VisualCardRef card)
@@ -384,7 +384,7 @@ void VisualGameScene::Clear()
 {
     AnimationManager::Instance().StopAllAnimation();
     DealCardAnimation_ = nullptr;
-    CurrentChoosedCard_.clear();
+    CurrentChosenCard_.clear();
     HintCardsAnimation_ = nullptr;
     for (int i = 0; i < RowCount; ++i)
         for (int j = 0; j < ColumnCount; ++j)

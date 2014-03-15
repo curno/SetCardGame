@@ -13,13 +13,13 @@ class VisualCard : public VisualWidget
 public:
     enum class State
     {
-        OnDesk, Choosed, Discarded
+        OnDesk, Chosen, Discarded
     };
 private:
     CardRef Card_; // the internal card
     VisualGameScene *Parent_; // the parent scene, must not be null.
     State State_; // current state
-    ref<Animation> ChoosedAnimation_; // ChoosedAnimation is using build-in transformation of the VisualCard.
+    ref<Animation> ChosenAnimation_; // ChosenAnimation is using build-in transformation of the VisualCard.
     Transformation ShakeAnimationTransformation_; 
     ref<Animation> ShakeAnimation_; // ShakeAnimation is using ShakeAnimationTransformation_;
 public:
@@ -27,11 +27,11 @@ public:
 
     ~VisualCard() { }
 
-    bool GetIsChoosed() const { return CurrentState == State::Choosed; }
+    bool GetIsChosen() const { return CurrentState == State::Chosen; }
     virtual void OnMouseButtonDown() override;
 
-    void Choosed();
-    void CancelChoosed();
+    void Choose();
+    void CancelChosen();
 
     void Discarded();
     void Shake();
@@ -49,8 +49,8 @@ public:
 
 private:
     void RenderFrontRectangle(GLdouble p0x, GLdouble p0y, GLdouble p1x, GLdouble p1y);
-    void ChoosedAnimate();
-    void CancelChoosedAnimate();
+    void ChosenAnimate();
+    void CancelChosenAnimate();
 public:
     static double HeightPerWidthRatio;
     static double DepthPerWidthRatio;

@@ -134,12 +134,12 @@ void VisualCard::OnMouseButtonDown()
     switch (CurrentState)
     {
     case VisualCard::State::OnDesk:
-        Choosed();
-        Parent_->OnCardChoosed(SHARED_THIS);
+        Choose();
+        Parent_->OnCardChosen(SHARED_THIS);
         break;
-    case VisualCard::State::Choosed:
-        CancelChoosed();
-        Parent_->OnCardCancleChoosed(SHARED_THIS);
+    case VisualCard::State::Chosen:
+        CancelChosen();
+        Parent_->OnCardCancleChosen(SHARED_THIS);
         break;
     case VisualCard::State::Discarded:
     default:
@@ -147,23 +147,23 @@ void VisualCard::OnMouseButtonDown()
     }
 }
 
-void VisualCard::CancelChoosed()
+void VisualCard::CancelChosen()
 {
-    if (this->GetIsChoosed())
+    if (this->GetIsChosen())
     {
         CurrentState = State::OnDesk;
         
-        CancelChoosedAnimate();
+        CancelChosenAnimate();
     }
 }
 
-void VisualCard::Choosed()
+void VisualCard::Choose()
 {
-    if (!this->GetIsChoosed())
+    if (!this->GetIsChosen())
     {
-        CurrentState = State::Choosed;
+        CurrentState = State::Chosen;
         
-        ChoosedAnimate();
+        ChosenAnimate();
     }
 }
 
@@ -201,7 +201,7 @@ void VisualCard::Shake()
     ShakeAnimation_->Start();
 }
 
-void VisualCard::ChoosedAnimate()
+void VisualCard::ChosenAnimate()
 {
     double theta = VisualGameScene::SlopeTheta;
     Transformation target;
@@ -209,15 +209,15 @@ void VisualCard::ChoosedAnimate()
     target.Scale(1.1, 1.1, 1.1);
     target.Rotate(1.0, 0.0, 0.0, theta);
     target.Translate(0.0, -Size.Height / 2.0, 0.0);
-    ChoosedAnimation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), target));
-    ChoosedAnimation_->Start();
+    ChosenAnimation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), target));
+    ChosenAnimation_->Start();
 }
 
-void VisualCard::CancelChoosedAnimate()
+void VisualCard::CancelChosenAnimate()
 {
     Transformation target;
-    ChoosedAnimation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), Transformation()));
-    ChoosedAnimation_->Start();
+    ChosenAnimation_ = MakeGenericAnimation(300, ::Transform(this->GetTransformation(), Transformation()));
+    ChosenAnimation_->Start();
 }
 
 double VisualCard::HeightPerWidthRatio = 1.618; // 1 : 0.618
